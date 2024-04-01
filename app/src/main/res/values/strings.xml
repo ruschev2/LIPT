@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LIPT</string>
+    <string name="login_page_title">Legally Identical Pokemon Trivia</string>
+    <string name="register_new_account">Register New Account</string>
+    <string name="log_in">Log In</string>
+    <string name="username_hint">(username)</string>
+    <string name="password_hint">(password)</string>
 </resources>
