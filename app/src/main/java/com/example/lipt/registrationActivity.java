@@ -21,8 +21,8 @@ public class registrationActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        //instantiating an interface of onclick listener
-        binding.registrationButton2.setOnClickListener(new View.OnClickListener() {
+        //instantiating an interface of onclick listener for returning to login view
+        binding.registrationReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());

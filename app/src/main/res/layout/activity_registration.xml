@@ -68,7 +68,7 @@
         android:layout_width="270dp"
         android:layout_height="65dp"
         android:layout_marginStart="60dp"
-        android:layout_marginBottom="224dp"
+        android:layout_marginBottom="252dp"
         android:ems="10"
         android:gravity="center"
         android:hint="@string/password_hint"
@@ -82,8 +82,19 @@
         android:layout_width="250dp"
         android:layout_height="80dp"
         android:layout_marginStart="80dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="132dp"
         android:text="@string/register_new_account"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/registrationReturnButton"
+        android:layout_width="248dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/return_to_login"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
