@@ -12,8 +12,8 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/registration_background"
-        tools:layout_editor_absoluteX="-39dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-30dp" />
 
     <ImageView
         android:id="@+id/registrationTitleImage"
@@ -81,9 +81,20 @@
         android:id="@+id/registrationButton2"
         android:layout_width="250dp"
         android:layout_height="80dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginBottom="128dp"
         android:text="@string/register_new_account"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/registrationReturnButton"
+        android:layout_width="220dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="36dp"
+        android:text="@string/return_to_login"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

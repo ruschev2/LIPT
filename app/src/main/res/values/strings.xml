@@ -14,4 +14,5 @@
         \n5. Password must include at least one number (0-9)
         \n and one letter (a-z).</string>
     <string name="sign_up">Sign Up</string>
+    <string name="return_to_login">Return to Login</string>
 </resources>
