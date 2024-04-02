@@ -6,9 +6,12 @@
 
 package com.example.lipt;
 import android.content.Context;
+
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,12 +31,30 @@ public abstract class PokeRoomDatabase extends RoomDatabase {
             synchronized (PokeRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            PokeRoomDatabase.class, "poke_database").build();
+                            PokeRoomDatabase.class, "poke_database").addCallback(sRoomDatabaseCallback).build();
                 }
             }
         }
         return INSTANCE;
     }
+
+    //populating the database
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+
+            databaseWriteExecutor.execute(() -> {
+
+                PlayerDao dao = INSTANCE.playerDao();
+
+                Player player = new Player(0, "admin1", "password123", true);
+                dao.insert(player);
+                player = new Player(1, "player1", "password123", false);
+                dao.insert(player);
+            });
+        }
+    };
 
 }
 

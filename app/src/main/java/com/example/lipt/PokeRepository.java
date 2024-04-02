@@ -4,7 +4,6 @@
  * PokeRepository.java, this describes the repository class for abstracting access to multiple data sources
  */
 
-
 package com.example.lipt;
 import android.app.Application;
 import androidx.lifecycle.LiveData;

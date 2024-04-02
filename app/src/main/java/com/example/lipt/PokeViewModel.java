@@ -8,10 +8,8 @@
 package com.example.lipt;
 
 import android.app.Application;
-
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class PokeViewModel extends AndroidViewModel {

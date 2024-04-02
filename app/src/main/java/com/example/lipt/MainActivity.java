@@ -28,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //TODO: test database recycler view for player data
+        //instantiating an interface of onClickListener for testing button
+        binding.tempButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = trainerRecordActivity.trainerRecordFactory(getApplicationContext());
+                startActivity(intent);
+            }
+        });
+
     }
 
     //Main to registration activity factory

@@ -10,4 +10,7 @@
     <string name="registration_rules">1. Username must be between 3-12 characters in length. \n2. Username must include only (a-z) and numbers (0-9). \n3. Password must be between 8-16 characters in length. \n4. Password must include only (a-z) and numbers (0-9). \n5. Password must include at least one number (0-9) \n and one letter (a-z).</string>
     <string name="sign_up">Sign Up</string>
     <string name="return_to_login">Return to Login</string>
+    <string name="see_prize_collection">See Prize Collection</string>
+    <string name="return_to_menu">Return to Menu</string>
+    <string name="test">Test</string>
 </resources>
