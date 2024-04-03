@@ -5,7 +5,7 @@
  * The viewmodel provides data to the UI which survives configuration changes.
  */
 
-package com.example.lipt;
+package com.example.lipt.Database;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;

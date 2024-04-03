@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/trainer_record_background"
-        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
@@ -25,8 +25,80 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/trainer_record_title_image" />
 
+    <TextView
+        android:id="@+id/usernameLabelTextView"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="150dp"
+        android:text="@string/username_record_label"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/trainerRecordTitleImage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/usernameDisplayTextView"
+        android:layout_width="253dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/hey"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="start"
+        app:layout_constraintBaseline_toBaselineOf="@+id/usernameLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/usernameLabelTextView" />
 
 
+    <TextView
+        android:id="@+id/roundsLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/rounds_played_label"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usernameLabelTextView" />
+
+    <TextView
+        android:id="@+id/roundsPlayedTextView"
+        android:layout_width="253dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:padding="8dp"
+        android:text="@string/hey"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="start"
+        app:layout_constraintBaseline_toBaselineOf="@+id/roundsLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/roundsLabelTextView" />
+
+    <TextView
+        android:id="@+id/accuracyLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/accuracy_label"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/roundsLabelTextView" />
+
+    <TextView
+        android:id="@+id/accuracyDisplayTextView"
+        android:layout_width="253dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:padding="8dp"
+        android:text="@string/hey"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="start"
+        app:layout_constraintBaseline_toBaselineOf="@+id/accuracyLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/accuracyLabelTextView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -58,15 +130,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="326dp"
-        android:layout_height="195dp"
-        tools:listitem="@layout/recyclerview_item"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="208dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

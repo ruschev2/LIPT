@@ -4,7 +4,7 @@
  * PlayerViewHolder.java, this describes the viewholder to display the player profile
  */
 
-package com.example.lipt;
+package com.example.lipt.Database;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.lipt.R;
 
 public class PlayerViewHolder extends RecyclerView.ViewHolder {
 

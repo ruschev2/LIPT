@@ -4,7 +4,7 @@
  * PlayerDAO.java, this interface describes the Data Access Object for the player entity
  */
 
-package com.example.lipt;
+package com.example.lipt.Database;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -26,6 +26,6 @@ public interface PlayerDao {
     void deletePlayer(Player player);
 
     //for retrieving the entire list of players
-    @Query("SELECT * FROM player_table ORDER BY userID ASC")
+    @Query("SELECT * FROM player_table ORDER BY id ASC")
     LiveData<List<Player>> getPlayerList();
 }

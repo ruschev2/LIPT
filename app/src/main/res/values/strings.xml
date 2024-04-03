@@ -13,4 +13,9 @@
     <string name="see_prize_collection">See Prize Collection</string>
     <string name="return_to_menu">Return to Menu</string>
     <string name="test">Test</string>
+    <string name="hey">Hey!</string>
+    <string name="username_record_label">username:</string>
+    <string name="rounds_played_label">Rounds Played:</string>
+    <string name="accuracy_label">Accuracy:</string>
+    <string name="null_string">NOT FOUND</string>
 </resources>

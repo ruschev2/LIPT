@@ -4,7 +4,7 @@
  * Player.java, this class describes the player database entity
  */
 
-package com.example.lipt;
+package com.example.lipt.Database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -24,7 +24,7 @@ public class Player {
         this.isAdmin = admin;
     }
     @PrimaryKey
-    @ColumnInfo
+    @ColumnInfo(name = "id")
     private int userID;
 
     @ColumnInfo(name = "username")
