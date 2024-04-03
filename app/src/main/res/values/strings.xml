@@ -18,4 +18,14 @@
     <string name="rounds_played_label">Rounds Played:</string>
     <string name="accuracy_label">Accuracy:</string>
     <string name="null_string">NOT FOUND</string>
+    <string name="welcome">Welcome, </string>
+    <string name="menu_user_temp">user</string>
+    <string name="menuTrainerLevelLabel">Trainer Level:</string>
+    <string name="_42">42</string>
+    <string name="play_new_round">Play New Round</string>
+    <string name="pokedex_label">Pokedex</string>
+    <string name="manage_playerbase">Manage Playerbase</string>
+    <string name="trainer_record_label">Trainer Record</string>
+    <string name="log_out_menu">Log Out</string>
+    <string name="prize_collection_label">Prize Collection</string>
 </resources>

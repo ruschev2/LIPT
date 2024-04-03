@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/pokeball_background"
+        android:src="@drawable/login_background"
         tools:layout_editor_absoluteX="-63dp"
         tools:layout_editor_absoluteY="0dp" />
 
@@ -70,16 +70,6 @@
         android:layout_marginBottom="60dp"
         android:text="@string/sign_up"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/temp_button"
-        android:layout_width="81dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="88dp"
-        android:text="@string/test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

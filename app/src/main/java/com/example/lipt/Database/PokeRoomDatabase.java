@@ -19,7 +19,7 @@ import com.example.lipt.MainActivity;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Player.class}, version = 1, exportSchema = false)
+@Database(entities = {Player.class}, version = 2, exportSchema = false)
 public abstract class PokeRoomDatabase extends RoomDatabase {
 
     //instantiating our Data Access Object for data manipulation
@@ -57,10 +57,11 @@ public abstract class PokeRoomDatabase extends RoomDatabase {
             Log.i(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
                 PlayerDao dao = INSTANCE.playerDao();
-                Player player = new Player(0, "admin1", "password123", true);
+                Player player = new Player("admin1", "password123", true);
                 dao.insert(player);
-                player = new Player(1, "player1", "password123", false);
-                dao.insert(player);
+                Player player2 = new Player("player1", "password123", false);
+                dao.insert(player2);
+                Player player3 = new Player("player2", "password123", false);
             });
         }
     };
