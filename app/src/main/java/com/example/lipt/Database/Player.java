@@ -14,8 +14,7 @@ import androidx.room.PrimaryKey;
 public class Player {
 
     //constructor for Player entity
-    public Player(int userID, String username, String password, boolean admin) {
-        this.userID = userID;
+    public Player(String username, String password, boolean admin) {
         this.username = username;
         this.password = password;
         this.trainer_level = 0;
@@ -23,7 +22,7 @@ public class Player {
         this.rounds_played = 0;
         this.isAdmin = admin;
     }
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int userID;
 
@@ -47,7 +46,6 @@ public class Player {
 
 
     //accessors and manipulators
-
 
     public int getUserID() {
         return userID;

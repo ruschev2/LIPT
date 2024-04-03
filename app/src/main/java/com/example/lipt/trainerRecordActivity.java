@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PokeRepository;
@@ -28,6 +29,9 @@ public class trainerRecordActivity extends AppCompatActivity {
 
     private ActivityTrainerRecordBinding binding;
 
+    private static final String CURRENT_USERNAME = "Active User";
+    private static final int CURRENT_USER_ID = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,10 @@ public class trainerRecordActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        //retrieving and saving currently logged in player ID
+        int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
+
+        Toast.makeText(trainerRecordActivity.this, "RECORD ID: " + current_id, Toast.LENGTH_SHORT).show();
 
         //establishing repo, grabbing list of players
         record_repo = new PokeRepository((Application) getApplicationContext());
@@ -44,8 +52,7 @@ public class trainerRecordActivity extends AppCompatActivity {
         allCurrentPlayers.observe(this, new Observer<List<Player>>() {
             @Override
             public void onChanged(List<Player> players) {
-                int currentID = 0;
-                Player current_player = findPlayerbyID(players, 0);
+                Player current_player = findPlayerbyID(players, current_id);
 
                 //populating field with player spec if found
                 if (current_player != null) {
@@ -67,7 +74,7 @@ public class trainerRecordActivity extends AppCompatActivity {
         binding.trainerRecordExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
+                Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });
@@ -76,8 +83,10 @@ public class trainerRecordActivity extends AppCompatActivity {
 
 
     //intent factory
-    public static Intent trainerRecordFactory(Context context) {
-        return new Intent(context, trainerRecordActivity.class);
+    public static Intent trainerRecordFactory(Context context, int user_id) {
+        Intent intent = new Intent(context, trainerRecordActivity.class);
+        intent.putExtra(CURRENT_USERNAME, user_id);
+        return intent;
     }
 
     private Player findPlayerbyID(List<Player> players, int id_num) {
