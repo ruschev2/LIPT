@@ -17,7 +17,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
-import com.example.lipt.Database.PokeRepository;
+import com.example.lipt.Database.PlayerRepository;
+import com.example.lipt.Database.Pokemon;
+import com.example.lipt.Database.PokemonRepository;
+import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityMenuBinding;
 
 import java.util.List;
@@ -29,8 +32,11 @@ public class MenuActivity extends AppCompatActivity {
     private static final int CURRENT_USER_ID = 0;
 
     ActivityMenuBinding binding;
-    private PokeRepository menu_repo;
+    private PlayerRepository menu_repo;
     private LiveData<List<Player>> allCurrentPlayers;
+
+    private PokemonRepository pokerepo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,26 @@ public class MenuActivity extends AppCompatActivity {
 
         Toast.makeText(MenuActivity.this, "MENU ID: " + current_id, Toast.LENGTH_SHORT).show();
 
+
+        /*
+
+        //establishing pokedex
+        //establishing repo, grabbing list of pokemon
+        pokerepo = new PokemonRepository((Application) getApplicationContext());
+
+        //populating pokedex table
+        for(int i = 1; i <= 493; i++ ) {
+            Pokemon pokemon = new Pokemon(i,
+                    PokemonInfo.getPokemonName(i),
+                    getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
+                    getResources().getIdentifier("sound" + i, "raw", getPackageName())
+            );
+            pokerepo.insert(pokemon);
+        }
+         */
+
         //establishing repo, grabbing list of players
-        menu_repo = new PokeRepository((Application) getApplicationContext());
+        menu_repo = new PlayerRepository((Application) getApplicationContext());
         allCurrentPlayers = menu_repo.getAllPlayers();
 
         //grabbing current player specs, then displaying in the view
@@ -59,6 +83,15 @@ public class MenuActivity extends AppCompatActivity {
                     binding.trainerLevelMenuDisplayText.setText(String.valueOf(current_player.getTrainer_level()));
 
                 }
+            }
+        });
+
+        //instantiating an interface of onClickListener for pokedex view
+        binding.pokedexButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = PokedexActivity.pokedexFactory(getApplicationContext(), current_id);
+                startActivity(intent);
             }
         });
 

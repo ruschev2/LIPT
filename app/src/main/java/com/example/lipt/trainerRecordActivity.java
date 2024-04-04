@@ -17,14 +17,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
-import com.example.lipt.Database.PokeRepository;
+import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.databinding.ActivityTrainerRecordBinding;
 
 import java.util.List;
 
 public class trainerRecordActivity extends AppCompatActivity {
 
-    private PokeRepository record_repo;
+    private PlayerRepository record_repo;
     private LiveData<List<Player>> allCurrentPlayers;
 
     private ActivityTrainerRecordBinding binding;
@@ -45,7 +45,7 @@ public class trainerRecordActivity extends AppCompatActivity {
         Toast.makeText(trainerRecordActivity.this, "RECORD ID: " + current_id, Toast.LENGTH_SHORT).show();
 
         //establishing repo, grabbing list of players
-        record_repo = new PokeRepository((Application) getApplicationContext());
+        record_repo = new PlayerRepository((Application) getApplicationContext());
         allCurrentPlayers = record_repo.getAllPlayers();
 
         //grabbing current player specs, then displaying in the view

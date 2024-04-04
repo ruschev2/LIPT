@@ -28,4 +28,6 @@
     <string name="trainer_record_label">Trainer Record</string>
     <string name="log_out_menu">Log Out</string>
     <string name="prize_collection_label">Prize Collection</string>
+    <string name="play_sound_test">Play Sound</string>
+    <string name="temp_pkmn_name">temp_pkmn_name</string>
 </resources>

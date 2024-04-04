@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/pokedexNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/pokemonNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bulbasaur"
+        android:textSize="25sp"
+        android:textColor="@color/white"/>
+
+    <ImageView
+        android:id="@+id/pokemonImageView"
+        android:layout_width="145dp"
+        android:layout_height="133dp"
+        android:scrollbarSize="@dimen/cardview_compat_inset_shadow"
+        android:src="@drawable/pokemon1" />
+
+    <Button
+        android:id="@+id/pokedexSoundButton"
+        android:layout_width="164dp"
+        android:layout_height="50dp"
+        android:text="Play Sound"
+        android:textSize="20sp" />
+</LinearLayout>

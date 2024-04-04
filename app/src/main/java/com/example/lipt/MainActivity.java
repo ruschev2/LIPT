@@ -14,12 +14,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
-import com.example.lipt.Database.PokeRepository;
+import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.databinding.ActivityMainBinding;
 import com.example.lipt.Utils.InputValidator;
 
@@ -28,7 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private PokeRepository login_repo;
+    private PlayerRepository login_repo;
     private LiveData<List<Player>> allCurrentPlayers;
 
     public static final String TAG = "LGH_DEBUG";
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         //establishing repo, grabbing list of players
-        login_repo = new PokeRepository((Application) getApplicationContext());
+        login_repo = new PlayerRepository((Application) getApplicationContext());
         allCurrentPlayers = login_repo.getAllPlayers();
 
         //instantiating an interface of onClickListener for login button
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 if(InputValidator.viableUsername(temp_username) && InputValidator.viablePassword(temp_password)) {
 
                     //observer established to authenticate credentials
-                    //TODO: MainActivity.this parameter may not work here since it is inside onClick()
                     allCurrentPlayers.observe(MainActivity.this, new Observer<List<Player>>() {
                         @Override
                         public void onChanged(List<Player> players) {
