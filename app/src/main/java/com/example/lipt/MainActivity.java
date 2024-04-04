@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 if(InputValidator.viableUsername(temp_username) && InputValidator.viablePassword(temp_password)) {
 
                     //observer established to authenticate credentials
-                    //TODO: MainActivity.this parameter may not work here since it is inside onClick()
                     allCurrentPlayers.observe(MainActivity.this, new Observer<List<Player>>() {
                         @Override
                         public void onChanged(List<Player> players) {

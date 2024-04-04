@@ -62,6 +62,15 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        //instantiating an interface of onClickListener for pokedex view
+        binding.pokedexButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = PokedexActivity.pokedexFactory(getApplicationContext(), current_id);
+                startActivity(intent);
+            }
+        });
+
         //instantiating an interface of onClickListener for trainer record view
         binding.trainerRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override

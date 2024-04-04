@@ -7,7 +7,6 @@
 package com.example.lipt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import android.app.Application;
 import android.content.Context;
@@ -41,55 +40,26 @@ public class registrationActivity extends AppCompatActivity {
         allCurrentPlayers = registration_repo.getAllPlayers();
 
         //instantiating an interface of onClickListener for register button
-        binding.registrationButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.registrationButton2.setOnClickListener(v -> {
 
-                //user inputted username and password
-                String temp_username = binding.registrationUsernameTextEdit.getText().toString();
-                String temp_password = binding.registrationPasswordTextEdit.getText().toString();
+            //user inputted username and password
+            String temp_username = binding.registrationUsernameTextEdit.getText().toString();
+            String temp_password = binding.registrationPasswordTextEdit.getText().toString();
 
-                //if inputted username and password are viable inputs
-                if (!InputValidator.viableUsername(temp_username) || !InputValidator.viablePassword(temp_password)) {
-                    Toast.makeText(registrationActivity.this, "Invalid username and/or password", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    //observer established to authenticate credentials
-                    //TODO: MainActivity.this parameter may not work here since it is inside onClick()
-                    allCurrentPlayers.observe(registrationActivity.this, new Observer<List<Player>>() {
-                        @Override
-                        public void onChanged(List<Player> players) {
-                            boolean taken = false;
-                            for(Player player : players) {
-                                //checking whether username is in the database
-                                if(player.getUsername().equalsIgnoreCase(temp_username)) {
-                                    taken = true;
-                                    Toast.makeText(registrationActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            //inputted user and password are valid and available, creating new account and returning to home screen
-                            if(!taken) {
-                                Player player = new Player(temp_username, temp_password, false);
-                                registration_repo.insert(player);
-                                Toast.makeText(registrationActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
-                                Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
-                                startActivity(intent);
-                            }
-                        }
-                    });
-                }
-
+            //if inputted username and password are viable inputs
+            if (!InputValidator.viableUsername(temp_username) || !InputValidator.viablePassword(temp_password)) {
+                Toast.makeText(registrationActivity.this, "Invalid username and/or password", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                //observer established to authenticate credentials
+                allCurrentPlayers.observe(registrationActivity.this, players -> processRegistraton(players, temp_username, temp_password));
             }
         });
 
-
         //instantiating an interface of onclick listener for returning to login view
-        binding.registrationReturnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
-                startActivity(intent);
-            }
+        binding.registrationReturnButton.setOnClickListener(v -> {
+            Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
+            startActivity(intent);
         });
 
     }
@@ -99,5 +69,24 @@ public class registrationActivity extends AppCompatActivity {
         return new Intent(context, registrationActivity.class);
     }
 
-
+    //method to check for taken username and proceed with registration if not true
+    private void processRegistraton(List<Player> players, String user, String pass) {
+            boolean taken = false;
+            for(Player player : players) {
+                //checking whether username is in the database
+                if(player.getUsername().equalsIgnoreCase(user)) {
+                    taken = true;
+                    Toast.makeText(registrationActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+            //inputted user and password are valid and available, creating new account and returning to home screen
+            if(!taken) {
+                Player player = new Player(user, pass, false);
+                registration_repo.insert(player);
+                Toast.makeText(registrationActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
+                Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
+                startActivity(intent);
+            }
+        }
 }
