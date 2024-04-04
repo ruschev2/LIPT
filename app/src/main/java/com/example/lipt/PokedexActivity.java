@@ -7,6 +7,8 @@
 package com.example.lipt;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,13 +19,20 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityPokedexBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PokedexActivity extends AppCompatActivity {
     private ActivityPokedexBinding binding;
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private MediaPlayer mediaPlayer;
+
+    private RecyclerView recyclerView;
+    private PokemonDisplayAdapter adapter;
 
 
     @Override
@@ -33,7 +42,17 @@ public class PokedexActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        recyclerView = findViewById(R.id.recyclerView1);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        List<PokemonDisplay> displays = new ArrayList<>();
+        displays.add(new PokemonDisplay(PokemonInfo.getPokemonName(1), R.drawable.pokemon1, R.raw.sound1));
+        displays.add(new PokemonDisplay(PokemonInfo.getPokemonName(2), R.drawable.pokemon2, R.raw.sound2));
+        displays.add(new PokemonDisplay(PokemonInfo.getPokemonName(3), R.drawable.pokemon3, R.raw.sound3));
+
+
+        adapter = new PokemonDisplayAdapter(displays);
+        recyclerView.setAdapter(adapter);
         //initializing media player
 
         String[] names = {"pokemon1", "pokemon2", "pokemon3"};
@@ -47,13 +66,6 @@ public class PokedexActivity extends AppCompatActivity {
 
         //TODO: implement scrollable view for pokedex
 
-        //instantiating an interface of onClickListener for playing sound button
-        binding.soundTestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mediaPlayer.start();
-            }
-        });
 
         //instantiating an interface of onClickListener for return to menu button
         binding.exitPokedexButton.setOnClickListener(new View.OnClickListener() {
