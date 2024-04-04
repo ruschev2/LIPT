@@ -13,8 +13,11 @@ import java.util.Objects;
 @Entity(tableName = "pokemon_table")
 public class Pokemon {
 
-    public Pokemon(int pokedexNum, String name, String imageFilepath, String soundFilepath) {
+    public Pokemon(int pokedexNum, String name, int imageID, int soundID) {
         this.pokedexNumber = pokedexNum;
+        this.name = name;
+        this.imageResourceId = imageID;
+        this.soundResourceId = soundID;
     }
 
     @PrimaryKey
@@ -24,11 +27,11 @@ public class Pokemon {
     @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(name = "soundFilepath")
-    private String sound_filepath;
+    @ColumnInfo(name = "soundId")
+    private int soundResourceId;
 
-    @ColumnInfo(name = "imageFilepath")
-    private String image_filepath;
+    @ColumnInfo(name = "imageId")
+    private int imageResourceId;
 
     public int getPokedexNumber() {
         return pokedexNumber;
@@ -46,20 +49,20 @@ public class Pokemon {
         this.name = name;
     }
 
-    public String getSound_filepath() {
-        return sound_filepath;
+    public int getSoundResourceId() {
+        return soundResourceId;
     }
 
-    public void setSound_filepath(String sound_filepath) {
-        this.sound_filepath = sound_filepath;
+    public void setSoundResourceId(int soundResourceId) {
+        this.soundResourceId = soundResourceId;
     }
 
-    public String getImage_filepath() {
-        return image_filepath;
+    public int getImageResourceId() {
+        return imageResourceId;
     }
 
-    public void setImage_filepath(String image_filepath) {
-        this.image_filepath = image_filepath;
+    public void setImageResourceId(int imageResourceId) {
+        this.imageResourceId = imageResourceId;
     }
 
     @Override
@@ -67,11 +70,11 @@ public class Pokemon {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pokemon pokemon = (Pokemon) o;
-        return pokedexNumber == pokemon.pokedexNumber && Objects.equals(name, pokemon.name) && Objects.equals(sound_filepath, pokemon.sound_filepath) && Objects.equals(image_filepath, pokemon.image_filepath);
+        return pokedexNumber == pokemon.pokedexNumber && soundResourceId == pokemon.soundResourceId && imageResourceId == pokemon.imageResourceId && Objects.equals(name, pokemon.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pokedexNumber, name, sound_filepath, image_filepath);
+        return Objects.hash(pokedexNumber, name, soundResourceId, imageResourceId);
     }
 }

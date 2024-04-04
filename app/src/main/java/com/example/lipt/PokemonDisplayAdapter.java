@@ -1,3 +1,10 @@
+/**
+ * Luis Hernandez, Guillermo Zendejas
+ * April 4, 2024
+ * PokemonDisplayAdapter.java
+ * this class describes the adapter used in recycler views to display Pokemon
+ */
+
 package com.example.lipt;
 
 import android.view.LayoutInflater;

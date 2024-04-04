@@ -1,3 +1,9 @@
+/**
+ * Luis Hernandez, Guillermo Zendejas
+ * April 4, 2024
+ * PokemonDisplay
+ */
+
 package com.example.lipt;
 
 public class PokemonDisplay {

@@ -5,22 +5,17 @@
  */
 
 package com.example.lipt.Database;
-
 import android.content.Context;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
 import com.example.lipt.MainActivity;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/*
 
 @Database(entities = {Pokemon.class}, version = 1, exportSchema = false)
 public abstract class PokemonRoomDatabase extends RoomDatabase {
@@ -57,13 +52,12 @@ public abstract class PokemonRoomDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             Log.i(MainActivity.TAG, "DATABASE CREATED!");
-            databaseWriteExecutor.execute() -> {
+            databaseWriteExecutor.execute(() -> {
                 PokemonDao dao = INSTANCE.pokemonDAO();
-                Pokemon pokemon = new Pokemon()
-            }
+                Pokemon pokemon = new Pokemon(1, "Bulbasaur", 0, 0);
+                dao.insert(pokemon);
+            });
         }
-    }
+    };
 
 }
-
- */
