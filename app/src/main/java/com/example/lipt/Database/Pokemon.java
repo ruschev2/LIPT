@@ -13,11 +13,11 @@ import java.util.Objects;
 @Entity(tableName = "pokemon_table")
 public class Pokemon {
 
-    public Pokemon(int pokedexNum, String name, int imageID, int soundID) {
-        this.pokedexNumber = pokedexNum;
+    public Pokemon(int pokedexNumber, String name, int imageResourceId, int soundResourceId) {
+        this.pokedexNumber = pokedexNumber;
         this.name = name;
-        this.imageResourceId = imageID;
-        this.soundResourceId = soundID;
+        this.imageResourceId = imageResourceId;
+        this.soundResourceId = soundResourceId;
     }
 
     @PrimaryKey

@@ -19,7 +19,7 @@ import java.util.List;
 public interface PokemonDao {
 
     //for creating a new pokemon
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Pokemon pokemon);
 
     //for deleting an existing pokemon

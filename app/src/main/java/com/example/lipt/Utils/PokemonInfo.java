@@ -13,11 +13,6 @@ public class PokemonInfo {
         return "hey!";
     }
 
-    //this method returns the appropriate sound filepath string
-    public static String getPokemonSoundFilepath(int pokedexNum) {
-        return "hey!";
-    }
-
     //this method returns the appropriate pokemon from pokedex number 1-493 inclusive
     public static String getPokemonName(int pokedexNum) {
         switch (pokedexNum) {

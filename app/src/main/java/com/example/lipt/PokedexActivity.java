@@ -7,18 +7,19 @@
 package com.example.lipt;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.Button;
-
+import com.example.lipt.Database.Pokemon;
+import com.example.lipt.Database.PokemonRepository;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityPokedexBinding;
 
@@ -30,9 +31,10 @@ public class PokedexActivity extends AppCompatActivity {
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private MediaPlayer mediaPlayer;
-
     private RecyclerView recyclerView;
-    private PokemonDisplayAdapter adapter;
+    private PokemonAdapter adapter;
+    private PokemonRepository pokedex_repo;
+    private LiveData<List<Pokemon>> allPokemon;
 
 
     @Override
@@ -42,30 +44,24 @@ public class PokedexActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        recyclerView = findViewById(R.id.recyclerView1);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        List<PokemonDisplay> displays = new ArrayList<>();
-        displays.add(new PokemonDisplay(PokemonInfo.getPokemonName(1), R.drawable.pokemon1, R.raw.sound1));
-        displays.add(new PokemonDisplay(PokemonInfo.getPokemonName(2), R.drawable.pokemon2, R.raw.sound2));
-        displays.add(new PokemonDisplay(PokemonInfo.getPokemonName(3), R.drawable.pokemon3, R.raw.sound3));
-
-
-        adapter = new PokemonDisplayAdapter(displays);
-        recyclerView.setAdapter(adapter);
-        //initializing media player
-
-        String[] names = {"pokemon1", "pokemon2", "pokemon3"};
-
-
         //retrieving and saving currently logged in player ID
         int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
         Toast.makeText(PokedexActivity.this, "RECORD ID: " + current_id, Toast.LENGTH_SHORT).show();
 
-        //TODO: establish pokedex repo
+        //establishing repo, grabbing list of pokemon
+        pokedex_repo = new PokemonRepository((Application) getApplicationContext());
+        allPokemon = pokedex_repo.getAllPokemon();
 
-        //TODO: implement scrollable view for pokedex
+        recyclerView = findViewById(R.id.recyclerView1);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        allPokemon.observe(this, new Observer<List<Pokemon>>() {
+            @Override
+            public void onChanged(List<Pokemon> pokemons) {
+                adapter = new PokemonAdapter(PokedexActivity.this, pokemons);
+                recyclerView.setAdapter(adapter);
+            }
+        });
 
         //instantiating an interface of onClickListener for return to menu button
         binding.exitPokedexButton.setOnClickListener(new View.OnClickListener() {
