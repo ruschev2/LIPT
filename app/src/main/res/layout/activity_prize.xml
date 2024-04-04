@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PrizeActivity">
+
+    <ImageView
+        android:id="@+id/prizeBackgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/prize_background"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <ImageView
+        android:id="@+id/prizeTitleImage"
+        android:layout_width="379dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/prize_title_image" />
+
+    <TextView
+        android:id="@+id/usernameLabelTextView"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="150dp"
+        android:text="@string/username_record_label"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/prizeTitleImage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/usernameDisplayTextView"
+        android:layout_width="253dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/hey"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="start"
+        app:layout_constraintBaseline_toBaselineOf="@+id/usernameLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/usernameLabelTextView" />
+
+
+    <TextView
+        android:id="@+id/roundsLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/rounds_played_label"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usernameLabelTextView" />
+
+    <TextView
+        android:id="@+id/roundsPlayedTextView"
+        android:layout_width="253dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/hey"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="start"
+        app:layout_constraintBaseline_toBaselineOf="@+id/roundsLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/roundsLabelTextView" />
+
+    <TextView
+        android:id="@+id/accuracyLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/accuracy_label"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/roundsLabelTextView" />
+
+    <TextView
+        android:id="@+id/accuracyDisplayTextView"
+        android:layout_width="253dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/hey"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="start"
+        app:layout_constraintBaseline_toBaselineOf="@+id/accuracyLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/accuracyLabelTextView" />
+
+
+    <Button
+        android:id="@+id/prizeExitButton"
+        android:layout_width="180dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="80dp"
+        android:text="@string/return_to_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

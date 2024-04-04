@@ -18,9 +18,7 @@ import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
-import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Database.PokemonRepository;
-import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityMenuBinding;
 
 import java.util.List;
@@ -100,6 +98,15 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = trainerRecordActivity.trainerRecordFactory(getApplicationContext(), current_id);
+                startActivity(intent);
+            }
+        });
+
+        //instantiating an interface of onClickListener for prize collection view
+        binding.prizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = PrizeActivity.prizeFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });
