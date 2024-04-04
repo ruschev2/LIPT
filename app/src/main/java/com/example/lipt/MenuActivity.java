@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
-import com.example.lipt.Database.PokeRepository;
+import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.databinding.ActivityMenuBinding;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final int CURRENT_USER_ID = 0;
 
     ActivityMenuBinding binding;
-    private PokeRepository menu_repo;
+    private PlayerRepository menu_repo;
     private LiveData<List<Player>> allCurrentPlayers;
 
     @Override
@@ -45,7 +45,7 @@ public class MenuActivity extends AppCompatActivity {
         Toast.makeText(MenuActivity.this, "MENU ID: " + current_id, Toast.LENGTH_SHORT).show();
 
         //establishing repo, grabbing list of players
-        menu_repo = new PokeRepository((Application) getApplicationContext());
+        menu_repo = new PlayerRepository((Application) getApplicationContext());
         allCurrentPlayers = menu_repo.getAllPlayers();
 
         //grabbing current player specs, then displaying in the view

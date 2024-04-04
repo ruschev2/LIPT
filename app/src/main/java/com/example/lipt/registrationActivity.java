@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
-import com.example.lipt.Database.PokeRepository;
+import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Utils.InputValidator;
 import com.example.lipt.databinding.ActivityRegistrationBinding;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class registrationActivity extends AppCompatActivity {
 
     private ActivityRegistrationBinding binding;
-    private PokeRepository registration_repo;
+    private PlayerRepository registration_repo;
     private LiveData<List<Player>> allCurrentPlayers;
 
     @Override
@@ -36,7 +36,7 @@ public class registrationActivity extends AppCompatActivity {
         setContentView(view);
 
         //establishing repo, grabbing list of players
-        registration_repo = new PokeRepository((Application) getApplicationContext());
+        registration_repo = new PlayerRepository((Application) getApplicationContext());
         allCurrentPlayers = registration_repo.getAllPlayers();
 
         //instantiating an interface of onClickListener for register button

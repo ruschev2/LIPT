@@ -12,15 +12,15 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import java.util.List;
 
-public class PokeViewModel extends AndroidViewModel {
+public class PlayerViewModel extends AndroidViewModel {
 
-    private PokeRepository repo;
+    private PlayerRepository repo;
 
     private final LiveData<List<Player>> allPlayers;
 
-    public PokeViewModel (Application application) {
+    public PlayerViewModel(Application application) {
         super(application);
-        repo = new PokeRepository(application);
+        repo = new PlayerRepository(application);
         allPlayers = repo.getAllPlayers();
     }
 
