@@ -5,20 +5,16 @@
  */
 
 package com.example.lipt;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.databinding.ActivityPrizeBinding;
-
 import java.util.List;
 
 public class PrizeActivity extends AppCompatActivity {

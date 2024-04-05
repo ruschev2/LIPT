@@ -6,15 +6,21 @@
 
 package com.example.lipt.Database;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Junction;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(tableName = "prize_table")
 public class Prize {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int prizeID;
 
     private String name;
@@ -24,6 +30,8 @@ public class Prize {
         this.name = name;
         this.imageResourceId = imageResourceId;
     }
+
+
 
     public int getPrizeID() {
         return prizeID;
@@ -48,6 +56,7 @@ public class Prize {
     public void setImageResourceId(int imageResourceId) {
         this.imageResourceId = imageResourceId;
     }
+
 
     @Override
     public boolean equals(Object o) {

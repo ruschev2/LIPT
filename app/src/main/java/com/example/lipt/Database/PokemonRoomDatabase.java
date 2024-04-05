@@ -53,9 +53,6 @@ public abstract class PokemonRoomDatabase extends RoomDatabase {
             super.onCreate(db);
             Log.i(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
-                PokemonDao dao = INSTANCE.pokemonDAO();
-                Pokemon pokemon = new Pokemon(1, "Bulbasaur", 0, 0);
-                dao.insert(pokemon);
             });
         }
     };
