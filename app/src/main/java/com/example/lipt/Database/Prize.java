@@ -19,14 +19,15 @@ import java.util.Objects;
 @Entity(tableName = "prize_table")
 public class Prize {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     @ColumnInfo(name = "id")
     private int prizeID;
 
     private String name;
     private int imageResourceId;
 
-    public Prize(String name, int imageResourceId) {
+    public Prize(int prizeID, String name, int imageResourceId) {
+        this.prizeID = prizeID;
         this.name = name;
         this.imageResourceId = imageResourceId;
     }

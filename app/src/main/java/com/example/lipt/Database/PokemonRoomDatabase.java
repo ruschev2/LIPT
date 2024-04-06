@@ -24,7 +24,6 @@ public abstract class PokemonRoomDatabase extends RoomDatabase {
     public abstract PokemonDao pokemonDAO();
 
     private static volatile PokemonRoomDatabase INSTANCE;
-
     private static final int NUMBER_OF_THREADS = 4;
 
     static final ExecutorService databaseWriteExecutor =
@@ -51,7 +50,7 @@ public abstract class PokemonRoomDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.i(MainActivity.TAG, "DATABASE CREATED!");
+            Log.i(MainActivity.TAG, "POKEMON DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
             });
         }

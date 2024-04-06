@@ -14,6 +14,7 @@ public class PlayerRepository {
     private PlayerDao playerDao;
     private LiveData<List<Player>> allPlayers;
 
+
     public PlayerRepository(Application application) {
         PlayerRoomDatabase db = PlayerRoomDatabase.getDatabase(application);
         this.playerDao = db.playerDao();
@@ -26,8 +27,9 @@ public class PlayerRepository {
 
     public void insert(Player player) {
         PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
-            playerDao.insert(player);
+            playerDao.insertPlayer(player);
         });
     }
+
 
 }

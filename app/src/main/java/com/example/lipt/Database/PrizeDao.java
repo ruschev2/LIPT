@@ -20,7 +20,7 @@ public interface PrizeDao {
 
     //for creating new prize
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Prize prize);
+    void insertPrize(Prize prize);
 
     //for deleting existing prizes
     @Delete()

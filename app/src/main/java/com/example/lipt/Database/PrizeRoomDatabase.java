@@ -4,6 +4,8 @@
  * PrizeRoomDatabase.java, this class describes our prize room data
  */
 
+/*
+
 package com.example.lipt.Database;
 
 import android.content.Context;
@@ -58,3 +60,5 @@ public abstract class PrizeRoomDatabase extends RoomDatabase {
         }
     };
 }
+
+*/

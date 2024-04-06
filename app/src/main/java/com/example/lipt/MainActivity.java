@@ -57,17 +57,13 @@ public class MainActivity extends AppCompatActivity {
             poke_repo.insert(pokemon);
         }
 
-
         //populating prize table
         prize_repo = new PrizeRepository((Application) getApplicationContext());
         for(int i = 1; i < 21; i++) {
-            Prize prize = new Prize(PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
+            Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
             prize_repo.insert(prize);
         }
-
         allPrizes = prize_repo.getAllPrizes();
-
-
 
 
         //establishing repo, grabbing list of players

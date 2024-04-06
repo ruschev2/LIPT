@@ -20,7 +20,7 @@ public interface PokemonDao {
 
     //for creating a new pokemon
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Pokemon pokemon);
+    void insertPokemon(Pokemon pokemon);
 
     //for deleting an existing pokemon
     @Delete()
