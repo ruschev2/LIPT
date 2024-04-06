@@ -53,7 +53,7 @@ public class PokedexActivity extends AppCompatActivity {
         pokedex_repo = new PokemonRepository((Application) getApplicationContext());
         allPokemon = pokedex_repo.getAllPokemon();
 
-        recyclerView = findViewById(R.id.recyclerView1);
+        recyclerView = findViewById(R.id.pokedexRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         allPokemon.observe(this, new Observer<List<Pokemon>>() {

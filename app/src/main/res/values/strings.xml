@@ -30,4 +30,6 @@
     <string name="prize_collection_label">Prize Collection</string>
     <string name="play_sound_test">Play Sound</string>
     <string name="temp_pkmn_name">temp_pkmn_name</string>
+    <string name="prizes_earned_label">Prizes earned:</string>
+    <string name="_0">0</string>
 </resources>

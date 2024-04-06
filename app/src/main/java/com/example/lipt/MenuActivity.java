@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,6 +21,7 @@ import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.PokemonRepository;
 import com.example.lipt.databinding.ActivityMenuBinding;
+import com.example.lipt.Utils.InputValidator;
 
 import java.util.List;
 
@@ -78,12 +78,14 @@ public class MenuActivity extends AppCompatActivity {
         allCurrentPlayers.observe(this, new Observer<List<Player>>() {
             @Override
             public void onChanged(List<Player> players) {
-                Player current_player = findPlayerbyID(players, current_id);
-                //populating textviews with player's info
-                if (current_player != null) {
-                    binding.usernameMenuDisplayText.setText(current_player.getUsername());
-                    binding.trainerLevelMenuDisplayText.setText(String.valueOf(current_player.getTrainer_level()));
-
+                for(Player player : players) {
+                    if (player.getUserID() == current_id) {
+                        binding.usernameMenuDisplayText.setText(player.getUsername());
+                        binding.trainerLevelMenuDisplayText.setText(String.valueOf(player.getTrainer_level()));
+                        break;
+                    } else {
+                        binding.usernameMenuDisplayText.setText(CURRENT_USERNAME);
+                    }
                 }
             }
         });
@@ -132,16 +134,6 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(context, MenuActivity.class);
         intent.putExtra(CURRENT_USERNAME, user_id);
         return intent;
-    }
-
-
-    private Player findPlayerbyID(List<Player> players, int id_num) {
-        for(Player player : players) {
-            if(player.getUserID() == id_num) {
-                return player;
-            }
-        }
-        return null;
     }
 
 
