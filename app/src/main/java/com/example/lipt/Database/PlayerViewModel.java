@@ -7,6 +7,8 @@
 
 package com.example.lipt.Database;
 
+/*
+
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -29,3 +31,5 @@ public class PlayerViewModel extends AndroidViewModel {
     public void insert(Player player) {repo.insert(player);}
 
 }
+
+ */

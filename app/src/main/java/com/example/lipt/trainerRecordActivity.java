@@ -23,7 +23,6 @@ import com.example.lipt.databinding.ActivityTrainerRecordBinding;
 import java.util.List;
 
 public class trainerRecordActivity extends AppCompatActivity {
-
     private PlayerRepository record_repo;
     private LiveData<List<Player>> allCurrentPlayers;
 

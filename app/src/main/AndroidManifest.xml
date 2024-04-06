@@ -13,6 +13,9 @@
         android:theme="@style/Theme.LIPT"
         tools:targetApi="31">
         <activity
+            android:name=".PrizeActivity"
+            android:exported="false" />
+        <activity
             android:name=".PokedexActivity"
             android:exported="false" />
         <activity

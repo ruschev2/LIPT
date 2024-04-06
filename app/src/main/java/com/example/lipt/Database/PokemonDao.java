@@ -1,7 +1,7 @@
 /**
  * Luis Hernandez, Guillermo Zendejas
  * April 3, 2024
- * PokemonDao.java, this class describes the Data Access Object for the Pokemon entity
+ * PokemonDao.java, this interface describes the Data Access Object for the Pokemon entity
  */
 
 package com.example.lipt.Database;
@@ -20,7 +20,7 @@ public interface PokemonDao {
 
     //for creating a new pokemon
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Pokemon pokemon);
+    void insertPokemon(Pokemon pokemon);
 
     //for deleting an existing pokemon
     @Delete()

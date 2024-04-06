@@ -8,9 +8,31 @@ package com.example.lipt.Utils;
 
 public class PokemonInfo {
 
-    //this method returns the appropriate image filepath string
-    public static String getPokemonImageFilepath(int pokedexNum) {
-        return "hey!";
+    //this method returns the appropriate prize item name depending on index
+    public static String getPrizeName(int prizeNum) {
+        switch(prizeNum) {
+            case 1: return "Leek";
+            case 2: return "Big Mushroom";
+            case 3: return "Moomoo Milk";
+            case 4: return "Soothe Bell";
+            case 5: return "Poke Doll";
+            case 6: return "Poke Flute";
+            case 7: return "Dragon Scale";
+            case 8: return "Rare Bone";
+            case 9: return "Big Pearl";
+            case 10: return "Sapphire";
+            case 11: return "Amulet Coin";
+            case 12: return "Squirt Bottle";
+            case 13: return "Rare Candy";
+            case 14: return "Mystery Egg";
+            case 15: return "Gold Nugget";
+            case 16: return "Sacred Ash";
+            case 17: return "Stardust";
+            case 18: return "Mystic Ticket";
+            case 19: return "Gold Teeth";
+            case 20: return "Master Ball";
+            default: return "Unknown";
+        }
     }
 
     //this method returns the appropriate pokemon from pokedex number 1-493 inclusive

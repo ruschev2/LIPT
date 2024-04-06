@@ -7,6 +7,10 @@
 
 package com.example.lipt.Utils;
 
+import com.example.lipt.Database.Player;
+
+import java.util.List;
+
 public class InputValidator {
 
     //regular alphanumeric characters for username
@@ -34,5 +38,6 @@ public class InputValidator {
                 && password.matches(password_criteria0)
                 && password.matches(password_criteria1));
     }
+
 
 }

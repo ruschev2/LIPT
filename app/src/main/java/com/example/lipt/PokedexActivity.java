@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.example.lipt.Database.Pokemon;
@@ -52,12 +53,14 @@ public class PokedexActivity extends AppCompatActivity {
         pokedex_repo = new PokemonRepository((Application) getApplicationContext());
         allPokemon = pokedex_repo.getAllPokemon();
 
-        recyclerView = findViewById(R.id.recyclerView1);
+        recyclerView = findViewById(R.id.pokedexRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         allPokemon.observe(this, new Observer<List<Pokemon>>() {
             @Override
             public void onChanged(List<Pokemon> pokemons) {
+                Log.d(MainActivity.TAG, "Pokemon no.1 sound ID: " + getResources().getIdentifier("sound1", "raw", getPackageName()));
+                Log.d(MainActivity.TAG, "Pokemon no. 4 sound ID:" + getResources().getIdentifier("sound4", "raw", getPackageName()));
                 adapter = new PokemonAdapter(PokedexActivity.this, pokemons);
                 recyclerView.setAdapter(adapter);
             }

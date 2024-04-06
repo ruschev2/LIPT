@@ -9,6 +9,7 @@ package com.example.lipt.Database;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import java.util.Objects;
 
 @Entity(tableName = "player_table")
 public class Player {
@@ -41,9 +42,9 @@ public class Player {
     @ColumnInfo(name = "accuracy")
     private double accuracy;
 
+
     @ColumnInfo(name = "roundsPlayed")
     private int rounds_played;
-
 
     //accessors and manipulators
 
@@ -101,5 +102,18 @@ public class Player {
 
     public void setRounds_played(int rounds_played) {
         this.rounds_played = rounds_played;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return userID == player.userID && trainer_level == player.trainer_level && isAdmin == player.isAdmin && Double.compare(player.accuracy, accuracy) == 0 && rounds_played == player.rounds_played && Objects.equals(username, player.username) && Objects.equals(password, player.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID, username, password, trainer_level, isAdmin, accuracy, rounds_played);
     }
 }

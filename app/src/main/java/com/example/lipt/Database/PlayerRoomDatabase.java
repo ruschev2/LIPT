@@ -13,17 +13,19 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
 import com.example.lipt.MainActivity;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Player.class}, version = 2, exportSchema = false)
+@Database(entities = {Player.class, Prize.class, PlayerPrizeCrossRef.class}, version = 3, exportSchema = false)
 public abstract class PlayerRoomDatabase extends RoomDatabase {
 
     //instantiating our Data Access Object for data manipulation
     public abstract PlayerDao playerDao();
+
+    public abstract PrizeDao prizeDao();
+
+    public abstract PlayerPrizeCrossRefDao playerPrizeCrossRefDao();
 
     private static volatile PlayerRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -54,14 +56,13 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.i(MainActivity.TAG, "DATABASE CREATED!");
+            Log.i(MainActivity.TAG, "MAIN DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
                 PlayerDao dao = INSTANCE.playerDao();
                 Player player = new Player("admin1", "password123", true);
-                dao.insert(player);
+                dao.insertPlayer(player);
                 Player player2 = new Player("player1", "password123", false);
-                dao.insert(player2);
-                Player player3 = new Player("player2", "password123", false);
+                dao.insertPlayer(player2);
             });
         }
     };

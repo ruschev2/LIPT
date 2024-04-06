@@ -9,6 +9,7 @@ package com.example.lipt;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             @Override
             public void onClick(View v) {
                 MediaPlayer mediaPlayer = MediaPlayer.create(context, pokemon.getSoundResourceId());
+                Log.d(MainActivity.TAG, "Sound ID for Pokemon no. " + pokemon.getPokedexNumber() + ": " + pokemon.getSoundResourceId());
                 mediaPlayer.start();
             }
         });

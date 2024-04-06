@@ -28,7 +28,7 @@ public class PokemonRepository {
 
     public void insert(Pokemon pokemon) {
         PokemonRoomDatabase.databaseWriteExecutor.execute(() -> {
-            pokemonDao.insert(pokemon);
+            pokemonDao.insertPokemon(pokemon);
         });
     }
 

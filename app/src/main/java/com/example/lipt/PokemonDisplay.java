@@ -4,6 +4,8 @@
  * PokemonDisplay
  */
 
+/*
+
 package com.example.lipt;
 
 public class PokemonDisplay {
@@ -43,3 +45,5 @@ public class PokemonDisplay {
         this.soundResourceId = soundResourceId;
     }
 }
+
+ */

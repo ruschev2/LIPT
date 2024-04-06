@@ -19,6 +19,11 @@ import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
+import com.example.lipt.Database.Pokemon;
+import com.example.lipt.Database.PokemonRepository;
+import com.example.lipt.Database.Prize;
+import com.example.lipt.Database.PrizeRepository;
+import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityMainBinding;
 import com.example.lipt.Utils.InputValidator;
 
@@ -29,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private PlayerRepository login_repo;
     private LiveData<List<Player>> allCurrentPlayers;
+    private PokemonRepository poke_repo;
+    private PrizeRepository prize_repo;
+    private LiveData<List<Prize>> allPrizes;
 
     public static final String TAG = "LGH_DEBUG";
 
@@ -38,6 +46,25 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+
+        //populating pokedex
+        poke_repo = new PokemonRepository((Application) getApplicationContext());
+        for(int i = 1; i < 494; i++) {
+            Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
+                    getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
+                    getResources().getIdentifier("sound" + i, "raw", getPackageName()));
+            poke_repo.insert(pokemon);
+        }
+
+        //populating prize table
+        prize_repo = new PrizeRepository((Application) getApplicationContext());
+        for(int i = 1; i < 21; i++) {
+            Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
+            prize_repo.insert(prize);
+        }
+        allPrizes = prize_repo.getAllPrizes();
+
 
         //establishing repo, grabbing list of players
         login_repo = new PlayerRepository((Application) getApplicationContext());

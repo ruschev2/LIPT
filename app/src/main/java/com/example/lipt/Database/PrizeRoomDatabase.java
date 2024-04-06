@@ -1,10 +1,13 @@
 /**
  * Luis Hernandez, Guillermo Zendejas
- * April 3, 2024
- * PokemonRoomRepository.java, this abstract class describes the room database for Pokemon
+ * April 4, 2024
+ * PrizeRoomDatabase.java, this class describes our prize room data
  */
 
+/*
+
 package com.example.lipt.Database;
+
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -16,26 +19,27 @@ import com.example.lipt.MainActivity;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-@Database(entities = {Pokemon.class}, version = 1, exportSchema = false)
-public abstract class PokemonRoomDatabase extends RoomDatabase {
+@Database(entities = {Prize.class}, version = 1, exportSchema = false)
+public abstract class PrizeRoomDatabase extends RoomDatabase {
 
     //instantiating our Data Access Object for data manipulation
-    public abstract PokemonDao pokemonDAO();
+    public abstract PrizeDao prizeDao();
 
-    private static volatile PokemonRoomDatabase INSTANCE;
+    private static volatile PrizeRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
-
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static PokemonRoomDatabase getDatabase(final Context context) {
+    static PrizeRoomDatabase getDatabase(final Context context) {
+        //make sure that this class is not active elsewhere at this time
+        //lock this operation into a single thread
+        //parameter = reference to compiled version to the class we are working in
         if(INSTANCE == null) {
-            synchronized (PokemonRoomDatabase.class) {
+            synchronized (PrizeRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    PokemonRoomDatabase.class, "pokemon_database")
-                    .fallbackToDestructiveMigration()
+                                    PrizeRoomDatabase.class, "prize_database")
+                            .fallbackToDestructiveMigration()
                             .addCallback(addDefaultValues)
                             .build();
                 }
@@ -44,16 +48,17 @@ public abstract class PokemonRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    //popluating database with default values
+    //populating the database with default values
     private static final RoomDatabase.Callback addDefaultValues = new RoomDatabase.Callback(){
 
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.i(MainActivity.TAG, "POKEMON DATABASE CREATED!");
+            Log.i(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
             });
         }
     };
-
 }
+
+*/

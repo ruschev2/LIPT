@@ -21,7 +21,6 @@ import com.example.lipt.Utils.InputValidator;
 import com.example.lipt.databinding.ActivityRegistrationBinding;
 
 import java.util.List;
-
 public class registrationActivity extends AppCompatActivity {
 
     private ActivityRegistrationBinding binding;

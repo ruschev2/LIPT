@@ -11,6 +11,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -18,8 +19,12 @@ import java.util.List;
 public interface PlayerDao {
 
     //for creating new player account
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    void insert(Player player);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertPlayer(Player player);
+
+    //for updating a player
+    @Update()
+    void updatePlayer(Player player);
 
     //for deleting existing player account [ADMIN ONLY]
     @Delete()
