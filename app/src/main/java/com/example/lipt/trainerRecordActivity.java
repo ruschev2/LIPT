@@ -31,6 +31,8 @@ public class trainerRecordActivity extends AppCompatActivity {
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
 
+    //TODO: create player adapater and implement in trainer record activity
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
