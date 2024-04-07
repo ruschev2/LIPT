@@ -4,65 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PokedexActivity">
+    tools:context=".GameResultActivity">
 
 
     <ImageView
-        android:id="@+id/pokedexBackgroundImage"
+        android:id="@+id/gameBackgroundImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/pokedex_background1"
+        android:src="@drawable/round_background"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
-        android:id="@+id/pokedexTitleImage"
+        android:id="@+id/gameResultTitleImage"
         android:layout_width="384dp"
-        android:layout_height="160dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/pokedex_title2"
+        android:src="@drawable/results_title_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/pokedexInstructionText"
+        android:id="@+id/finalScoreLabelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pokedexinstruction"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toBottomOf="@id/pokedexTitleImage"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="50dp"
+        android:text="Final Score: "
+        android:textSize="30dp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/gameResultTitleImage" />
+
+    <TextView
+        android:id="@+id/finalScoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="10/10"
+        android:textSize="40dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/finalScoreLabelText"
+        app:layout_constraintTop_toBottomOf="@id/gameResultTitleImage" />
+
+
 
     <Button
-        android:id="@+id/exitPokedexButton"
+        android:id="@+id/exitGameResultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
         android:text="@string/return_to_menu"
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@id/pokedexRecyclerView"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pokedexRecyclerView"
-        android:layout_width="324dp"
-        android:layout_height="484dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="8dp"
-        android:foregroundGravity="center"
-        android:scrollbarSize="7dp"
-        android:scrollbars="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pokedexInstructionText"
-        app:layout_constraintBottom_toTopOf="@id/exitPokedexButton"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

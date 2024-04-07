@@ -119,6 +119,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //populating list in pokemoninfo (temp)
+        for(int i = 1; i < 494; i++) {
+            Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
+                    getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
+                    getResources().getIdentifier("sound" + i, "raw", getPackageName()));
+            PokemonInfo.full_pokemon_list.add(pokemon);
+        }
+
+
     }
 
     //Main to registration activity factory

@@ -18,25 +18,167 @@
     <ImageView
         android:id="@+id/gameTitleImage"
         android:layout_width="384dp"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/game_title_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/gameRecyclerView"
-        android:layout_width="324dp"
-        android:layout_height="470dp"
-        android:layout_marginStart="44dp"
-        android:foregroundGravity="center"
-        android:scrollbarSize="7dp"
-        android:scrollbars="vertical"
-        app:layout_constraintStart_toStartOf="parent"
+    <TextView
+        android:id="@+id/gameInstructionText1"
+        android:text="@string/gameinstruction1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/colorAccent"
         app:layout_constraintTop_toBottomOf="@id/gameTitleImage"
-        app:layout_constraintBottom_toTopOf="@id/exitGameButton"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/gameInstructionText2"
+        android:text="@string/gameinstruction2"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/gameInstructionText1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextView
+        android:id="@+id/gameQuestionLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/game_question_label_textview"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:flow_horizontalBias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/gameInstructionText2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/gameQuestionNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/game_current_question_num"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:flow_horizontalBias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/gameQuestionLabelText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/pokemon1NameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bulbasaur"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/pokemon1Image"
+        app:layout_constraintBottom_toTopOf="@id/pokemon1Image"
+        app:layout_constraintStart_toStartOf="@id/pokemon1Image"
+        app:layout_constraintEnd_toEndOf="@id/pokemon1Image"/>
+
+    <ImageView
+        android:id="@+id/pokemon1Image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/pokemon1"
+        android:clickable="true"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintTop_toBottomOf="@id/gameQuestionNumberText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/pokemon2NameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bulbasaur"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/pokemon2Image"
+        app:layout_constraintBottom_toTopOf="@id/pokemon2Image"
+        app:layout_constraintStart_toStartOf="@id/pokemon2Image"
+        app:layout_constraintEnd_toEndOf="@id/pokemon2Image"/>
+
+    <ImageView
+        android:id="@+id/pokemon2Image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/pokemon1"
+        android:clickable="true"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintTop_toBottomOf="@id/gameQuestionNumberText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/gameSoundButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/game_sound_button_2"
+        android:clickable="true"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pokemon1Image"
+        app:layout_constraintBottom_toTopOf="@id/pokemon4Image" />
+
+    <TextView
+        android:id="@+id/pokemon3NameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bulbasaur"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/pokemon3Image"
+        app:layout_constraintBottom_toTopOf="@id/pokemon3Image"
+        app:layout_constraintStart_toStartOf="@id/pokemon3Image"
+        app:layout_constraintEnd_toEndOf="@id/pokemon3Image"/>
+
+    <ImageView
+        android:id="@+id/pokemon3Image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/pokemon1"
+        android:clickable="true"
+        android:layout_marginTop="120dp"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintTop_toBottomOf="@id/pokemon1Image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/pokemon4NameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bulbasaur"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/pokemon4Image"
+        app:layout_constraintBottom_toTopOf="@id/pokemon4Image"
+        app:layout_constraintStart_toStartOf="@id/pokemon4Image"
+        app:layout_constraintEnd_toEndOf="@id/pokemon4Image"/>
+
+    <ImageView
+        android:id="@+id/pokemon4Image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/pokemon1"
+        android:layout_marginTop="120dp"
+        android:clickable="true"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintTop_toBottomOf="@id/pokemon2Image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
     <Button
         android:id="@+id/exitGameButton"
         android:layout_width="wrap_content"

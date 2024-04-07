@@ -17,13 +17,13 @@
 
     <ImageView
         android:id="@+id/loginTitleImage"
-        android:layout_width="384dp"
+        android:layout_width="430dp"
         android:layout_height="200dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/login_title_text"
+        android:src="@drawable/login_title_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/loginUsernameTextEdit"
