@@ -8,6 +8,7 @@ package com.example.lipt.Database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import java.util.Objects;
 
@@ -19,9 +20,10 @@ public class Player {
         this.username = username;
         this.password = password;
         this.trainer_level = 0;
-        this.accuracy = 0.0;
+        this.points = 0;
         this.rounds_played = 0;
         this.isAdmin = admin;
+        calculateAccuracy();
     }
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -39,9 +41,11 @@ public class Player {
     @ColumnInfo(name = "admin")
     private boolean isAdmin;
 
-    @ColumnInfo(name = "accuracy")
-    private double accuracy;
+    @ColumnInfo(name = "points")
+    private int points;
 
+    @Ignore
+    private float accuracy;
 
     @ColumnInfo(name = "roundsPlayed")
     private int rounds_played;
@@ -89,10 +93,11 @@ public class Player {
     }
 
     public double getAccuracy() {
+        calculateAccuracy();
         return accuracy;
     }
 
-    public void setAccuracy(double accuracy) {
+    public void setAccuracy(float accuracy) {
         this.accuracy = accuracy;
     }
 
@@ -104,16 +109,33 @@ public class Player {
         this.rounds_played = rounds_played;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    private void calculateAccuracy() {
+        if(points != 0) {
+            accuracy = (float) (10 * points) / rounds_played;
+        }
+        else {
+            accuracy = 0.0f;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return userID == player.userID && trainer_level == player.trainer_level && isAdmin == player.isAdmin && Double.compare(player.accuracy, accuracy) == 0 && rounds_played == player.rounds_played && Objects.equals(username, player.username) && Objects.equals(password, player.password);
+        return userID == player.userID && trainer_level == player.trainer_level && isAdmin == player.isAdmin && points == player.points && Float.compare(player.accuracy, accuracy) == 0 && rounds_played == player.rounds_played && Objects.equals(username, player.username) && Objects.equals(password, player.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, username, password, trainer_level, isAdmin, accuracy, rounds_played);
+        return Objects.hash(userID, username, password, trainer_level, isAdmin, points, accuracy, rounds_played);
     }
 }

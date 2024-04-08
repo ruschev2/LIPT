@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintHorizontal_bias="0.5"
-        android:text="@string/you_leveled_up"
+        android:text="You must train harder"
         android:textSize="25sp"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,17 +76,17 @@
         app:layout_constraintTop_toBottomOf="@id/levelUpText" />
 
     <TextView
-        android:id="@+id/currentLevelTextView"
+        android:id="@+id/currentLevelDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="150dp"
         android:text="@string/_0"
         android:textSize="25sp"
         android:textColor="@color/white"
-        app:layout_constraintBaseline_toBaselineOf="@id/currentLevelTextLabel"
         app:layout_constraintStart_toEndOf="@id/currentLevelTextLabel"
-        app:layout_constraintTop_toBottomOf="@id/levelUpText" />
+        app:layout_constraintTop_toBottomOf="@id/levelUpText"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/earnedPrizeTextLabel"
@@ -101,29 +101,36 @@
         app:layout_constraintTop_toBottomOf="@id/currentLevelTextLabel" />
 
     <TextView
-        android:id="@+id/earnedPrizeTextView"
+        android:id="@+id/earnedPrizeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="15dp"
-        android:text="@string/nothing"
-        android:textSize="25sp"
+        android:text="Nothing!"
         android:textColor="@color/white"
-        app:layout_constraintBaseline_toBaselineOf="@id/earnedPrizeTextLabel"
+        android:textSize="25sp"
         app:layout_constraintStart_toEndOf="@id/earnedPrizeTextLabel"
-        app:layout_constraintTop_toBottomOf="@id/currentLevelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/currentLevelTextLabel"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="15dp" />
 
     <ImageView
         android:id="@+id/resultPrizeImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="30dp"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@id/earnedPrizeTextLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
-
+    
+    <ImageView
+        android:id="@+id/youLoseGoodDaySir"
+        android:layout_width="300dp"
+        android:layout_height="165dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/earnedPrizeTextLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/restartGameButton"

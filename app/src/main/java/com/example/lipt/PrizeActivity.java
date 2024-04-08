@@ -36,12 +36,8 @@ public class PrizeActivity extends AppCompatActivity {
     private LiveData<List<Prize>> allPrizes;
 
     private RecyclerView recyclerView;
-
     private PrizeAdapter adapter;
-
     ActivityPrizeBinding binding;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

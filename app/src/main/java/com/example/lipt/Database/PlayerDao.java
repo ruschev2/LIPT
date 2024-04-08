@@ -33,4 +33,9 @@ public interface PlayerDao {
     //for retrieving the entire list of players
     @Query("SELECT * FROM player_table ORDER BY id ASC")
     LiveData<List<Player>> getPlayerList();
+
+    //for retrieving a specific player
+    @Query("SELECT * FROM player_table WHERE id = :playerId")
+    Player getPlayerById(int playerId);
+
 }

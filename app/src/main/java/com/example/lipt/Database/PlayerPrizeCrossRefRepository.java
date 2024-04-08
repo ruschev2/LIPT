@@ -21,9 +21,6 @@ public class PlayerPrizeCrossRefRepository {
         allPlayerPrizeCrossRefs = playerPrizeCrossRefDao.getAllPlayerPrizeCrossRefs();
     }
 
-    public void insertPlayerPrizeCrossRef(PlayerPrizeCrossRef playerPrizeCrossRef) {
-        playerPrizeCrossRefDao.insertPlayerPrizeCrossRef(playerPrizeCrossRef);
-    }
 
     public List<Integer> getPlayerPrizeIdsForPlayer(int playerId) {
         return playerPrizeCrossRefDao.getPlayerPrizeIdsForPlayer(playerId);

@@ -127,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
             PokemonInfo.full_pokemon_list.add(pokemon);
         }
 
+        //populating list in pokemon info for prizes
+        for(int i = 1; i < 21; i ++) {
+            Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
+            PokemonInfo.full_prize_list.add(prize);
+        }
 
     }
 
