@@ -22,7 +22,6 @@ public class GameResultActivity extends AppCompatActivity {
 
     private ActivityGameResultBinding binding;
     private static final String CURRENT_USERNAME = "Active User";
-
     private static final String FINAL_SCORE = "hopefully ten";
     private static final int CURRENT_USER_ID = 0;
     private PlayerRepository login_repo;

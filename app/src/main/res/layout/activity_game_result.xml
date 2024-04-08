@@ -8,11 +8,11 @@
 
 
     <ImageView
-        android:id="@+id/gameBackgroundImage"
+        android:id="@+id/gameResultBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/round_background"
+        android:src="@drawable/game_result_background"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
@@ -33,7 +33,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginStart="50dp"
         android:text="Final Score: "
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gameResultTitleImage" />
@@ -44,12 +44,98 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="10/10"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@id/finalScoreLabelText"
         app:layout_constraintTop_toBottomOf="@id/gameResultTitleImage" />
 
+    <TextView
+        android:id="@+id/levelUpText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:text="@string/you_leveled_up"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/finalScoreLabelText" />
 
+    <TextView
+        android:id="@+id/currentLevelTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:text="@string/current_level_text"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/levelUpText" />
+
+    <TextView
+        android:id="@+id/currentLevelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/_0"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        app:layout_constraintBaseline_toBaselineOf="@id/currentLevelTextLabel"
+        app:layout_constraintStart_toEndOf="@id/currentLevelTextLabel"
+        app:layout_constraintTop_toBottomOf="@id/levelUpText" />
+
+    <TextView
+        android:id="@+id/earnedPrizeTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="80dp"
+        android:text="@string/your_prize"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentLevelTextLabel" />
+
+    <TextView
+        android:id="@+id/earnedPrizeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/nothing"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        app:layout_constraintBaseline_toBaselineOf="@id/earnedPrizeTextLabel"
+        app:layout_constraintStart_toEndOf="@id/earnedPrizeTextLabel"
+        app:layout_constraintTop_toBottomOf="@id/currentLevelTextView" />
+
+    <ImageView
+        android:id="@+id/resultPrizeImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/earnedPrizeTextLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+    <Button
+        android:id="@+id/restartGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:text="@string/play_again"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/exitGameResultButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.50"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/exitGameResultButton"

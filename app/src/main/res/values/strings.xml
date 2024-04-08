@@ -37,4 +37,9 @@
     <string name="game_question_label_textview">Question:</string>
     <string name="game_current_question_num">1/10</string>
     <string name="pokedexinstruction">Touch and drag to browse the Pokedex!</string>
+    <string name="you_leveled_up">You leveled up!</string>
+    <string name="current_level_text">Current Level:</string>
+    <string name="your_prize">Your prize:</string>
+    <string name="nothing">Nothing!</string>
+    <string name="play_again">Play Again!</string>
 </resources>
