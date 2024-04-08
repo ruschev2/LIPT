@@ -6,7 +6,15 @@
 
 package com.example.lipt.Utils;
 
+import com.example.lipt.Database.Pokemon;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PokemonInfo {
+
+    //pokemon list
+    public static List<Pokemon> full_pokemon_list = new ArrayList<>();
 
     //this method returns the appropriate prize item name depending on index
     public static String getPrizeName(int prizeNum) {

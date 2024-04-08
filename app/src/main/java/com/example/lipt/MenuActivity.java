@@ -117,6 +117,15 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        //instantiating an interface of onClickListener for prize collection view
+        binding.newRoundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = GameActivity.gameFactory(getApplicationContext(), current_id);
+                startActivity(intent);
+            }
+        });
+
         //instantiating an interface of onClickListener for logging out
         binding.exitMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +144,5 @@ public class MenuActivity extends AppCompatActivity {
         intent.putExtra(CURRENT_USERNAME, user_id);
         return intent;
     }
-
-
 
 }
