@@ -59,7 +59,7 @@ public class GameResultActivity extends AppCompatActivity {
 
     //game result factory
     public static Intent gameResultFactory(Context context, int user_id, int final_score) {
-        Intent intent = new Intent(context, MenuActivity.class);
+        Intent intent = new Intent(context, GameResultActivity.class);
         intent.putExtra(CURRENT_USERNAME, user_id);
         intent.putExtra(FINAL_SCORE, final_score);
         return intent;

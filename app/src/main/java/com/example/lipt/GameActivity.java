@@ -18,6 +18,9 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
@@ -28,6 +31,7 @@ import com.example.lipt.Database.Prize;
 import com.example.lipt.Database.PrizeRepository;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityGameBinding;
+import com.example.lipt.databinding.ActivityGameResultBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,16 +43,19 @@ public class GameActivity extends AppCompatActivity {
     private ActivityGameBinding binding;
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
+    private int current_id;
     private MediaPlayer mediaPlayer;
     private PokemonRepository pokemon_repo;
     private LiveData<List<Pokemon>> allPokemon;
+    List<Pokemon> questionList = new ArrayList<>();
+    List<Pokemon> gameList = new ArrayList<>();
 
-    boolean question_answered = false;
-
-    //countdown latch for waiting until an image is clicked
-    CountDownLatch latch = new CountDownLatch(1);
-    private int image_choice;
-    int final_score = 0;
+    ImageView pokemon1, pokemon2, pokemon3, pokemon4;
+    TextView pokemon1name, pokemon2name, pokemon3name, pokemon4name, questionNumText;
+    private int selectedPokemon;
+    private int current_question = 1;
+    private int solution = 0;
+    int final_score = 0, start_index = 0, end_index = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,181 +64,57 @@ public class GameActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
+        current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
         Toast.makeText(GameActivity.this, "GAME ID: " + current_id, Toast.LENGTH_SHORT).show();
 
-        //grabbing full pokemon list
-        pokemon_repo = new PokemonRepository((Application) getApplicationContext());
-        allPokemon = pokemon_repo.getAllPokemon();
-        List<Pokemon> pokemonList = new ArrayList<>(PokemonInfo.full_pokemon_list);
-        Log.d(MainActivity.TAG, "first pokemonlist = " + pokemonList.size());
+        //setting image and text view values
+        pokemon1 = findViewById(R.id.pokemon1Image);
+        pokemon2 = findViewById(R.id.pokemon2Image);
+        pokemon3 = findViewById(R.id.pokemon3Image);
+        pokemon4 = findViewById(R.id.pokemon4Image);
+        questionNumText = findViewById(R.id.gameQuestionNumberText);
 
-        /*
+        pokemon1name = findViewById(R.id.pokemon1NameText);
+        pokemon2name = findViewById(R.id.pokemon2NameText);
+        pokemon3name = findViewById(R.id.pokemon3NameText);
+        pokemon4name = findViewById(R.id.pokemon4NameText);
 
-        allPokemon.observe(this, pokemon_List -> {
-                    if(pokemon_List != null) {
-
-                        Log.d(MainActivity.TAG, "initial observer copy list size: " + pokemon_List.size());
-                        for(Pokemon pokemon : pokemonList) {
-                            Pokemon new_pokemon = new Pokemon(pokemon.getPokedexNumber(),
-                                    pokemon.getName(),
-                                    pokemon.getImageResourceId(),
-                                    pokemon.getSoundResourceId());
-                            pokemonList.add(pokemon);
-
-                        }
-                        Log.d(MainActivity.TAG, "mid observer copy list size: " + pokemonList.size());
-                    }
-                });
-        Log.d(MainActivity.TAG, "post observer copy list size: " + pokemonList.size());
-
-
-         */
-
-
-        /*
-
-        binding.pokemon1Image.setOnClickListener(new View.OnClickListener() {
+        //instantiating 4 interfaces of onClickListener for pokemon images
+        pokemon1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleImageClick(0);
             }
         });
 
-        binding.pokemon2Image.setOnClickListener(new View.OnClickListener() {
+        pokemon2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleImageClick(1);
             }
         });
 
-        binding.pokemon3Image.setOnClickListener(new View.OnClickListener() {
+        pokemon3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleImageClick(2);
             }
         });
 
-        binding.pokemon4Image.setOnClickListener(new View.OnClickListener() {
+        pokemon4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleImageClick(3);
             }
         });
-        allPokemon.observe(this, new Observer<List<Pokemon>>() {
+
+        //instantiating an interface of onClickListener for playing the sound button
+        binding.gameSoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(List<Pokemon> pokemons) {
-                for(Pokemon pokemon : pokemons) {
-                    Pokemon new_pokemon = new Pokemon(pokemon.getPokedexNumber(),
-                            pokemon.getName(),
-                            pokemon.getImageResourceId(),
-                            pokemon.getSoundResourceId());
-                    pokemonList.add(new_pokemon);
-                }
-                Toast.makeText(GameActivity.this, "Pokemon list: " + String.valueOf(pokemonList.size()), Toast.LENGTH_SHORT).show();
-
-                //populating game list of pokemon with 40 unique entries
-                for(int i = 0; i < 40; i++) {
-                    drawRandomPokemon(pokemonList, gameList);
-                }
-
-                //actual game loop, 10 questions = 10 iterations
-                for(int i = 0; i < 10; i++) {
-
-                    //moving 4 pokemon from the game list into the round list for play
-                    List<Pokemon> questionList = gameList.subList(0, 4);
-                    gameList.removeAll(questionList);
-
-                    //setting the view to display the four pokemon chosen
-                    binding.pokemon1NameText.setText(questionList.get(0).getName());
-                    binding.pokemon1Image.setImageResource(questionList.get(0).getImageResourceId());
-                    binding.pokemon2NameText.setText(questionList.get(1).getName());
-                    binding.pokemon2Image.setImageResource(questionList.get(1).getImageResourceId());
-                    binding.pokemon3NameText.setText(questionList.get(2).getName());
-                    binding.pokemon3Image.setImageResource(questionList.get(2).getImageResourceId());
-                    binding.pokemon4NameText.setText(questionList.get(3).getName());
-                    binding.pokemon4Image.setImageResource(questionList.get(3).getImageResourceId());
-
-                    Random random = new Random();
-                    int solution = random.nextInt(4);
-                    mediaPlayer = MediaPlayer.create(GameActivity.this, questionList.get(solution).getSoundResourceId());
-                    mediaPlayer.start();
-                    question_answered = false;
-
-
-                    try {
-                        latch.await();
-                    } catch(InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(image_choice == solution) {
-                        final_score++;
-                    }
-
-                }
-
-
-            } //on changed
-        }); //end observer call
-
-        */
-
-        //populating game list of pokemon with 40 unique entries
-        List<Pokemon> gameList = new ArrayList<>();
-        for(int i = 0; i < 40; i++) {
-            drawRandomPokemon(pokemonList, gameList);
-        }
-
-        Log.d(MainActivity.TAG, "second gamelist = " + gameList.size());
-
-        //actual game loop, 10 questions = 10 iterations
-        //for(int i = 0; i < 10; i++) {
-
-            //moving 4 pokemon from the game list into the round list for play
-            List<Pokemon> questionList = gameList.subList(0, 4);
-        Log.d(MainActivity.TAG, "third pokemonlist = " + questionList.size());
-        Log.d(MainActivity.TAG, "third pokemonlistelement = " + questionList.get(0).getName());
-            //gameList.removeAll(questionList);
-
-                    //setting the view to display the four pokemon chosen
-                    binding.pokemon1NameText.setText(questionList.get(0).getName());
-                    binding.pokemon1Image.setImageResource(questionList.get(0).getImageResourceId());
-                    binding.pokemon2NameText.setText(questionList.get(1).getName());
-                    binding.pokemon2Image.setImageResource(questionList.get(1).getImageResourceId());
-                    binding.pokemon3NameText.setText(questionList.get(2).getName());
-                    binding.pokemon3Image.setImageResource(questionList.get(2).getImageResourceId());
-                    binding.pokemon4NameText.setText(questionList.get(3).getName());
-                    binding.pokemon4Image.setImageResource(questionList.get(3).getImageResourceId());
-
-            Random random = new Random();
-            int solution = random.nextInt(4);
-            mediaPlayer = MediaPlayer.create(GameActivity.this, questionList.get(solution).getSoundResourceId());
-            mediaPlayer.start();
-            question_answered = false;
-
-            try {
-                latch.await();
-            } catch(InterruptedException e) {
-                e.printStackTrace();
+            public void onClick(View v) {
+                mediaPlayer.start();
             }
-
-            if(image_choice == solution) {
-                final_score++;
-            }
-
-/*
-            if(i == 9) {
-                Intent intent = GameResultActivity.gameResultFactory(getApplicationContext(), current_id, final_score);
-                startActivity(intent);
-            }
-
- */
-        //}
-
-
-
-
+        });
 
         //instantiating an interface of onClickListener for returning to menu button
         binding.exitGameButton.setOnClickListener(new View.OnClickListener() {
@@ -242,8 +125,75 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        //grabbing full pokemon list
+        pokemon_repo = new PokemonRepository((Application) getApplicationContext());
+        allPokemon = pokemon_repo.getAllPokemon();
+        List<Pokemon> pokemonList = new ArrayList<>(PokemonInfo.full_pokemon_list);
+        Log.d(MainActivity.TAG, "first pokemonlist = " + pokemonList.size());
+
+        //populating game list of pokemon with 40 unique entries
+        for (int i = 0; i < 40; i++) {
+            drawRandomPokemon(pokemonList, gameList);
+        }
+        Log.d(MainActivity.TAG, "second gamelist = " + gameList.size());
+
+        newQuestion();
+
+
+    } //end on create()
+
+
+    //this method handles the onclick for images in gameplay
+    private void handleImageClick(int imageNum) {
+        if(imageNum == solution) {
+            final_score++;
+        }
+        current_question++;
+        newQuestion();
     }
 
+    //this method loads new images and the sound button cry for a new question
+    private void newQuestion() {
+        //game round is over, loading result screen
+        if(current_question > 10) {
+            Intent intent = GameResultActivity.gameResultFactory(getApplicationContext(), current_id, final_score);
+            startActivity((intent));
+        }
+
+        else {
+            //moving 4 pokemon from the game list into the round list for play
+            if (questionList.isEmpty()) {
+                questionList = gameList.subList(start_index, end_index);
+            } else {
+                for (int j = 0; j < 4; j++) {
+                    questionList.set(j, gameList.get(start_index + j));
+                }
+            }
+            start_index += 4;
+            end_index += 4;
+
+            //setting solution index and appropriate sound
+            Random random = new Random();
+            solution = random.nextInt(4);
+            setSound(questionList.get(solution).getSoundResourceId());
+            //setting question text
+            questionNumText.setText(String.valueOf(current_question) + "/10");
+
+            //setting the view to display the four pokemon chosen
+            pokemon1name.setText(questionList.get(0).getName());
+            pokemon1.setImageResource(questionList.get(0).getImageResourceId());
+            pokemon2name.setText(questionList.get(1).getName());
+            pokemon2.setImageResource(questionList.get(1).getImageResourceId());
+            pokemon3name.setText(questionList.get(2).getName());
+            pokemon3.setImageResource(questionList.get(2).getImageResourceId());
+            pokemon4name.setText(questionList.get(3).getName());
+            pokemon4.setImageResource(questionList.get(3).getImageResourceId());
+
+        }
+
+    } //end onCreate()
+
+    //for releasing the media player, prevention of memory leaks
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -275,9 +225,19 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void handleImageClick(int imageIndex) {
-        image_choice = imageIndex;
-        latch.countDown();
+    //for setting the button sound as the solution pokemon sound
+    private void setSound(int soundResourceId) {
+        if(mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+        mediaPlayer = MediaPlayer.create(this, soundResourceId);
+    }
+
+    //for playing the sound
+    private void playSound() {
+        if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
     }
 
 }
