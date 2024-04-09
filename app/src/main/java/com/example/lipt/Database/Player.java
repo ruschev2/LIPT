@@ -92,7 +92,7 @@ public class Player {
         isAdmin = admin;
     }
 
-    public double getAccuracy() {
+    public float getAccuracy() {
         calculateAccuracy();
         return accuracy;
     }

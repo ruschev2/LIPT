@@ -37,25 +37,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GameActivity extends AppCompatActivity {
-
     private ActivityGameBinding binding;
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private int current_id;
     private MediaPlayer mediaPlayer;
-    private PokemonRepository pokemon_repo;
-    private LiveData<List<Pokemon>> allPokemon;
+    private PlayerRepository player_repo;
     List<Pokemon> questionList = new ArrayList<>();
     List<Pokemon> gameList = new ArrayList<>();
-
     ImageView pokemon1, pokemon2, pokemon3, pokemon4;
     TextView pokemon1name, pokemon2name, pokemon3name, pokemon4name, questionNumText;
-    private int selectedPokemon;
     private int current_question = 1;
     private int solution = 0;
     int final_score = 0, start_index = 0, end_index = 4;
+    Executor executor = Executors.newSingleThreadExecutor();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +126,6 @@ public class GameActivity extends AppCompatActivity {
         });
 
         //grabbing full pokemon list
-        pokemon_repo = new PokemonRepository((Application) getApplicationContext());
-        allPokemon = pokemon_repo.getAllPokemon();
         List<Pokemon> pokemonList = new ArrayList<>(PokemonInfo.full_pokemon_list);
         Log.d(MainActivity.TAG, "first pokemonlist = " + pokemonList.size());
 
@@ -156,6 +154,12 @@ public class GameActivity extends AppCompatActivity {
     private void newQuestion() {
         //game round is over, loading result screen
         if(current_question > 10) {
+            player_repo = new PlayerRepository((Application) getApplicationContext());
+
+            //updating player stats
+            updatePlayerAsync(current_id);
+
+            //shifting to game result activity
             Intent intent = GameResultActivity.gameResultFactory(getApplicationContext(), current_id, final_score);
             startActivity((intent));
         }
@@ -238,6 +242,21 @@ public class GameActivity extends AppCompatActivity {
         if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
+    }
+
+    //for updating player stats, this runs whenever a round ends
+    private void updatePlayerAsync(final int playerId) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                player_repo.increasePlayerPoints(playerId, final_score);
+                player_repo.increasePlayerRoundsPlayed(playerId);
+
+                if(final_score > 6) {
+                    player_repo.levelUpPlayer(playerId);
+                }
+            }
+        });
     }
 
 }

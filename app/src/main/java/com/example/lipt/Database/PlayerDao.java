@@ -19,7 +19,7 @@ import java.util.List;
 public interface PlayerDao {
 
     //for creating new player account
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPlayer(Player player);
 
     //for updating a player
