@@ -26,7 +26,7 @@ public interface PrizeDao {
     @Delete()
     void deletePrize(Prize prize);
 
-    //for retrieving the entire list of players
+    //for retrieving the entire list of prizes
 
     @Query("SELECT * FROM prize_table ORDER BY id ASC")
     LiveData<List<Prize>> getPrizeList();

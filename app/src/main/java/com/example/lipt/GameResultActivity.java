@@ -143,8 +143,8 @@ public class GameResultActivity extends AppCompatActivity {
                         int drawnPrizeID = unearnedPrizeIDs.get(randomIndex);
 
                         //displaying awarded prize in View
-                        binding.earnedPrizeText.setText(full_prize_list.get(drawnPrizeID).getName());
-                        binding.resultPrizeImageView.setImageResource(full_prize_list.get(drawnPrizeID).getImageResourceId());
+                        binding.earnedPrizeText.setText(full_prize_list.get(drawnPrizeID-1).getName());
+                        binding.resultPrizeImageView.setImageResource(full_prize_list.get(drawnPrizeID-1).getImageResourceId());
 
                         //awarding prize into player's account
                         PlayerPrizeCrossRef reward = new PlayerPrizeCrossRef(current_id, drawnPrizeID);
