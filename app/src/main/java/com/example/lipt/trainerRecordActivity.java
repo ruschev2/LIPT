@@ -21,6 +21,7 @@ import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.databinding.ActivityTrainerRecordBinding;
 
 import java.util.List;
+import java.util.Locale;
 
 public class trainerRecordActivity extends AppCompatActivity {
     private PlayerRepository record_repo;
@@ -58,7 +59,7 @@ public class trainerRecordActivity extends AppCompatActivity {
                 //populating field with player spec if found
                 if (current_player != null) {
                     binding.usernameDisplayTextView.setText(current_player.getUsername());
-                    binding.accuracyDisplayTextView.setText(String.valueOf(current_player.getAccuracy()));
+                    binding.accuracyDisplayTextView.setText(String.format("%.2f", current_player.getAccuracy()) + "%");
                     binding.roundsPlayedTextView.setText(String.valueOf(current_player.getRounds_played()));
                 }
                 else {

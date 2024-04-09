@@ -7,6 +7,7 @@
 package com.example.lipt.Utils;
 
 import com.example.lipt.Database.Pokemon;
+import com.example.lipt.Database.Prize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,20 @@ public class PokemonInfo {
 
     //pokemon list
     public static List<Pokemon> full_pokemon_list = new ArrayList<>();
+
+    //prize list
+    public static List<Prize> full_prize_list = new ArrayList<>();
+
+    //prize ID list
+    public static List<Integer> prize_ID_list = new ArrayList<>();
+
+    //this method returns the list of prize IDs
+    public static List<Integer> getPrizeIDList() {
+        for(int i = 1; i < 21; i++) {
+            prize_ID_list.add(i);
+        }
+        return prize_ID_list;
+    }
 
     //this method returns the appropriate prize item name depending on index
     public static String getPrizeName(int prizeNum) {

@@ -17,7 +17,7 @@ import com.example.lipt.MainActivity;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Player.class, Prize.class, PlayerPrizeCrossRef.class}, version = 3, exportSchema = false)
+@Database(entities = {Player.class, Prize.class, PlayerPrizeCrossRef.class}, version = 4, exportSchema = false)
 public abstract class PlayerRoomDatabase extends RoomDatabase {
 
     //instantiating our Data Access Object for data manipulation
