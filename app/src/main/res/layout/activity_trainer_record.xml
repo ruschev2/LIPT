@@ -26,78 +26,120 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/trainer_record_title_image2" />
 
-    <TextView
-        android:id="@+id/usernameLabelTextView"
-        android:layout_width="100dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/username_record_label"
-        android:textSize="20sp"
-        android:textColor="@color/white"
+
+    <TableLayout
+        android:id="@+id/player_Table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/trainerRecordTitleImage"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="50dp"
+        android:stretchColumns="1" >
 
-    <TextView
-        android:id="@+id/usernameDisplayTextView"
-        android:layout_width="253dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/hey"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:gravity="start"
-        app:layout_constraintBaseline_toBaselineOf="@+id/usernameLabelTextView"
-        app:layout_constraintStart_toEndOf="@id/usernameLabelTextView" />
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player Name"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="admin1lovesy"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trainer Level"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="42"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rounds Played"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="69"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accuracy"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="77%"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prizes Earned"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19/20"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:background="@drawable/table_border"/>
+        </TableRow>
 
 
-    <TextView
-        android:id="@+id/roundsLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/rounds_played_label"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/usernameLabelTextView" />
-
-    <TextView
-        android:id="@+id/roundsPlayedTextView"
-        android:layout_width="253dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/hey"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:gravity="start"
-        app:layout_constraintBaseline_toBaselineOf="@+id/roundsLabelTextView"
-        app:layout_constraintStart_toEndOf="@id/roundsLabelTextView" />
-
-    <TextView
-        android:id="@+id/accuracyLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/accuracy_label"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/roundsLabelTextView" />
-
-    <TextView
-        android:id="@+id/accuracyDisplayTextView"
-        android:layout_width="253dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/hey"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:gravity="start"
-        app:layout_constraintBaseline_toBaselineOf="@+id/accuracyLabelTextView"
-        app:layout_constraintStart_toEndOf="@id/accuracyLabelTextView" />
+    </TableLayout>
 
 
     <Button
