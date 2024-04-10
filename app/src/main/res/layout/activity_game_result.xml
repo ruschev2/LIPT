@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".GameResultActivity">
 
-
     <ImageView
         android:id="@+id/gameResultBackground"
         android:layout_width="match_parent"
@@ -31,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="75dp"
         android:text="@string/final_score_label"
         android:textSize="30sp"
         android:textColor="@color/white"
@@ -68,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="105dp"
         app:layout_constraintHorizontal_bias="0.5"
         android:text="@string/current_level_text"
         android:textSize="25sp"
