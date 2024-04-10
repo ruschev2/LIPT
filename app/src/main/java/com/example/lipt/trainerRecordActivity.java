@@ -17,22 +17,25 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
+import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.databinding.ActivityTrainerRecordBinding;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class trainerRecordActivity extends AppCompatActivity {
     private PlayerRepository record_repo;
+    private PlayerPrizeCrossRefRepository playerprize_repo;
     private LiveData<List<Player>> allCurrentPlayers;
-
+    private List<Integer> earnedPrizes;
     private ActivityTrainerRecordBinding binding;
-
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
-
-    //TODO: create player adapater and implement in trainer record activity
+    private int current_id;
+    Executor executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +45,15 @@ public class trainerRecordActivity extends AppCompatActivity {
         setContentView(view);
 
         //retrieving and saving currently logged in player ID
-        int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
-
+        current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
         Toast.makeText(trainerRecordActivity.this, "RECORD ID: " + current_id, Toast.LENGTH_SHORT).show();
 
         //establishing repo, grabbing list of players
         record_repo = new PlayerRepository((Application) getApplicationContext());
         allCurrentPlayers = record_repo.getAllPlayers();
+
+        //grabbing earned prizes
+        grabEarnedPrizes(current_id);
 
         //grabbing current player specs, then displaying in the view
         allCurrentPlayers.observe(this, new Observer<List<Player>>() {
@@ -56,21 +61,23 @@ public class trainerRecordActivity extends AppCompatActivity {
             public void onChanged(List<Player> players) {
                 Player current_player = findPlayerbyID(players, current_id);
 
-                //populating field with player spec if found
+                //populating field with player specs if found
                 if (current_player != null) {
-                    binding.usernameDisplayTextView.setText(current_player.getUsername());
-                    binding.accuracyDisplayTextView.setText(String.format("%.2f", current_player.getAccuracy()) + "%");
+                    binding.usernameTextView.setText(current_player.getUsername());
+                    binding.trainerLevelTextView.setText(String.valueOf(current_player.getTrainer_level()));
                     binding.roundsPlayedTextView.setText(String.valueOf(current_player.getRounds_played()));
+                    binding.accuracyTextView.setText(String.format("%.2f", current_player.getAccuracy()) + "%");
+                    binding.trainerRecordPrizeTextView.setText(String.valueOf(earnedPrizes.size()) + "/20");
                 }
                 else {
-                    binding.usernameDisplayTextView.setText(getString(R.string.null_string));
-                    binding.accuracyDisplayTextView.setText(getString(R.string.null_string));
+                    binding.usernameTextView.setText(getString(R.string.null_string));
+                    binding.trainerLevelTextView.setText(R.string.null_string);
                     binding.roundsPlayedTextView.setText(getString(R.string.null_string));
+                    binding.accuracyTextView.setText(getString(R.string.null_string));
+                    binding.trainerRecordPrizeTextView.setText(R.string.null_string);
                 }
             }
         });
-
-
 
         //instantiating an interface of onClickListener for return home button
         binding.trainerRecordExitButton.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +87,7 @@ public class trainerRecordActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
 
     //intent factory
     public static Intent trainerRecordFactory(Context context, int user_id) {
@@ -91,6 +96,12 @@ public class trainerRecordActivity extends AppCompatActivity {
         return intent;
     }
 
+    /**
+     * this method returns a specific player from a given list using their id number
+     * @param players the list of players parsed
+     * @param id_num the id number of desired player
+     * @return the player which has the parameterized ID number
+     */
     private Player findPlayerbyID(List<Player> players, int id_num) {
         for(Player player : players) {
             if(player.getUserID() == id_num) {
@@ -98,6 +109,20 @@ public class trainerRecordActivity extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    /**
+     * this method updates the class field earnedPrizes
+     * @param playerId the ID of the player whose earned prize IDs list will be updated
+     */
+    private void grabEarnedPrizes(final int playerId) {
+        executor.execute(new Runnable() {
+           @Override
+            public void run() {
+               playerprize_repo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
+               earnedPrizes = playerprize_repo.getPlayerPrizeIdsForPlayer(playerId);
+           }
+        });
     }
 
 }
