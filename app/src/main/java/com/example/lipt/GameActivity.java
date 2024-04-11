@@ -7,9 +7,6 @@
 package com.example.lipt;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Application;
 import android.content.Context;
@@ -18,25 +15,18 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Pokemon;
-import com.example.lipt.Database.PokemonRepository;
-import com.example.lipt.Database.Prize;
-import com.example.lipt.Database.PrizeRepository;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityGameBinding;
-import com.example.lipt.databinding.ActivityGameResultBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -154,10 +144,8 @@ public class GameActivity extends AppCompatActivity {
     private void newQuestion() {
         //game round is over, loading result screen
         if(current_question > 10) {
-            player_repo = new PlayerRepository((Application) getApplicationContext());
-
             //updating player stats
-            updatePlayerAsync(current_id);
+            updatePlayer(current_id);
 
             //shifting to game result activity
             Intent intent = GameResultActivity.gameResultFactory(getApplicationContext(), current_id, final_score);
@@ -223,6 +211,7 @@ public class GameActivity extends AppCompatActivity {
         Random random = new Random();
         Pokemon drawn_pokemon;
         do {
+            Log.d(MainActivity.TAG, "pokemon list size for drawing: " + pokemons.size());
             drawn_pokemon = pokemons.get(random.nextInt(pokemons.size()));
         } while(gameList.contains(drawn_pokemon));
         gameList.add(drawn_pokemon);
@@ -245,15 +234,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     //for updating player stats, this runs whenever a round ends
-    private void updatePlayerAsync(final int playerId) {
+    private void updatePlayer(final int playerId) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                player_repo = new PlayerRepository((Application) getApplicationContext());
                 player_repo.increasePlayerPoints(playerId, final_score);
                 player_repo.increasePlayerRoundsPlayed(playerId);
 
                 if(final_score > 6) {
                     player_repo.levelUpPlayer(playerId);
+                    Log.d(MainActivity.TAG, "player increased: " + playerId);
+                    Log.d(MainActivity.TAG, "points: " + final_score);
                 }
             }
         });
