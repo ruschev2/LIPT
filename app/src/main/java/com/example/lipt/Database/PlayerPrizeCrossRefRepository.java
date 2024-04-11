@@ -21,6 +21,10 @@ public class PlayerPrizeCrossRefRepository {
         allPlayerPrizeCrossRefs = playerPrizeCrossRefDao.getAllPlayerPrizeCrossRefs();
     }
 
+    public LiveData<List<PlayerPrizeCrossRef>> getAllPlayerPrizeCrossRefs() {
+        return allPlayerPrizeCrossRefs;
+    }
+
 
     public List<Integer> getPlayerPrizeIdsForPlayer(int playerId) {
         return playerPrizeCrossRefDao.getPlayerPrizeIdsForPlayer(playerId);

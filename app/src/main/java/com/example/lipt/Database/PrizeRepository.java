@@ -18,13 +18,17 @@ public class PrizeRepository {
 
     private LiveData<List<Prize>> allPrizes;
 
+    private List<Prize> fullPrizeList;
     public PrizeRepository(Application application) {
         PlayerRoomDatabase db = PlayerRoomDatabase.getDatabase(application);
         this.prizeDao = db.prizeDao();
         allPrizes = prizeDao.getPrizeList();
+        fullPrizeList = prizeDao.getFullPrizeList();
     }
 
     public LiveData<List<Prize>> getAllPrizes() {return allPrizes;}
+
+    public List<Prize> getPrizeList() {return fullPrizeList;}
 
     public void insert(Prize prize) {
         PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {

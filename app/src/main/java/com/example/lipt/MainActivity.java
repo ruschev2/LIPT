@@ -14,10 +14,12 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
+import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Database.PokemonRepository;
@@ -28,6 +30,8 @@ import com.example.lipt.databinding.ActivityMainBinding;
 import com.example.lipt.Utils.InputValidator;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "LGH_DEBUG";
 
+    Executor executor = Executors.newSingleThreadExecutor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,28 +53,8 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-
-        //populating pokedex
-        poke_repo = new PokemonRepository((Application) getApplicationContext());
-        for(int i = 1; i < 494; i++) {
-            Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
-                    getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
-                    getResources().getIdentifier("sound" + i, "raw", getPackageName()));
-            poke_repo.insert(pokemon);
-        }
-
-        //populating prize table
-        prize_repo = new PrizeRepository((Application) getApplicationContext());
-        for(int i = 1; i < 21; i++) {
-            Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
-            prize_repo.insert(prize);
-        }
-        allPrizes = prize_repo.getAllPrizes();
-
-
-        //establishing repo, grabbing list of players
-        login_repo = new PlayerRepository((Application) getApplicationContext());
-        allCurrentPlayers = login_repo.getAllPlayers();
+        //creating room databases
+        initializeRooms();
 
         //instantiating an interface of onClickListener for login button
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -135,10 +121,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Main to registration activity factory
+    /**
+     * This method describes the main activity factory
+     * @param context application context
+     * @return a new intent to begin main activity
+     */
     public static Intent mainToRegistrationFactory(Context context) {
         return new Intent(context, MainActivity.class);
     }
 
+    /**
+     * This method establishes the room databases
+     */
+    private void initializeRooms() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                //populating pokedex
+                poke_repo = new PokemonRepository((Application) getApplicationContext());
+                for(int i = 1; i < 494; i++) {
+                    Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
+                            getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
+                            getResources().getIdentifier("sound" + i, "raw", getPackageName()));
+                    poke_repo.insert(pokemon);
+                }
+
+                //populating prize table
+                prize_repo = new PrizeRepository((Application) getApplicationContext());
+                for(int i = 1; i < 21; i++) {
+                    Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
+                    prize_repo.insert(prize);
+                }
+                allPrizes = prize_repo.getAllPrizes();
+
+
+                //establishing repo, grabbing list of players
+                login_repo = new PlayerRepository((Application) getApplicationContext());
+                allCurrentPlayers = login_repo.getAllPlayers();
+            }
+        });
+    }
 
 }
