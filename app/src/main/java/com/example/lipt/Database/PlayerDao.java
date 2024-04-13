@@ -26,9 +26,13 @@ public interface PlayerDao {
     @Update()
     void updatePlayer(Player player);
 
-    //for deleting existing player account [ADMIN ONLY]
+    //for deleting existing player account
     @Delete()
     void deletePlayer(Player player);
+
+    //for deleting existing player's account, by playerId
+    @Query("DELETE FROM player_table WHERE id = :playerId")
+    void deletePlayerById(int playerId);
 
     //for retrieving the entire list of players
     @Query("SELECT * FROM player_table ORDER BY id ASC")

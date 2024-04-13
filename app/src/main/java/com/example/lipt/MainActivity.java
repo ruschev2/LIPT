@@ -14,12 +14,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
-import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Database.PokemonRepository;
@@ -113,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         binding.registrationButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = registrationActivity.registrationToMainFactory(getApplicationContext());
+                Intent intent = registrationActivity.registrationFactory(getApplicationContext());
                 startActivity(intent);
             }
         });
@@ -125,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
      * @param context application context
      * @return a new intent to begin main activity
      */
-    public static Intent mainToRegistrationFactory(Context context) {
+    public static Intent mainFactory(Context context) {
         return new Intent(context, MainActivity.class);
     }
 
@@ -152,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
                     prize_repo.insert(prize);
                 }
                 allPrizes = prize_repo.getAllPrizes();
-
 
                 //establishing repo, grabbing list of players
                 login_repo = new PlayerRepository((Application) getApplicationContext());

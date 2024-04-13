@@ -61,14 +61,14 @@ public class registrationActivity extends AppCompatActivity {
 
         //instantiating an interface of onclick listener for returning to login view
         binding.registrationReturnButton.setOnClickListener(v -> {
-            Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
+            Intent intent = MainActivity.mainFactory(getApplicationContext());
             startActivity(intent);
         });
 
     }
 
     //intent factory
-    public static Intent registrationToMainFactory(Context context) {
+    public static Intent registrationFactory(Context context) {
         return new Intent(context, registrationActivity.class);
     }
 
@@ -100,7 +100,6 @@ public class registrationActivity extends AppCompatActivity {
             if (!registrationProcessed) {
                 //checking whether username is in the database
                 if (player.getUsername().equalsIgnoreCase(user)) {
-                    taken = true;
                     Toast.makeText(registrationActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
                     registrationProcessed = true;
                     return;
@@ -110,7 +109,7 @@ public class registrationActivity extends AppCompatActivity {
                     Player new_player = new Player(user, pass, false);
                     registration_repo.insert(new_player);
                     Toast.makeText(registrationActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
-                    Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
+                    Intent intent = MainActivity.mainFactory(getApplicationContext());
                     startActivity(intent);
                     registrationProcessed = true;
                     return;

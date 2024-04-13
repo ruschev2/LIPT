@@ -151,6 +151,27 @@
 
     </TableLayout>
 
+    <Button
+        android:id="@+id/trainerResetButton"
+        android:layout_width="180dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/reset_trainer_level"
+        app:layout_constraintBottom_toTopOf="@id/selfDeleteButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/selfDeleteButton"
+        android:layout_width="180dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="150dp"
+        android:text="@string/delete_self_account"
+        app:layout_constraintBottom_toTopOf="@id/trainerRecordExitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/trainerRecordExitButton"
@@ -158,6 +179,7 @@
         android:layout_height="55dp"
         android:layout_marginBottom="50dp"
         android:text="@string/return_to_menu"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
