@@ -62,4 +62,6 @@
     <string name="give_rare_candy_">Give Rare Candy</string>
     <string name="delete_account_">Delete Account</string>
     <string name="feed_rare_candy_">Feed Rare Candy</string>
+    <string name="delete_self_account">Delete Account</string>
+    <string name="reset_trainer_level">Reset Trainer Level</string>
 </resources>

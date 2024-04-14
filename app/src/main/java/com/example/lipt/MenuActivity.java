@@ -21,7 +21,6 @@ import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.PokemonRepository;
 import com.example.lipt.databinding.ActivityMenuBinding;
-import com.example.lipt.Utils.InputValidator;
 
 import java.util.List;
 
@@ -130,7 +129,7 @@ public class MenuActivity extends AppCompatActivity {
         binding.exitMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MainActivity.mainToRegistrationFactory(getApplicationContext());
+                Intent intent = MainActivity.mainFactory(getApplicationContext());
                 startActivity(intent);
             }
         });

@@ -14,7 +14,8 @@ import androidx.room.Index;
         foreignKeys = {
                     @ForeignKey(entity = Player.class,
                                 parentColumns = "id",
-                                childColumns = "playerId"),
+                                childColumns = "playerId",
+                                onDelete = ForeignKey.CASCADE),
                     @ForeignKey(entity = Prize.class,
                                 parentColumns = "id",
                                 childColumns = "prizeId")
@@ -44,6 +45,7 @@ public class PlayerPrizeCrossRef {
     public void setPrizeId(int prizeId) {
         this.prizeId = prizeId;
     }
+
 }
 
 

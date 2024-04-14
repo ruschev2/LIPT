@@ -19,10 +19,18 @@ public class PlayerRepository {
         allPlayers = playerDao.getPlayerList();
     }
 
+    /**
+     * this method is for attaining all players
+     * @return a livedata wrapped list of all players in the database
+     */
     public LiveData<List<Player>> getAllPlayers() {
         return allPlayers;
     }
 
+    /**
+     * this method inserts a new player into the database
+     * @param player the new player which will be deposited into the table
+     */
     public void insert(Player player) {
         PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
             playerDao.insertPlayer(player);
@@ -30,18 +38,15 @@ public class PlayerRepository {
     }
 
     /**
-     * this method returns a specific player from the table by their ID
-     * @param playerId the ID of the player who will be grabbed
-     * @return the player grabbed
+     * this method grabs a specific player from the player table
+     * @param playerId the ID of the player to grab
+     * @return the player we wish to grab
      */
     public Player getPlayerById(int playerId) {
         return playerDao.getPlayerById(playerId);
     }
 
-    /**
-     * this method levels up a player by one
-     * @param playerId the ID of the player whose trainer level will be incremented
-     */
+    //for leveling up a player
     public void levelUpPlayer(int playerId) {
         Player player = playerDao.getPlayerById(playerId);
         if(player != null) {
@@ -51,8 +56,20 @@ public class PlayerRepository {
     }
 
     /**
-     * this method increments a player's rounds played field
-     * @param playerId the ID of the player whose rounds played will be increased by one
+     * this method resets a player's trainer level to zero
+     * @param playerId the ID of the player whose level will be reset
+     */
+    public void resetPlayerLevel(int playerId) {
+        Player player = playerDao.getPlayerById(playerId);
+        if(player != null) {
+            player.setTrainer_level(0);
+            playerDao.updatePlayer(player);
+        }
+    }
+
+    /**
+     * this method increases a player's rounds played
+     * @param playerId the ID of the player whose rounds played field will be incremented
      */
     public void increasePlayerRoundsPlayed(int playerId) {
         Player player = playerDao.getPlayerById(playerId);
@@ -63,9 +80,9 @@ public class PlayerRepository {
     }
 
     /**
-     * this method increases a player's points field after a game round is completed
-     * @param playerId the ID of player who will be boosted
-     * @param points the final score earned by player for the game round
+     * this method increases a player's points
+     * @param playerId the ID of the player whose points field will be increased
+     * @param points the final score of a completed round which will be added to player's points
      */
     public void increasePlayerPoints(int playerId, int points) {
         Player player = playerDao.getPlayerById(playerId);
@@ -73,6 +90,17 @@ public class PlayerRepository {
             player.setPoints(player.getPoints() + points);
             playerDao.updatePlayer(player);
         }
+    }
+
+    /**
+     * this method removes a player from the database
+     * it will never delete an admin, because admins are eternal
+     * @param playerId the ID of player who will be removed from the table
+     */
+    public void deletePlayer(int playerId) {
+        new Thread(() -> {
+            playerDao.deletePlayerById(playerId);
+        }).start();
     }
 
 }

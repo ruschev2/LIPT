@@ -36,5 +36,13 @@ public class PlayerPrizeCrossRefRepository {
         });
     }
 
+    /**
+     * this method removes all prizes from a player's account
+     * @param prizeId the ID of the player whose prizes will be removed
+     */
+    public void removePlayerPrizes(int prizeId) {
+        playerPrizeCrossRefDao.deleteByPlayerId(prizeId);
+    }
+
 }
 
