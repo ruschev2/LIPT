@@ -22,11 +22,8 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
 
     //instantiating our Data Access Object for data manipulation
     public abstract PlayerDao playerDao();
-
     public abstract PrizeDao prizeDao();
-
     public abstract PlayerPrizeCrossRefDao playerPrizeCrossRefDao();
-
     private static volatile PlayerRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
@@ -50,7 +47,6 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-
     //populating the database with default values
     private static final RoomDatabase.Callback addDefaultValues = new RoomDatabase.Callback(){
         @Override
@@ -66,7 +62,6 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
             });
         }
     };
-
 
 
 }

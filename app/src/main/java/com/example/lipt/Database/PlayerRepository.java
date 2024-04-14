@@ -29,12 +29,19 @@ public class PlayerRepository {
         });
     }
 
-    //for retrieving a specific player
+    /**
+     * this method returns a specific player from the table by their ID
+     * @param playerId the ID of the player who will be grabbed
+     * @return the player grabbed
+     */
     public Player getPlayerById(int playerId) {
         return playerDao.getPlayerById(playerId);
     }
 
-    //for leveling up a player
+    /**
+     * this method levels up a player by one
+     * @param playerId the ID of the player whose trainer level will be incremented
+     */
     public void levelUpPlayer(int playerId) {
         Player player = playerDao.getPlayerById(playerId);
         if(player != null) {
@@ -43,7 +50,10 @@ public class PlayerRepository {
         }
     }
 
-    //for increasing a player's rounds played
+    /**
+     * this method increments a player's rounds played field
+     * @param playerId the ID of the player whose rounds played will be increased by one
+     */
     public void increasePlayerRoundsPlayed(int playerId) {
         Player player = playerDao.getPlayerById(playerId);
         if(player != null) {
@@ -52,7 +62,11 @@ public class PlayerRepository {
         }
     }
 
-    //for increasing a player's points
+    /**
+     * this method increases a player's points field after a game round is completed
+     * @param playerId the ID of player who will be boosted
+     * @param points the final score earned by player for the game round
+     */
     public void increasePlayerPoints(int playerId, int points) {
         Player player = playerDao.getPlayerById(playerId);
         if(player != null) {

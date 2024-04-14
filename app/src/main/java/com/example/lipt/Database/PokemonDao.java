@@ -33,4 +33,8 @@ public interface PokemonDao {
     //for retrieving the entire list of Pokemon
     @Query("SELECT * FROM pokemon_table ORDER BY pokedexNumber ASC")
     LiveData<List<Pokemon>> getPokemonlist();
+
+    //for retrieving a specific pokemon, by their pokedex number
+    @Query("SELECT * FROM pokemon_table WHERE pokedexNumber = :pokedexNum")
+    Pokemon getPokemonById(int pokedexNum);
 }

@@ -31,21 +31,16 @@ public class PlayerPrizeCrossRef {
     }
 
     private int playerId;
-
     private int prizeId;
-
     public int getPlayerId() {
         return playerId;
     }
-
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
     }
-
     public int getPrizeId() {
         return prizeId;
     }
-
     public void setPrizeId(int prizeId) {
         this.prizeId = prizeId;
     }

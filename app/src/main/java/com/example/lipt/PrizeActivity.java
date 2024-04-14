@@ -114,7 +114,11 @@ public class PrizeActivity extends AppCompatActivity {
         return intent;
     }
 
-    //for fetching database information
+
+    /**
+     * this method initializes the player and prize repos
+     * @param playerId the ID of the currently logged in player.
+     */
     private void grabData(final int playerId) {
         executor.execute(new Runnable() {
             @Override

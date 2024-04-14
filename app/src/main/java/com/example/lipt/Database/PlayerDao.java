@@ -34,8 +34,12 @@ public interface PlayerDao {
     @Query("SELECT * FROM player_table ORDER BY id ASC")
     LiveData<List<Player>> getPlayerList();
 
-    //for retrieving a specific player
+    //for retrieving a specific player by ID
     @Query("SELECT * FROM player_table WHERE id = :playerId")
     Player getPlayerById(int playerId);
+
+    //for retrieving a specific player by username
+    @Query("SELECT * from player_table WHERE username = :userName")
+    Player getPlayerByUsername(String userName);
 
 }
