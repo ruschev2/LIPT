@@ -21,10 +21,8 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Database.PokemonRepository;
-import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityPokedexBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PokedexActivity extends AppCompatActivity {
@@ -70,7 +68,7 @@ public class PokedexActivity extends AppCompatActivity {
         binding.exitPokedexButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), current_id);
+                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });

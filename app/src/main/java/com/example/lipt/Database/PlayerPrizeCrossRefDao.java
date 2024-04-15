@@ -38,4 +38,7 @@ public interface PlayerPrizeCrossRefDao {
     @Query("DELETE FROM player_prize_cross_ref WHERE playerId = :playerId")
     void deleteByPlayerId(int playerId);
 
+    @Query("SELECT * FROM player_prize_cross_ref WHERE playerId = :playerId AND prizeId = :prizeId")
+    PlayerPrizeCrossRef getReference(int playerId, int prizeId);
+
 }

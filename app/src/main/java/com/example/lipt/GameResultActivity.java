@@ -3,8 +3,11 @@ package com.example.lipt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,7 +47,7 @@ public class GameResultActivity extends AppCompatActivity {
     Executor executor2 = Executors.newSingleThreadExecutor();
     private int final_score = 0, current_id = 0, drawnPrizeId, drawnPrizeResourceID;
     private String drawnPrizeName;
-    private boolean prize_awarded = false;
+    private boolean prize_awarded = false, prize_list_full = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,20 @@ public class GameResultActivity extends AppCompatActivity {
                     }
                     else {
                         binding.earnedPrizeText.setText("All earned!");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GameResultActivity.this);
+                        builder.setTitle("Congratulations");
+                        builder.setMessage("Your prize list is full!" +
+                                "\nIf you are feeling bold, you can delete them in prize collection mode.");
+
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 }
             }
@@ -117,7 +134,7 @@ public class GameResultActivity extends AppCompatActivity {
         binding.exitGameResultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), current_id);
+                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });
@@ -131,7 +148,10 @@ public class GameResultActivity extends AppCompatActivity {
         return intent;
     }
 
-    //for fetching initial player and prize data
+    /**
+     * this method grabs relevant data from the room database, and awards a random prize if warranted.
+     * @param playerId the ID of the player who is logged into the app.
+     */
     private void setData(final int playerId) {
         executor.execute(new Runnable() {
             @Override
@@ -152,21 +172,26 @@ public class GameResultActivity extends AppCompatActivity {
                 unearnedPrizeIDs.removeAll(earnedPrizeIDs);
 
                 //if player can earn a prize and should, process this
-                if(final_score > 6 && !unearnedPrizeIDs.isEmpty()) {
-                    //generating randomness, drawing a random prize ID
-                    Random random = new Random();
-                    int randomIndex = random.nextInt(unearnedPrizeIDs.size());
-                    drawnPrizeId = unearnedPrizeIDs.get(randomIndex);
+                if(final_score > 6 ) {
+                    if(!unearnedPrizeIDs.isEmpty()) {
+                        //generating randomness, drawing a random prize ID
+                        Random random = new Random();
+                        int randomIndex = random.nextInt(unearnedPrizeIDs.size());
+                        drawnPrizeId = unearnedPrizeIDs.get(randomIndex);
 
-                    //rewarding prize into player's account (through playerprizetable)
-                    PlayerPrizeCrossRef reward = new PlayerPrizeCrossRef(current_id, drawnPrizeId);
-                    playerPrizeRepo.insert(reward);
-                    prize_awarded = true;
-                    Log.d(MainActivity.TAG, "earned reward id: " + drawnPrizeId);
+                        //rewarding prize into player's account (through playerprizetable)
+                        PlayerPrizeCrossRef reward = new PlayerPrizeCrossRef(current_id, drawnPrizeId);
+                        playerPrizeRepo.insert(reward);
+                        prize_awarded = true;
+                        Log.d(MainActivity.TAG, "earned reward id: " + drawnPrizeId);
+                    }
+                    //if player prize list is full
+                    else {
+                        prize_list_full = true;
+                    }
                 }
             }
         });
     }
-
 
 }

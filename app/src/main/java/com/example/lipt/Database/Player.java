@@ -25,6 +25,17 @@ public class Player {
         this.isAdmin = admin;
         calculateAccuracy();
     }
+
+    public Player(int playerId, String username, String password, boolean admin) {
+        this.userID = playerId;
+        this.username = username;
+        this.password = password;
+        this.trainer_level = 0;
+        this.points = 0;
+        this.rounds_played = 0;
+        this.isAdmin = admin;
+        calculateAccuracy();
+    }
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int userID;
