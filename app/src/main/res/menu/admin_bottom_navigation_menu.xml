@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/back_arrow_item"
+        android:icon="@drawable/baseline_arrow_back_24"
+        android:title="Main Menu"
+        />
+
 
     <item
         android:id="@+id/admin_users_item"
