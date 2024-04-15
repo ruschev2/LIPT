@@ -115,7 +115,7 @@ public class PrizeActivity extends AppCompatActivity {
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < unearnedPrizeNames.size(); i++) {
                         sb.append(unearnedPrizeNames.get(i));
-                        if (i < unearnedPrizeNames.size() - i) {
+                        if (i < unearnedPrizeNames.size() - 1) {
                             sb.append(", ");
                         }
                     }

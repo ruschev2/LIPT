@@ -101,7 +101,12 @@ public class GameResultActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
+
+
                         });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 }
             }

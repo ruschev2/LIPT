@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.lipt.Database.Player;
+import com.example.lipt.Database.PlayerPrizeCrossRef;
+import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Database.PokemonRepository;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private LiveData<List<Prize>> allPrizes;
 
     public static final String TAG = "LGH_DEBUG";
+
+    private PlayerPrizeCrossRefRepository playerprizerepo;
 
     Executor executor = Executors.newSingleThreadExecutor();
     Executor executor_2 = Executors.newSingleThreadExecutor();
@@ -154,6 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 //establishing repo, grabbing list of players
                 login_repo = new PlayerRepository((Application) getApplicationContext());
                 allCurrentPlayers = login_repo.getAllPlayers();
+
+                //adding all prizes to admin1 account
+                playerprizerepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
+                for(int i = 1; i < 21; i++) {
+                    PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(1, i);
+                    playerprizerepo.insert(obj);
+                }
 
 
                 //populating list in pokemoninfo (temp)
