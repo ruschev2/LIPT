@@ -4,21 +4,45 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import com.example.lipt.databinding.ActivityAdminBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class AdminActivity extends AppCompatActivity {
-
     private static final String ADMIN_ACTIVITY_USER_ID = "com.example.lipt.ADMIN_ACTIVITY_USER_ID";
+    private ActivityAdminBinding binding;
+
+    private int loggedInId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        binding = ActivityAdminBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        loggedInId = getIntent().getIntExtra(ADMIN_ACTIVITY_USER_ID, 0);
+
+        BottomNavigationView bottomNavigationView = binding.adminBottomNavigation;
+
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+
+                if (itemId == R.id.back_arrow_item) {
+                    Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), loggedInId);
+                    startActivity(intent);
+                }
+
+
+                return true;
+            }
+        });
 
     }
 
