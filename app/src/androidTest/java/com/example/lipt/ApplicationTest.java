@@ -1,13 +1,10 @@
 package com.example.lipt;
 
 import static org.junit.Assert.*;
-
 import android.content.Context;
-
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerDao;
 import com.example.lipt.Database.PlayerPrizeCrossRef;
@@ -18,7 +15,6 @@ import com.example.lipt.Database.PokemonDao;
 import com.example.lipt.Database.PokemonRoomDatabase;
 import com.example.lipt.Database.Prize;
 import com.example.lipt.Database.PrizeDao;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +22,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ApplicationTest {
-
     private PlayerRoomDatabase db;
     private PokemonRoomDatabase db2;
     private PlayerDao playerDao;
@@ -107,7 +102,6 @@ public class ApplicationTest {
         Prize grabbedPrize = prizeDao.getPrizeById(1);
         assertNotNull(grabbedPrize);
         assertEquals("Coolest Prize", grabbedPrize.getName());
-
     }
 
     @Test
@@ -120,7 +114,6 @@ public class ApplicationTest {
 
         Prize deletedPrize = prizeDao.getPrizeById(1);
         assertNull(deletedPrize);
-
     }
 
     @Test
@@ -182,7 +175,6 @@ public class ApplicationTest {
         Pokemon grabbedPokemon = pokemonDao.getPokemonById(1);
         assertNotNull(grabbedPokemon);
         assertEquals("Not Bulbasaur", grabbedPokemon.getName());
-
     }
 
     @Test
@@ -195,6 +187,5 @@ public class ApplicationTest {
         Pokemon deletedPokemon = pokemonDao.getPokemonById(1);
         assertNull(deletedPokemon);
     }
-
 
 }

@@ -213,7 +213,6 @@ public class trainerRecordActivity extends AppCompatActivity {
             public void run() {
                 player_repo.resetPlayerLevel(playerId);
             }
-
         });
     }
 }

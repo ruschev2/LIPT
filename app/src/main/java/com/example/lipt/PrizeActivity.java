@@ -11,8 +11,10 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Prize;
 import com.example.lipt.Database.PrizeRepository;
+import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityPrizeBinding;
 
 import java.util.ArrayList;
@@ -51,6 +54,8 @@ public class PrizeActivity extends AppCompatActivity {
     ActivityPrizeBinding binding;
     Executor executor = Executors.newSingleThreadExecutor();
     private CountDownLatch latch = new CountDownLatch(1);
+    private List<String> unearnedPrizeNames;
+    private boolean allPrizesEarned = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +83,8 @@ public class PrizeActivity extends AppCompatActivity {
                 public void onChanged(List<Prize> prizes) {
                     //generating new list for actually earned prizes
                     List<Prize> earnedPrizes = new ArrayList<>();
-                    for(Prize prize : prizes) {
-                        if(earned_prize_ids.contains(prize.getPrizeID())) {
+                    for (Prize prize : prizes) {
+                        if (earned_prize_ids.contains(prize.getPrizeID())) {
                             earnedPrizes.add(prize);
                         }
                     }
@@ -92,9 +97,76 @@ public class PrizeActivity extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                 }
             });
-        } catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        //instantiating an interface of onClickListener for viewing unearned prizes
+        binding.seeUnearnedPrizesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PrizeActivity.this);
+                builder.setTitle("List of Unearned Prizes");
+
+                if(allPrizesEarned) {
+                    builder.setMessage("Congratulations, you have earned all prizes!");
+                }
+                else {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < unearnedPrizeNames.size(); i++) {
+                        sb.append(unearnedPrizeNames.get(i));
+                        if (i < unearnedPrizeNames.size() - i) {
+                            sb.append(", ");
+                        }
+                    }
+                    builder.setMessage(sb.toString());
+                }
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
+        //instantiating an interface of onClickListener for resetting prizes
+        binding.resetPrizesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (earned_prize_ids.isEmpty()) {
+                    Toast.makeText(PrizeActivity.this, "No prizes to delete", Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PrizeActivity.this);
+                    builder.setTitle("Warning");
+                    builder.setMessage("Are you sure you wish to delete all your earned prizes?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteData(current_id);
+                            Toast.makeText(PrizeActivity.this, "Prizes removed.", Toast.LENGTH_SHORT).show();
+                            Intent intent = PrizeActivity.prizeFactory(getApplicationContext(), current_id);
+                            startActivity(intent);
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
 
         //instantiating an interface of onClickListener for return home button
         binding.prizeExitButton.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +189,7 @@ public class PrizeActivity extends AppCompatActivity {
 
     /**
      * this method initializes the player and prize repos
+     *
      * @param playerId the ID of the currently logged in player.
      */
     private void grabData(final int playerId) {
@@ -135,6 +208,36 @@ public class PrizeActivity extends AppCompatActivity {
                 current_player = player_repo.getPlayerById(current_id);
                 Log.d(MainActivity.TAG, "executor prize id: " + current_player.getUserID());
                 latch.countDown();
+
+                List<Prize> unearnedPrizes = new ArrayList<>();
+                unearnedPrizes = prize_repo.getPrizeList();
+                unearnedPrizes.removeIf(prize -> earned_prize_ids.contains(prize.getPrizeID()));
+
+                allPrizesEarned = unearnedPrizes.isEmpty();
+                unearnedPrizeNames = new ArrayList<>();
+                for(Prize prize : unearnedPrizes) {
+                    unearnedPrizeNames.add(prize.getName());
+                }
+            }
+        });
+    }
+
+    /**
+     * this method is for deleting a player's prizes, upon button click
+     * it then refreshes the data
+     * @param playerId the ID of the currently logged in player
+     */
+    private void deleteData(final int playerId) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                playerprize_repo.removePlayerPrizes(current_id);
+                earned_prize_ids = new ArrayList<>();
+                unearnedPrizeNames = new ArrayList<>();
+                for(int i = 1; i < 21; i++) {
+                    unearnedPrizeNames.add(PokemonInfo.getPrizeName(i));
+                }
+                allPrizesEarned = false;
             }
         });
     }
