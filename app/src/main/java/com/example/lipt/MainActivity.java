@@ -7,12 +7,20 @@
 package com.example.lipt;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -41,11 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private PokemonRepository poke_repo;
     private PrizeRepository prize_repo;
     private LiveData<List<Prize>> allPrizes;
-
     public static final String TAG = "LGH_DEBUG";
-
     private PlayerPrizeCrossRefRepository playerprizerepo;
-
     Executor executor = Executors.newSingleThreadExecutor();
     Executor executor_2 = Executors.newSingleThreadExecutor();
     boolean loginProcessed;
@@ -119,11 +124,48 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //creating notification channel
+        NotificationChannel channel = new NotificationChannel(
+                "POKEMON_ID",
+                "POKEMON_CHANNEL",
+                NotificationManager.IMPORTANCE_DEFAULT
+        );
+        NotificationManager n_Manager = getSystemService(NotificationManager.class);
+        n_Manager.createNotificationChannel(channel);
+
+        Intent n_intent = MainActivity.mainFactory(MainActivity.this);
+        n_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent p_Intent = PendingIntent.getActivity(this, 0, n_intent, PendingIntent.FLAG_IMMUTABLE);
+
+        //notificationCompatBuilder object
+        NotificationCompat.Builder b_obj = new NotificationCompat.Builder(this, "POKEMON_ID")
+                .setSmallIcon(R.drawable.small_icon_pokeball)
+                .setContentTitle("Hey, Pokemon Trainer!")
+                .setContentText("Log in to play for prizes!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(p_Intent)
+                .setAutoCancel(true);
+
+        //Pushing notification
+        NotificationManagerCompat n_ManagerCompat = NotificationManagerCompat.from(this);
+        int n_ID = 42;
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        n_ManagerCompat.notify(n_ID, b_obj.build());
+
     }
 
     /**
      * This method describes the main activity factory
-     *
      * @param context application context
      * @return a new intent to begin main activity
      */
@@ -132,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method establishes the room databases
+     * This method instantiates the room database
      */
     private void initializeRooms() {
         executor.execute(new Runnable() {

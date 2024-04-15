@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
@@ -22,14 +21,12 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerPrizeCrossRef;
-import com.example.lipt.Database.PlayerPrizeCrossRefDao;
 import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Prize;
 import com.example.lipt.Database.PrizeRepository;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityPrizeBinding;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;

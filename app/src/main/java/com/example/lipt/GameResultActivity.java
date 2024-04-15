@@ -101,8 +101,6 @@ public class GameResultActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
-
-
                         });
 
                         AlertDialog dialog = builder.create();
@@ -150,6 +148,10 @@ public class GameResultActivity extends AppCompatActivity {
         return intent;
     }
 
+    /**
+     * this method grabs relevant data from the room database, and awards a random prize if warranted.
+     * @param playerId the ID of the player who is logged into the app.
+     */
     private void setData(final int playerId) {
         executor.execute(new Runnable() {
             @Override
