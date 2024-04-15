@@ -169,7 +169,7 @@ public class PrizeActivity extends AppCompatActivity {
         binding.prizeExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), current_id);
+                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });
@@ -182,7 +182,6 @@ public class PrizeActivity extends AppCompatActivity {
         intent.putExtra(CURRENT_USERNAME, user_id);
         return intent;
     }
-
 
     /**
      * this method initializes the player and prize repos

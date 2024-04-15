@@ -20,7 +20,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -42,7 +41,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-
     private ActivityMainBinding binding;
     private PlayerRepository login_repo;
     private LiveData<List<Player>> allCurrentPlayers;
@@ -91,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                                             // Officially logging into game
                                             int validated_ID = player.getUserID();
                                             Toast.makeText(MainActivity.this, "LOGIN ID: " + validated_ID, Toast.LENGTH_SHORT).show();
-                                            Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), validated_ID);
+                                            Intent intent = MenuActivity.menuFactory(getApplicationContext(), validated_ID);
                                             startActivity(intent);
                                             //login completion
                                             loginProcessed = true;

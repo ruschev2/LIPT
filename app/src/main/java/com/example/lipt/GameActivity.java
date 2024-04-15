@@ -110,7 +110,7 @@ public class GameActivity extends AppCompatActivity {
         binding.exitGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), current_id);
+                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });

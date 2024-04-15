@@ -116,7 +116,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     //Main menu factory
-    public static Intent mainMenuFactory(Context context, int user_id) {
+    public static Intent menuFactory(Context context, int user_id) {
         Intent intent = new Intent(context, MenuActivity.class);
         intent.putExtra(CURRENT_USERNAME, user_id);
         return intent;

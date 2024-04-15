@@ -1,3 +1,9 @@
+/**
+ * Luis Hernandez, Guillermo Zendejas
+ * April 15, 2024
+ * DatabaseTest.java, this class describes the Junit testing for our application database
+ */
+
 package com.example.lipt;
 
 import static org.junit.Assert.*;
@@ -21,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class ApplicationTest {
+public class DatabaseTest {
     private PlayerRoomDatabase db;
     private PokemonRoomDatabase db2;
     private PlayerDao playerDao;
