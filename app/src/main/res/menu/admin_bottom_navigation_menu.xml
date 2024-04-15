@@ -6,17 +6,15 @@
         android:title="Main Menu"
         />
 
-
-    <item
-        android:id="@+id/admin_users_item"
-        android:icon="@drawable/baseline_badge_24"
-        android:title="Admin Users"
-        />
-
     <item
         android:id="@+id/all_users"
         android:icon="@drawable/baseline_account_circle_24"
         android:title="All Users"
         />
 
+    <item
+        android:id="@+id/admin_users_item"
+        android:icon="@drawable/baseline_badge_24"
+        android:title="Admin Users"
+        />
 </menu>
