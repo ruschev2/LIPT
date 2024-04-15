@@ -34,6 +34,4 @@ public class InputValidator {
                 && password.matches(password_criteria_letter)
                 && password.matches(password_criteria_digit));
     }
-
-
 }
