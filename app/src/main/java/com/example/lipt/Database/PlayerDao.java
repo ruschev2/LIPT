@@ -46,8 +46,14 @@ public interface PlayerDao {
     @Query("SELECT * from player_table WHERE username = :userName")
     Player getPlayerByUsername(String userName);
 
-    //todo Try LiveData return from DAO for single user by id (for PlayerInfoActivity)
     @Query("SELECT * FROM player_table WHERE id = :playerId")
     LiveData<Player> getPlayerLiveDataById(int playerId);
+
+
+    @Query("SELECT * FROM player_table WHERE admin = true")
+    LiveData<List<Player>> getAllAdmins();
+
+
+
 
 }
