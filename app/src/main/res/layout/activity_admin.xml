@@ -6,13 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/manage_playerbase_background"
     tools:context=".AdminActivity">
+
+
+
+    <ImageView
+        android:id="@+id/adminTitleImage"
+        android:layout_width="421dp"
+        android:layout_height="116dp"
+        android:layout_marginTop="55dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/admin_frame_layout"
+        app:srcCompat="@drawable/admin_title_image"/>
 
     <FrameLayout
         android:id="@+id/admin_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/adminTitleImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/admin_bottom_navigation"
@@ -27,5 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/admin_bottom_navigation_menu"
         />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
