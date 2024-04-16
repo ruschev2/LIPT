@@ -23,4 +23,8 @@ public class PlayerViewModel extends AndroidViewModel {
     public LiveData<List<Player>> getAllPlayers() {
         return  allPlayers;
     }
+
+    public void deletePlayerById(int playerId) {
+        repository.deletePlayer(playerId);
+    }
 }

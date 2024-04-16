@@ -16,7 +16,7 @@ import com.example.lipt.Database.Player;
 import java.util.ArrayList;
 
 
-public class AllUsersListFragment extends Fragment {
+public class AllUsersListFragment extends Fragment implements  PlayerAdapter.ItemClickListener {
     private PlayerViewModel playerViewModel;
 
     @Override
@@ -29,15 +29,22 @@ public class AllUsersListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_all_users_list, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.all_users_recyclerView);
-        PlayerAdapter adapter = new PlayerAdapter(new ArrayList<>());
+        PlayerAdapter adapter = new PlayerAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         playerViewModel.getAllPlayers().observe(getViewLifecycleOwner(), allPlayers -> {
-            adapter.submitList(allPlayers);
+            adapter.setAllPlayersList(allPlayers);
+
         });
 
         return rootView;
     }
 
+
+
+    @Override
+    public void onDeleteClick(Player player) {
+        playerViewModel.deletePlayerById(player.getUserID());
+    }
 }

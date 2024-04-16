@@ -1,5 +1,7 @@
 package com.example.lipt;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +18,24 @@ import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
     private List<Player> allPlayersList;
+    private ItemClickListener itemClickListener;
 
-
-    public PlayerAdapter(List<Player> allPlayersList) {
+    public PlayerAdapter(List<Player> allPlayersList, ItemClickListener itemClickListener) {
         this.allPlayersList = allPlayersList;
+        this.itemClickListener = itemClickListener;
+
     }
 
-    public void submitList(List<Player> newList) {
-        allPlayersList = newList;
+    public void setAllPlayersList(List<Player> allPlayers) {
+        this.allPlayersList = allPlayers;
         notifyDataSetChanged();
     }
+
+    public interface ItemClickListener {
+        void onDeleteClick(Player player);
+    }
+
+
 
     @NonNull
     @Override
@@ -38,7 +48,20 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         Player player = allPlayersList.get(position);
-        holder.bind(player);
+        if(player.isAdmin()) {
+            holder.userIconLabelTextView.setText("Admin");
+        } else {
+            holder.userIconLabelTextView.setText("User");
+        }
+
+        holder.usernameTextView.setText(player.getUsername());
+
+        holder.userDeleteButton.setOnClickListener(view -> {
+            if (position != RecyclerView.NO_POSITION) {
+                Player item = allPlayersList.get(position);
+                itemClickListener.onDeleteClick(item);
+            }
+        });
 
     }
 
@@ -48,6 +71,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     }
 
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
+        private TextView userIconLabelTextView;
         private TextView usernameTextView;
         private Button userDeleteButton;
         private Button userInfoButton;
@@ -55,16 +79,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
         public PlayerViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            userIconLabelTextView = itemView.findViewById(R.id.user_icon_label);
             usernameTextView = itemView.findViewById(R.id.username_textView);
             userDeleteButton = itemView.findViewById(R.id.user_delete_button);
             userInfoButton = itemView.findViewById(R.id.user_info_button);
 
-
         }
 
-        public void bind(Player player) {
-            usernameTextView.setText(player.getUsername());
 
-        }
     }
 }
