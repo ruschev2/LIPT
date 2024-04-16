@@ -37,6 +37,7 @@ public class trainerRecordActivity extends AppCompatActivity {
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private int current_id;
+    private boolean isAdmin = false;
     Executor executor = Executors.newSingleThreadExecutor();
     CountDownLatch latch = new CountDownLatch(1);
 
@@ -118,33 +119,39 @@ public class trainerRecordActivity extends AppCompatActivity {
         binding.selfDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(trainerRecordActivity.this);
-                builder.setTitle("Confirm deletion");
-                builder.setMessage("Are you absolutely certain you wish to delete your account?");
+                //if the player is an admin, cannot self delete.
+                if (isAdmin) {
+                    Toast.makeText(trainerRecordActivity.this, "Admins cannot be deleted!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(trainerRecordActivity.this);
+                    builder.setTitle("Confirm deletion");
+                    builder.setMessage("Are you absolutely certain you wish to delete your account?");
 
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        resetLevel(current_id);
-                        Toast.makeText(trainerRecordActivity.this, "Goodbye, Trainer!", Toast.LENGTH_SHORT).show();
-                        player_repo.deletePlayer(current_id);
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            resetLevel(current_id);
+                            Toast.makeText(trainerRecordActivity.this, "Goodbye, Trainer!", Toast.LENGTH_SHORT).show();
+                            player_repo.deletePlayer(current_id);
 
-                        //creating intent to return to login menu
-                        Intent intent = MainActivity.mainFactory(getApplicationContext());
-                        startActivity(intent);
-                    }
-                });
+                            //creating intent to return to login menu
+                            Intent intent = MainActivity.mainFactory(getApplicationContext());
+                            startActivity(intent);
+                        }
+                    });
 
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
 
+                }
             }
         });
 
@@ -153,7 +160,7 @@ public class trainerRecordActivity extends AppCompatActivity {
         binding.trainerRecordExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), current_id);
+                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });
@@ -184,7 +191,7 @@ public class trainerRecordActivity extends AppCompatActivity {
 
     /**
      * this method updates the class fields player_repo and earned_prizes
-     *
+     * it also updates the local "isadmin" field to prevent admin deletion
      * @param playerId the ID of the player whose earned prize IDs list will be updated
      */
     private void grabEarnedPrizes(final int playerId) {
@@ -196,6 +203,8 @@ public class trainerRecordActivity extends AppCompatActivity {
                 allCurrentPlayers = player_repo.getAllPlayers();
                 playerprize_repo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
                 earnedPrizes = playerprize_repo.getPlayerPrizeIdsForPlayer(playerId);
+
+                isAdmin = player_repo.getPlayerById(current_id).isAdmin();
 
                 latch.countDown();
             }
@@ -213,7 +222,6 @@ public class trainerRecordActivity extends AppCompatActivity {
             public void run() {
                 player_repo.resetPlayerLevel(playerId);
             }
-
         });
     }
 }

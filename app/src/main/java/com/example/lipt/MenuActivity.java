@@ -8,7 +8,6 @@ package com.example.lipt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -16,14 +15,11 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.PokemonRepository;
 import com.example.lipt.databinding.ActivityMenuBinding;
-
 import java.util.List;
-
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -50,24 +46,6 @@ public class MenuActivity extends AppCompatActivity {
         int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
 
         Toast.makeText(MenuActivity.this, "MENU ID: " + current_id, Toast.LENGTH_SHORT).show();
-
-
-        /*
-
-        //establishing pokedex
-        //establishing repo, grabbing list of pokemon
-        pokerepo = new PokemonRepository((Application) getApplicationContext());
-
-        //populating pokedex table
-        for(int i = 1; i <= 493; i++ ) {
-            Pokemon pokemon = new Pokemon(i,
-                    PokemonInfo.getPokemonName(i),
-                    getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
-                    getResources().getIdentifier("sound" + i, "raw", getPackageName())
-            );
-            pokerepo.insert(pokemon);
-        }
-         */
 
         //establishing repo, grabbing list of players
         menu_repo = new PlayerRepository((Application) getApplicationContext());
@@ -149,7 +127,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     //Main menu factory
-    public static Intent mainMenuFactory(Context context, int user_id) {
+    public static Intent menuFactory(Context context, int user_id) {
         Intent intent = new Intent(context, MenuActivity.class);
         intent.putExtra(CURRENT_USERNAME, user_id);
         return intent;

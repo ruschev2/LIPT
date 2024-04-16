@@ -65,6 +65,8 @@
     <string name="delete_self_account">Delete Account</string>
     <string name="reset_trainer_level">Reset Trainer Level</string>
     <string name="admin_dashboard">Admin Dashboard</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="unearned_prizes_">Unearned Prizes</string>
+    <string name="reset_prizes_">Reset Prizes</string>
+    <string name="delete_prizes_">Delete Prizes</string>
 </resources>
