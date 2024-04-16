@@ -6,9 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".PlayerInfoActivity">
 
+    <ImageView
+        android:id="@+id/userInfoTitleImage"
+        android:layout_width="421dp"
+        android:layout_height="116dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user_info_image"/>
+
     <TextView
         android:id="@+id/admin_status_textview"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -72,6 +84,7 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/player_info_label_textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/level_value_textview"
@@ -86,6 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/player_info_label_textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/level_label_textview"
+        android:textSize="18sp"
         tools:text="848384"
         android:gravity="center"
         />
@@ -98,6 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/level_value_textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/level_value_textview"
+        android:textSize="18sp"
         android:text="Rounds Played:"
         />
 
@@ -109,6 +124,7 @@
         app:layout_constraintTop_toBottomOf="@+id/level_value_textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/level_label_textview"
+        android:textSize="18sp"
         tools:text="384"
         android:gravity="center"
         />
@@ -121,6 +137,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rounds_value_textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/level_value_textview"
+        android:textSize="18sp"
         android:text="Accuracy:"
         />
 
@@ -132,10 +149,10 @@
         app:layout_constraintTop_toBottomOf="@+id/rounds_value_textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/level_label_textview"
+        android:textSize="18sp"
         tools:text="89%"
         android:gravity="center"
         />
-
 
 
     <Button
