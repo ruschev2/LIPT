@@ -103,4 +103,19 @@ public class PlayerRepository {
         }).start();
     }
 
+    //todo Try LiveData return from repository for single user by id (for PlayerInfoActivity)
+    public LiveData<Player> getPlayerLiveDataById(int playerId) {
+        return playerDao.getPlayerLiveDataById(playerId);
+    }
+
+
+    public void promotePlayerToAdmin(int playerId) {
+        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
+            Player player = playerDao.getPlayerById(playerId);
+            player.setAdmin(true);
+            playerDao.updatePlayer(player);
+        });
+
+    }
+
 }

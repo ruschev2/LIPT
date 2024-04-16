@@ -1,5 +1,6 @@
 package com.example.lipt;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -48,7 +49,8 @@ public class AllUsersListFragment extends Fragment implements  PlayerAdapter.Ite
 
     @Override
     public void onInfoButtonClick(Player player) {
-        Intent intent = PlayerInfoActivity.adminActivityIntentFactory(getActivity(), player.getUserID());
+        int loggedInId = getActivity().getIntent().getIntExtra(AdminActivity.ADMIN_ACTIVITY_USER_ID, 0);
+        Intent intent = PlayerInfoActivity.adminActivityIntentFactory(getActivity(), loggedInId ,player.getUserID());
         startActivity(intent);
     }
 }

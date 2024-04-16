@@ -18,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class AdminActivity extends AppCompatActivity {
-    private static final String ADMIN_ACTIVITY_USER_ID = "com.example.lipt.ADMIN_ACTIVITY_USER_ID";
+    protected static final String ADMIN_ACTIVITY_USER_ID = "com.example.lipt.ADMIN_ACTIVITY_USER_ID";
     private ActivityAdminBinding binding;
 
     private int loggedInId;
