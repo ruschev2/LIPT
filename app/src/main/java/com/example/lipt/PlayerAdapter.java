@@ -33,6 +33,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
     public interface ItemClickListener {
         void onDeleteClick(Player player);
+        void onInfoButtonClick(Player player);
     }
 
 
@@ -60,6 +61,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             if (position != RecyclerView.NO_POSITION) {
                 Player item = allPlayersList.get(position);
                 itemClickListener.onDeleteClick(item);
+            }
+        });
+
+        holder.userInfoButton.setOnClickListener(view -> {
+            if (position != RecyclerView.NO_POSITION) {
+                Player item = allPlayersList.get(position);
+                itemClickListener.onInfoButtonClick(item);
             }
         });
 

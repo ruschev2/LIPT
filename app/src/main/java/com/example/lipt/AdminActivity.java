@@ -43,7 +43,7 @@ public class AdminActivity extends AppCompatActivity {
 
 
                 if (selectedItemId == R.id.back_arrow_item) {
-                    Intent intent = MenuActivity.mainMenuFactory(getApplicationContext(), loggedInId);
+                    Intent intent = MenuActivity.menuFactory(getApplicationContext(), loggedInId);
                     startActivity(intent);
                 } else if (selectedItemId == R.id.admin_users_item) {
                     nextFragment = adminUsersListFragment;
@@ -71,7 +71,11 @@ public class AdminActivity extends AppCompatActivity {
         return intent;
     }
 
-    //todo uncomment after setting up fragments
+
+    /**
+     * Helper method for switching fragments based on bottom navigation selection
+     * @param newFragment New fragment to be shown to the user.
+     */
     private void switchFragment(Fragment newFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

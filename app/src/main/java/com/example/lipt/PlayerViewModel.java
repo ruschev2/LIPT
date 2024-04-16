@@ -27,4 +27,6 @@ public class PlayerViewModel extends AndroidViewModel {
     public void deletePlayerById(int playerId) {
         repository.deletePlayer(playerId);
     }
+
+    public Player getPlayerById(int playerId) { return repository.getPlayerById(playerId); }
 }

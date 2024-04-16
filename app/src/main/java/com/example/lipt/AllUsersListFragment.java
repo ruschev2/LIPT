@@ -1,5 +1,6 @@
 package com.example.lipt;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,16 +36,19 @@ public class AllUsersListFragment extends Fragment implements  PlayerAdapter.Ite
 
         playerViewModel.getAllPlayers().observe(getViewLifecycleOwner(), allPlayers -> {
             adapter.setAllPlayersList(allPlayers);
-
         });
 
         return rootView;
     }
 
-
-
     @Override
     public void onDeleteClick(Player player) {
         playerViewModel.deletePlayerById(player.getUserID());
+    }
+
+    @Override
+    public void onInfoButtonClick(Player player) {
+        Intent intent = PlayerInfoActivity.adminActivityIntentFactory(getActivity(), player.getUserID());
+        startActivity(intent);
     }
 }
