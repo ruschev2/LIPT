@@ -46,4 +46,14 @@ public interface PlayerDao {
     @Query("SELECT * from player_table WHERE username = :userName")
     Player getPlayerByUsername(String userName);
 
+    @Query("SELECT * FROM player_table WHERE id = :playerId")
+    LiveData<Player> getPlayerLiveDataById(int playerId);
+
+
+    @Query("SELECT * FROM player_table WHERE admin = true")
+    LiveData<List<Player>> getAllAdmins();
+
+
+
+
 }

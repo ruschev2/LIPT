@@ -103,4 +103,31 @@ public class PlayerRepository {
         }).start();
     }
 
+
+    public LiveData<Player> getPlayerLiveDataById(int playerId) {
+        return playerDao.getPlayerLiveDataById(playerId);
+    }
+
+
+    public void promotePlayerToAdmin(int playerId) {
+        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
+            Player player = playerDao.getPlayerById(playerId);
+            player.setAdmin(true);
+            playerDao.updatePlayer(player);
+        });
+
+    }
+
+    public void demotePlayerFromAdmin(int playerId) {
+        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
+            Player player = playerDao.getPlayerById(playerId);
+            player.setAdmin(false);
+            playerDao.updatePlayer(player);
+        });
+    }
+
+    public LiveData<List<Player>> getAllAdmins() {
+        return playerDao.getAllAdmins();
+    }
+
 }

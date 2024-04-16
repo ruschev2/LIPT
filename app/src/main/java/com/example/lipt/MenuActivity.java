@@ -103,6 +103,17 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        //instantiating an instance of onClickListener for accessing admin dashboard activity
+        binding.adminButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
+                Intent intent = AdminActivity.adminActivityIntentFactory(getApplicationContext(), current_id);
+                startActivity(intent);
+            }
+        });
+
+
         //instantiating an interface of onClickListener for logging out
         binding.exitMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
