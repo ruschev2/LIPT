@@ -19,6 +19,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     Executor executor_2 = Executors.newSingleThreadExecutor();
     boolean loginProcessed;
 
+    private final int NO_USER_ID = -1;
+
+    private int loggedInUserId = NO_USER_ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,16 @@ public class MainActivity extends AppCompatActivity {
 
         //creating room databases
         initializeRooms();
+
+        //todo checking if user was already logged in
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+        loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userId_key), NO_USER_ID);
+
+        if (loggedInUserId != NO_USER_ID) {
+            goBackToMainMenu(loggedInUserId);
+        }
 
         //instantiating an interface of onClickListener for login button
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                         if (player.getPassword().equals(temp_password)) {
                                             // Officially logging into game
                                             int validated_ID = player.getUserID();
+                                            updateSharedPreference(validated_ID);
                                             Toast.makeText(MainActivity.this, "LOGIN ID: " + validated_ID, Toast.LENGTH_SHORT).show();
                                             Intent intent = MenuActivity.menuFactory(getApplicationContext(), validated_ID);
                                             startActivity(intent);
@@ -163,6 +179,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * This method sends user to main menu if user back to main menu
+     */
+    private void goBackToMainMenu(int existingUserId) {
+        Intent intent = MenuActivity.menuFactory(getApplicationContext(), existingUserId);
+        startActivity(intent);
+    }
+
+
+    /**
      * This method describes the main activity factory
      * @param context application context
      * @return a new intent to begin main activity
@@ -222,6 +247,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Updates sharedPreferences value used to store the ID of the currently logged in User.
+     * Persists when app is closed.
+     * @param loggedInUserId the id to be saved to sharedPreferences
+     */
+    private void updateSharedPreference(int loggedInUserId) {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
+        sharedPrefEditor.putInt(getString(R.string.preference_userId_key), loggedInUserId);
+        sharedPrefEditor.apply();
     }
 
 

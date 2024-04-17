@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,6 @@ import com.example.lipt.databinding.ActivityMenuBinding;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
-
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     ActivityMenuBinding binding;
@@ -32,6 +32,7 @@ public class MenuActivity extends AppCompatActivity {
     private int current_id;
     private LiveData<Player> loggedInPlayer;
     MediaPlayer mediaPlayer;
+    private final int NO_USER_ID = -1;
 
 
     @Override
@@ -111,7 +112,7 @@ public class MenuActivity extends AppCompatActivity {
         });
 
 
-        //instantiating an instance of onClickListener for accessing admin dashboard activity
+        //setting onClickListener for accessing admin dashboard activity
         binding.adminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,6 +127,7 @@ public class MenuActivity extends AppCompatActivity {
         binding.exitMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateSharedPreference(NO_USER_ID);
                 Intent intent = MainActivity.mainFactory(getApplicationContext());
                 startActivity(intent);
             }
@@ -139,6 +141,19 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(context, MenuActivity.class);
         intent.putExtra(CURRENT_USERNAME, user_id);
         return intent;
+    }
+
+    /**
+     * Updates sharedPreferences value used to store the ID of the currently logged in User.
+     * Persists when app is closed.
+     * @param loggedInUserId the id to be saved to sharedPreferences
+     */
+    private void updateSharedPreference(int loggedInUserId) {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
+        sharedPrefEditor.putInt(getString(R.string.preference_userId_key), loggedInUserId);
+        sharedPrefEditor.apply();
     }
 
 }
