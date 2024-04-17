@@ -70,4 +70,6 @@
     <string name="reset_prizes_">Reset Prizes</string>
     <string name="delete_prizes_">Delete Prizes</string>
     <string name="dev_hack_label">Dev Hack!</string>
+    <string name="preference_file_key">Login Preferences File Name</string>
+    <string name="preference_userId_key">Logged In User ID KEY</string>
 </resources>
