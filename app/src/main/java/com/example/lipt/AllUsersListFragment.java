@@ -20,18 +20,20 @@ import java.util.ArrayList;
 
 public class AllUsersListFragment extends Fragment implements  PlayerAdapter.ItemClickListener {
     private PlayerViewModel playerViewModel;
+    private int loggedInId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        loggedInId = getActivity().getIntent().getIntExtra(AdminActivity.ADMIN_ACTIVITY_USER_ID,0);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_all_users_list, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.all_users_recyclerView);
-        PlayerAdapter adapter = new PlayerAdapter(new ArrayList<>(), this);
+        PlayerAdapter adapter = new PlayerAdapter(new ArrayList<>(), this, loggedInId);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 

@@ -19,10 +19,12 @@ import java.util.List;
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
     private List<Player> allPlayersList;
     private ItemClickListener itemClickListener;
+    private int loggedInId;
 
-    public PlayerAdapter(List<Player> allPlayersList, ItemClickListener itemClickListener) {
+    public PlayerAdapter(List<Player> allPlayersList, ItemClickListener itemClickListener, int loggedInId) {
         this.allPlayersList = allPlayersList;
         this.itemClickListener = itemClickListener;
+        this.loggedInId= loggedInId;
 
     }
 
@@ -48,6 +50,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         Player player = allPlayersList.get(position);
+
         if(player.isAdmin()) {
             holder.userIconLabelTextView.setText("Admin");
         } else {
@@ -55,6 +58,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         }
 
         holder.usernameTextView.setText(player.getUsername());
+
+        if(loggedInId == player.getUserID()) {
+            holder.userDeleteButton.setVisibility(View.INVISIBLE);
+        }
 
         holder.userDeleteButton.setOnClickListener(view -> {
             if (position != RecyclerView.NO_POSITION) {
