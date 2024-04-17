@@ -179,6 +179,21 @@
         app:layout_constraintTop_toBottomOf="@id/pokemon2Image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/devHackButton"
+        android:layout_width="85dp"
+        android:layout_height="60dp"
+        android:text="@string/dev_hack_label"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@id/pokemon4NameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/gameSoundButton"
+        app:layout_constraintTop_toBottomOf="@id/pokemon2Image"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.25" />
+
+
     <Button
         android:id="@+id/exitGameButton"
         android:layout_width="wrap_content"

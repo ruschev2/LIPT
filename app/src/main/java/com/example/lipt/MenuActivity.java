@@ -44,8 +44,6 @@ public class MenuActivity extends AppCompatActivity {
         //retrieving and saving currently logged in player ID
         current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
 
-        Toast.makeText(MenuActivity.this, "MENU ID: " + current_id, Toast.LENGTH_SHORT).show();
-
         //establishing repo, grabbing list of players
         menu_repo = new PlayerRepository((Application) getApplicationContext());
         allCurrentPlayers = menu_repo.getAllPlayers();

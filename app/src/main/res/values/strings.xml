@@ -69,4 +69,5 @@
     <string name="unearned_prizes_">Unearned Prizes</string>
     <string name="reset_prizes_">Reset Prizes</string>
     <string name="delete_prizes_">Delete Prizes</string>
+    <string name="dev_hack_label">Dev Hack!</string>
 </resources>
