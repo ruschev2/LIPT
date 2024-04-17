@@ -25,13 +25,12 @@ public class MenuActivity extends AppCompatActivity {
 
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
-
     ActivityMenuBinding binding;
     private PlayerRepository menu_repo;
     private LiveData<List<Player>> allCurrentPlayers;
-
     private PokemonRepository pokerepo;
-
+    private int current_id;
+    private LiveData<Player> loggedInPlayer;
     MediaPlayer mediaPlayer;
 
 
@@ -43,7 +42,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(view);
 
         //retrieving and saving currently logged in player ID
-        int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
+        current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
 
         Toast.makeText(MenuActivity.this, "MENU ID: " + current_id, Toast.LENGTH_SHORT).show();
 
@@ -102,6 +101,15 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // making player button invisible for non-admin players.
+        loggedInPlayer = menu_repo.getPlayerLiveDataById(current_id);
+        loggedInPlayer.observe(this, player -> {
+            if (!player.isAdmin()) {
+                binding.adminButton.setVisibility(View.GONE);
+            }
+        });
+
 
         //instantiating an instance of onClickListener for accessing admin dashboard activity
         binding.adminButton.setOnClickListener(new View.OnClickListener() {

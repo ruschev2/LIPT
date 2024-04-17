@@ -17,10 +17,12 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.AdminViewHol
 
     private List<Player> allAdminsList;
     private ItemClickListener itemClickListener;
+    private int loggedInID;
 
-    public AdminAdapter(List<Player> allAdminsList, ItemClickListener itemClickListener) {
+    public AdminAdapter(List<Player> allAdminsList, ItemClickListener itemClickListener, int loggedInID) {
         this.allAdminsList = allAdminsList;
         this.itemClickListener = itemClickListener;
+        this.loggedInID = loggedInID;
     }
 
     public void setAllAdminsList(List<Player> allAdminsList) {
@@ -52,6 +54,10 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.AdminViewHol
         }
 
         holder.adminNameTextView.setText(player.getUsername());
+
+        if(loggedInID == player.getUserID()) {
+            holder.demoteAdminButton.setVisibility(View.INVISIBLE);
+        }
         holder.demoteAdminButton.setOnClickListener(view -> {
             if (position != RecyclerView.NO_POSITION) {
                 Player item = allAdminsList.get(position);
