@@ -1,3 +1,9 @@
+/**
+ * Guillermo Zendejas, Luis Hernandez
+ * April 15, 2024
+ * IntentFactoryTest.java, this class describes the Junit testing for our intent factory methods
+ */
+
 package com.example.lipt;
 
 import static org.junit.Assert.assertEquals;
@@ -17,8 +23,8 @@ public class IntentFactoryTest {
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private static final String FINAL_SCORE = "hopefully ten";
-    private final int current_id = 1;
-    private final int final_score = 10;
+    private final int currentId = 1;
+    private final int finalScore = 10;
     private Context context;
 
 
@@ -55,7 +61,7 @@ public class IntentFactoryTest {
     @Test
     public void menuFactory() {
         context = ApplicationProvider.getApplicationContext();
-        Intent intent = MenuActivity.menuFactory(context, current_id);
+        Intent intent = MenuActivity.menuFactory(context, currentId);
         Class<?> activityClass = MenuActivity.class;
         int expectedInt = 1;
         int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
@@ -68,7 +74,7 @@ public class IntentFactoryTest {
     @Test
     public void gameFactory() {
         context = ApplicationProvider.getApplicationContext();
-        Intent intent = GameActivity.gameFactory(context, current_id);
+        Intent intent = GameActivity.gameFactory(context, currentId);
         Class<?> activityClass = GameActivity.class;
         int expectedInt = 1;
         int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
@@ -81,7 +87,7 @@ public class IntentFactoryTest {
     @Test
     public void gameResultFactory() {
         context = ApplicationProvider.getApplicationContext();
-        Intent intent = GameResultActivity.gameResultFactory(context, current_id, final_score);
+        Intent intent = GameResultActivity.gameResultFactory(context, currentId, finalScore);
         Class<?> activityClass = GameResultActivity.class;
         int expectedInt = 1;
         int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
@@ -97,7 +103,7 @@ public class IntentFactoryTest {
     @Test
     public void pokedexFactory() {
         context = ApplicationProvider.getApplicationContext();
-        Intent intent = PokedexActivity.pokedexFactory(context, current_id);
+        Intent intent = PokedexActivity.pokedexFactory(context, currentId);
         Class<?> activityClass = PokedexActivity.class;
         int expectedInt = 1;
         int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
@@ -110,7 +116,7 @@ public class IntentFactoryTest {
     @Test
     public void trainerRecordFactory() {
         context = ApplicationProvider.getApplicationContext();
-        Intent intent = trainerRecordActivity.trainerRecordFactory(context, current_id);
+        Intent intent = trainerRecordActivity.trainerRecordFactory(context, currentId);
         Class<?> activityClass = trainerRecordActivity.class;
         int expectedInt = 1;
         int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
@@ -123,7 +129,7 @@ public class IntentFactoryTest {
     @Test
     public void prizeFactory() {
         context = ApplicationProvider.getApplicationContext();
-        Intent intent = PrizeActivity.prizeFactory(context, current_id);
+        Intent intent = PrizeActivity.prizeFactory(context, currentId);
         Class<?> activityClass = PrizeActivity.class;
         int expectedInt = 1;
         int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
@@ -134,4 +140,15 @@ public class IntentFactoryTest {
 
 
 
+    //admin activity intent factory method test
+    public void adminFactory() {
+        context = ApplicationProvider.getApplicationContext();
+        Intent intent = AdminActivity.adminActivityIntentFactory(context, currentId);
+        Class<?> activityClass = AdminActivity.class;
+        int expectedInt = 1;
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+
+        assertEquals(expectedInt, actualInt);
+        assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
+    }
 }
