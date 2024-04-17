@@ -1,5 +1,5 @@
 /**
- * Luis Hernandez
+ * Luis Hernandez, Guillermo Zendejas
  * April 1, 2024
  * PlayerDAO.java, this interface describes the Data Access Object for the player entity
  */
@@ -46,10 +46,11 @@ public interface PlayerDao {
     @Query("SELECT * from player_table WHERE username = :userName")
     Player getPlayerByUsername(String userName);
 
+    //for retrieving a LiveData<Player> instance for a specific player by playerId
     @Query("SELECT * FROM player_table WHERE id = :playerId")
     LiveData<Player> getPlayerLiveDataById(int playerId);
 
-
+    //for retrieving a LiveData instance of a list of all admins
     @Query("SELECT * FROM player_table WHERE admin = true")
     LiveData<List<Player>> getAllAdmins();
 
