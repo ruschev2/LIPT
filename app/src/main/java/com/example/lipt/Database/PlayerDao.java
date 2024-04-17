@@ -54,6 +54,4 @@ public interface PlayerDao {
     LiveData<List<Player>> getAllAdmins();
 
 
-
-
 }
