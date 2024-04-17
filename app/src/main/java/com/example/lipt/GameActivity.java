@@ -15,6 +15,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.example.lipt.databinding.ActivityGameBinding;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -41,9 +43,13 @@ public class GameActivity extends AppCompatActivity {
     List<Pokemon> gameList = new ArrayList<>();
     ImageView pokemon1, pokemon2, pokemon3, pokemon4;
     TextView pokemon1name, pokemon2name, pokemon3name, pokemon4name, questionNumText;
+    Button adminButton;
     private int current_question = 1;
     private int solution = 0;
+    private String solution_name;
     int final_score = 0, start_index = 0, end_index = 4;
+    private boolean isAdmin = false;
+    private CountDownLatch latch = new CountDownLatch(1);
     Executor executor = Executors.newSingleThreadExecutor();
 
 
@@ -55,7 +61,19 @@ public class GameActivity extends AppCompatActivity {
         setContentView(view);
 
         current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
-        Toast.makeText(GameActivity.this, "GAME ID: " + current_id, Toast.LENGTH_SHORT).show();
+
+        //determining whether logged in player is admin, and if not then hides the dev hack button
+        adminCheck(current_id);
+        try {
+            latch.await();
+            adminButton = findViewById(R.id.devHackButton);
+            if(!isAdmin) {
+                adminButton.setVisibility(View.GONE);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         //setting image and text view values
         pokemon1 = findViewById(R.id.pokemon1Image);
@@ -106,6 +124,14 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        //instantiating an interface of onCLickListener for dev hack button
+        binding.devHackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(GameActivity.this, "Answer: " + solution_name, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         //instantiating an interface of onClickListener for returning to menu button
         binding.exitGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +179,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         else {
-            //moving 4 pokemon from the game list into the round list for play
+            //moving 4 pokemon from the game list into the question list for play
             if (questionList.isEmpty()) {
                 questionList = gameList.subList(start_index, end_index);
             } else {
@@ -167,6 +193,7 @@ public class GameActivity extends AppCompatActivity {
             //setting solution index and appropriate sound
             Random random = new Random();
             solution = random.nextInt(4);
+            solution_name = questionList.get(solution).getName();
             setSound(questionList.get(solution).getSoundResourceId());
             //setting question text
             questionNumText.setText(String.valueOf(current_question) + "/10");
@@ -218,7 +245,10 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    //for setting the button sound as the solution pokemon sound
+    /**
+     * this method sets the sound button's source to the correct resource upon loading a new question
+     * @param soundResourceId
+     */
     private void setSound(int soundResourceId) {
         if(mediaPlayer != null) {
             mediaPlayer.release();
@@ -226,14 +256,19 @@ public class GameActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this, soundResourceId);
     }
 
-    //for playing the sound
+    /**
+     * this method plays the sound from the sound button in center of view
+     */
     private void playSound() {
         if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
     }
 
-    //for updating player stats, this runs whenever a round ends
+    /**
+     * this method updates the player's stats upon the game round ending
+     * @param playerId the ID of player whose stats will be updated
+     */
     private void updatePlayer(final int playerId) {
         executor.execute(new Runnable() {
             @Override
@@ -251,4 +286,19 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * this method determines whether the currently logged in player is an admin or not
+     * then assigns the boolean to class field isAdmin
+     * @param playerId the ID of currently logged in player
+     */
+    private void adminCheck(final int playerId) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                player_repo = new PlayerRepository((Application) getApplicationContext());
+                isAdmin = player_repo.getPlayerById(playerId).isAdmin();
+                latch.countDown();
+            }
+        });
+    }
 }

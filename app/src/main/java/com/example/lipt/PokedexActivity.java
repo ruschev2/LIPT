@@ -35,7 +35,6 @@ public class PokedexActivity extends AppCompatActivity {
     private PokemonRepository pokedex_repo;
     private LiveData<List<Pokemon>> allPokemon;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +44,6 @@ public class PokedexActivity extends AppCompatActivity {
 
         //retrieving and saving currently logged in player ID
         int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
-        Toast.makeText(PokedexActivity.this, "RECORD ID: " + current_id, Toast.LENGTH_SHORT).show();
 
         //establishing repo, grabbing list of pokemon
         pokedex_repo = new PokemonRepository((Application) getApplicationContext());

@@ -50,11 +50,8 @@ public class trainerRecordActivity extends AppCompatActivity {
 
         //retrieving and saving currently logged in player ID
         current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
-        Toast.makeText(trainerRecordActivity.this, "RECORD ID: " + current_id, Toast.LENGTH_SHORT).show();
-
         //grabbing earned prizes
         grabEarnedPrizes(current_id);
-
 
         try {
             latch.await();
