@@ -66,7 +66,6 @@ public class PrizeActivity extends AppCompatActivity implements RecyclerView.OnI
 
         //retrieving and saving currently logged in Player ID
         current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
-        Toast.makeText(PrizeActivity.this, "PRIZE ID: " + current_id, Toast.LENGTH_SHORT).show();
 
         //grabbing player prize refs
         grabData(current_id);

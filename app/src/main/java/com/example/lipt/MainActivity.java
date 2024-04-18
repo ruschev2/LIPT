@@ -214,19 +214,35 @@ public class MainActivity extends AppCompatActivity {
                     Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
                     prize_repo.insert(prize);
                 }
-                //adding all prizes to admin1 account
-                playerprizerepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
-                for(int i = 1; i < 21; i++) {
-                    PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(1, i);
-                    playerprizerepo.insert(obj);
-                }
 
                 //establishing repo, grabbing list of players
                 login_repo = new PlayerRepository((Application) getApplicationContext());
                 allCurrentPlayers = login_repo.getAllPlayers();
 
+                //adding all prizes to admin1 account
+                playerprizerepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
+                if(login_repo.getPlayerById(1) != null) {
+                    for(int i = 1; i < 21; i++) {
+                        PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(1, i);
+                        playerprizerepo.insert(obj);
+                    }
+                }
 
+                //adding 8 prizes to player1 account
+                if(login_repo.getPlayerById(2) != null) {
+                    for (int i = 1; i < 9; i++) {
+                        PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(2, i * 2);
+                        playerprizerepo.insert(obj);
+                    }
+                }
 
+                //adding prizes to player2 account
+                if(login_repo.getPlayerById(3) != null) {
+                    for (int i = 1; i < 16; i+=2) {
+                        PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(3, i);
+                        playerprizerepo.insert(obj);
+                    }
+                }
 
                 //populating list in pokemoninfo (temp)
                 for (int i = 1; i < 494; i++) {
