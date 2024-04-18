@@ -53,9 +53,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pokedexRecyclerView"
-        android:layout_width="324dp"
+        android:layout_width="match_parent"
         android:layout_height="484dp"
-        android:layout_marginStart="44dp"
         android:layout_marginTop="8dp"
         android:foregroundGravity="center"
         android:scrollbarSize="7dp"

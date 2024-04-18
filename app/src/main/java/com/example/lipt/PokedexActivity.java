@@ -6,6 +6,7 @@
 
 package com.example.lipt;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -17,6 +18,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import com.example.lipt.Database.Pokemon;
@@ -25,7 +28,7 @@ import com.example.lipt.databinding.ActivityPokedexBinding;
 
 import java.util.List;
 
-public class PokedexActivity extends AppCompatActivity {
+public class PokedexActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
     private ActivityPokedexBinding binding;
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
@@ -34,6 +37,8 @@ public class PokedexActivity extends AppCompatActivity {
     private PokemonAdapter adapter;
     private PokemonRepository pokedex_repo;
     private LiveData<List<Pokemon>> allPokemon;
+    private GestureDetector gestureDetector;
+    private int scrollEdgeLimit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,20 @@ public class PokedexActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.pokedexRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addOnItemTouchListener(this);
 
+        //configuring scrollbar mechanic
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onScroll(MotionEvent event1, MotionEvent event2, float distX, float distY) {
+                int scrollDist = (int) (distY / recyclerView.getHeight() * recyclerView.computeVerticalScrollRange());
+                recyclerView.scrollBy(0, scrollDist);
+                return true;
+            }
+        });
+        scrollEdgeLimit = getResources().getDimensionPixelSize(R.dimen.scroll_edge_limit);
+
+        //observing pokemon data for recyclerview display
         allPokemon.observe(this, new Observer<List<Pokemon>>() {
             @Override
             public void onChanged(List<Pokemon> pokemons) {
@@ -89,4 +107,34 @@ public class PokedexActivity extends AppCompatActivity {
         intent.putExtra(CURRENT_USERNAME, user_id);
         return intent;
     }
+
+    //these three overridden methods support our recyclerview scrolling bar function
+    @Override
+    public boolean onInterceptTouchEvent(@NonNull RecyclerView r_v, @NonNull MotionEvent event) {
+        if(isEdgeTouch(event)) {
+            gestureDetector.onTouchEvent(event);
+            return false;
+        }
+        return false;
+    }
+    @Override
+    public void onTouchEvent(@NonNull RecyclerView r_v, @NonNull MotionEvent event) {}
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean blockIntercept) {}
+
+    /**
+     * this method determines whether a touch is near the edge of recyclerview where scrollbar mechanic is
+     * @param e_ the touch event by player
+     * @return a boolean indicating whether touch is near edge or not
+     */
+    private boolean isEdgeTouch(MotionEvent e_) {
+        boolean result = false;
+        int size = scrollEdgeLimit;
+        int start = 0;
+        int end = recyclerView.getWidth();
+        int touchX = (int) e_.getX();
+        result = touchX < start + size || touchX > end - size;
+        return result;
+    }
+
 }

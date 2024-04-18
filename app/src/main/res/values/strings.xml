@@ -72,4 +72,5 @@
     <string name="dev_hack_label">Dev Hack!</string>
     <string name="preference_file_key">Login Preferences File Name</string>
     <string name="preference_userId_key">Logged In User ID KEY</string>
+    <string name="credits_label">Credits</string>
 </resources>
