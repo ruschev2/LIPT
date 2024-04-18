@@ -5,18 +5,14 @@
  */
 
 package com.example.lipt.Database;
-
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class PokemonRepository {
 
-    private PokemonDao pokemonDao;
-
-    private LiveData<List<Pokemon>> allPokemon;
+    private final PokemonDao pokemonDao;
+    private final LiveData<List<Pokemon>> allPokemon;
 
     public PokemonRepository(Application application) {
         PokemonRoomDatabase db = PokemonRoomDatabase.getDatabase(application);
@@ -27,9 +23,7 @@ public class PokemonRepository {
     public LiveData<List<Pokemon>> getAllPokemon() { return allPokemon;}
 
     public void insert(Pokemon pokemon) {
-        PokemonRoomDatabase.databaseWriteExecutor.execute(() -> {
-            pokemonDao.insertPokemon(pokemon);
-        });
+        PokemonRoomDatabase.databaseWriteExecutor.execute(() -> pokemonDao.insertPokemon(pokemon));
     }
 
 }

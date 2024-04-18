@@ -5,18 +5,14 @@
  */
 
 package com.example.lipt.Database;
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.lipt.MainActivity;
-import com.example.lipt.Utils.PokemonInfo;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,7 +36,7 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
             synchronized (PlayerRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            PlayerRoomDatabase.class, "poke_database")
+                            PlayerRoomDatabase.class, "player_database")
                             .fallbackToDestructiveMigration()
                             .addCallback(addDefaultValues)
                             .build();

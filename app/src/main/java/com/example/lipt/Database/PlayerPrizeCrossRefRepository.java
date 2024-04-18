@@ -11,9 +11,9 @@ import java.util.List;
 
 public class PlayerPrizeCrossRefRepository {
 
-    private PlayerPrizeCrossRefDao playerPrizeCrossRefDao;
+    private final PlayerPrizeCrossRefDao playerPrizeCrossRefDao;
 
-    private LiveData<List<PlayerPrizeCrossRef>> allPlayerPrizeCrossRefs;
+    private final LiveData<List<PlayerPrizeCrossRef>> allPlayerPrizeCrossRefs;
 
     public PlayerPrizeCrossRefRepository(Application application) {
         PlayerRoomDatabase db = PlayerRoomDatabase.getDatabase(application);
@@ -44,9 +44,7 @@ public class PlayerPrizeCrossRefRepository {
      * @param playerPrizeCrossRef the new player prize reference to be inserted into room table
      */
     public void insert(PlayerPrizeCrossRef playerPrizeCrossRef) {
-        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
-            playerPrizeCrossRefDao.insertPlayerPrizeCrossRef(playerPrizeCrossRef);
-        });
+        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> playerPrizeCrossRefDao.insertPlayerPrizeCrossRef(playerPrizeCrossRef));
     }
 
     /**

@@ -5,7 +5,6 @@
  */
 
 package com.example.lipt.Database;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -26,6 +25,7 @@ public class Player {
         calculateAccuracy();
     }
 
+    //secondary constructor
     public Player(int playerId, String username, String password, boolean admin) {
         this.userID = playerId;
         this.username = username;

@@ -6,4 +6,5 @@
     <color name="colorPrimary">#FF0000</color>
     <color name="colorPrimaryDark">#800000</color>
     <color name="colorAccent">#FFFF00</color>
+    <color name="cyan">#00FFFF</color>
 </resources>

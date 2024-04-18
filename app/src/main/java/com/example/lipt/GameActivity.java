@@ -7,7 +7,6 @@
 package com.example.lipt;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +18,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityGameBinding;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,7 +30,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class GameActivity extends AppCompatActivity {
-    private ActivityGameBinding binding;
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private int current_id;
@@ -49,14 +45,14 @@ public class GameActivity extends AppCompatActivity {
     private String solution_name;
     int final_score = 0, start_index = 0, end_index = 4;
     private boolean isAdmin = false;
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final CountDownLatch latch = new CountDownLatch(1);
     Executor executor = Executors.newSingleThreadExecutor();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityGameBinding.inflate(getLayoutInflater());
+        com.example.lipt.databinding.ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -88,57 +84,24 @@ public class GameActivity extends AppCompatActivity {
         pokemon4name = findViewById(R.id.pokemon4NameText);
 
         //instantiating 4 interfaces of onClickListener for pokemon images
-        pokemon1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleImageClick(0);
-            }
-        });
+        pokemon1.setOnClickListener(v -> handleImageClick(0));
 
-        pokemon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleImageClick(1);
-            }
-        });
+        pokemon2.setOnClickListener(v -> handleImageClick(1));
 
-        pokemon3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleImageClick(2);
-            }
-        });
+        pokemon3.setOnClickListener(v -> handleImageClick(2));
 
-        pokemon4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleImageClick(3);
-            }
-        });
+        pokemon4.setOnClickListener(v -> handleImageClick(3));
 
         //instantiating an interface of onClickListener for playing the sound button
-        binding.gameSoundButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mediaPlayer.start();
-            }
-        });
+        binding.gameSoundButton.setOnClickListener(v -> mediaPlayer.start());
 
         //instantiating an interface of onCLickListener for dev hack button
-        binding.devHackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(GameActivity.this, "Answer: " + solution_name, Toast.LENGTH_SHORT).show();
-            }
-        });
+        binding.devHackButton.setOnClickListener(v -> Toast.makeText(GameActivity.this, "Answer: " + solution_name, Toast.LENGTH_SHORT).show());
 
         //instantiating an interface of onClickListener for returning to menu button
-        binding.exitGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.exitGameButton.setOnClickListener(v -> {
+            Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
         //grabbing full pokemon list
@@ -257,31 +220,19 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     * this method plays the sound from the sound button in center of view
-     */
-    private void playSound() {
-        if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
-        }
-    }
-
-    /**
      * this method updates the player's stats upon the game round ending
      * @param playerId the ID of player whose stats will be updated
      */
     private void updatePlayer(final int playerId) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                player_repo = new PlayerRepository((Application) getApplicationContext());
-                player_repo.increasePlayerPoints(playerId, final_score);
-                player_repo.increasePlayerRoundsPlayed(playerId);
+        executor.execute(() -> {
+            player_repo = new PlayerRepository((Application) getApplicationContext());
+            player_repo.increasePlayerPoints(playerId, final_score);
+            player_repo.increasePlayerRoundsPlayed(playerId);
 
-                if(final_score > 6) {
-                    player_repo.levelUpPlayer(playerId);
-                    Log.d(MainActivity.TAG, "player increased: " + playerId);
-                    Log.d(MainActivity.TAG, "points: " + final_score);
-                }
+            if(final_score > 6) {
+                player_repo.levelUpPlayer(playerId);
+                Log.d(MainActivity.TAG, "player increased: " + playerId);
+                Log.d(MainActivity.TAG, "points: " + final_score);
             }
         });
     }
@@ -292,13 +243,10 @@ public class GameActivity extends AppCompatActivity {
      * @param playerId the ID of currently logged in player
      */
     private void adminCheck(final int playerId) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                player_repo = new PlayerRepository((Application) getApplicationContext());
-                isAdmin = player_repo.getPlayerById(playerId).isAdmin();
-                latch.countDown();
-            }
+        executor.execute(() -> {
+            player_repo = new PlayerRepository((Application) getApplicationContext());
+            isAdmin = player_repo.getPlayerById(playerId).isAdmin();
+            latch.countDown();
         });
     }
 }

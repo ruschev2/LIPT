@@ -5,7 +5,6 @@
  */
 
 package com.example.lipt;
-
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -22,7 +21,6 @@ public class PlayerViewModel extends AndroidViewModel {
     private final PlayerRepository repository;
     private LiveData<List<Player>> allPlayers;
     private LiveData<List<Player>> allAdmins;
-
     private LiveData<Player> player;
     Executor executor = Executors.newSingleThreadExecutor();
 

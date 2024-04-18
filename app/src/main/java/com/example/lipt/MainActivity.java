@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,7 +23,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerPrizeCrossRef;
 import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
@@ -36,7 +34,6 @@ import com.example.lipt.Database.PrizeRepository;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityMainBinding;
 import com.example.lipt.Utils.InputValidator;
-
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -50,11 +47,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "LGH_DEBUG";
     private PlayerPrizeCrossRefRepository playerprizerepo;
     Executor executor = Executors.newSingleThreadExecutor();
-    Executor executor_2 = Executors.newSingleThreadExecutor();
     boolean loginProcessed;
-
     private final int NO_USER_ID = -1;
-
     private int loggedInUserId = NO_USER_ID;
 
     @Override
@@ -76,63 +70,55 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //instantiating an interface of onClickListener for login button
-        binding.loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.loginButton.setOnClickListener(v -> {
 
-                //user inputted username and password
-                String temp_username = binding.loginUsernameTextEdit.getText().toString();
-                String temp_password = binding.loginPasswordTextEdit.getText().toString();
+            //user inputted username and password
+            String temp_username = binding.loginUsernameTextEdit.getText().toString();
+            String temp_password = binding.loginPasswordTextEdit.getText().toString();
 
-                //if inputted username and password are viable inputs
-                if (InputValidator.viableUsername(temp_username) && InputValidator.viablePassword(temp_password)) {
+            //if inputted username and password are viable inputs
+            if (InputValidator.viableUsername(temp_username) && InputValidator.viablePassword(temp_password)) {
 
-                    loginProcessed = false;
-                    // Observer established to authenticate credentials
-                    allCurrentPlayers.observe(MainActivity.this, new Observer<List<Player>>() {
-                        @Override
-                        public void onChanged(List<Player> players) {
-                            if (!loginProcessed) {
-                                for (Player player : players) {
-                                    // Checking whether username is in the database
-                                    if (player.getUsername().equalsIgnoreCase(temp_username)) {
-                                        // Checking whether the inputted password matches
-                                        if (player.getPassword().equals(temp_password)) {
-                                            // Officially logging into game
-                                            int validated_ID = player.getUserID();
-                                            updateSharedPreference(validated_ID);
-                                            Intent intent = MenuActivity.menuFactory(getApplicationContext(), validated_ID);
-                                            startActivity(intent);
-                                            //login completion
-                                            loginProcessed = true;
-                                            return;
-                                        } else {
-                                            Toast.makeText(MainActivity.this, "Invalid Password. Try again.", Toast.LENGTH_SHORT).show();
-                                            //login completion
-                                            loginProcessed = true;
-                                            return;
-                                        }
+                loginProcessed = false;
+                // Observer established to authenticate credentials
+                allCurrentPlayers.observe(MainActivity.this, new Observer<List<Player>>() {
+                    @Override
+                    public void onChanged(List<Player> players) {
+                        if (!loginProcessed) {
+                            for (Player player : players) {
+                                // Checking whether username is in the database
+                                if (player.getUsername().equalsIgnoreCase(temp_username)) {
+                                    // Checking whether the inputted password matches
+                                    if (player.getPassword().equals(temp_password)) {
+                                        // Officially logging into game
+                                        int validated_ID = player.getUserID();
+                                        updateSharedPreference(validated_ID);
+                                        Intent intent = MenuActivity.menuFactory(getApplicationContext(), validated_ID);
+                                        startActivity(intent);
+                                        //login completion
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Invalid Password. Try again.", Toast.LENGTH_SHORT).show();
+                                        //login completion
                                     }
+                                    loginProcessed = true;
+                                    return;
                                 }
-                                // If the loop completes without finding a matching username
-                                Toast.makeText(MainActivity.this, "Invalid Username! Try again.", Toast.LENGTH_SHORT).show();
-                                // Set the flag to true to indicate login completion
-                                loginProcessed = true;
                             }
+                            // If the loop completes without finding a matching username
+                            Toast.makeText(MainActivity.this, "Invalid Username! Try again.", Toast.LENGTH_SHORT).show();
+                            // Set the flag to true to indicate login completion
+                            loginProcessed = true;
                         }
-                    });
-                }
+                    }
+                });
             }
         });
 
 
         //instantiating an interface of onClickListener for registration1 button
-        binding.registrationButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = registrationActivity.registrationFactory(getApplicationContext());
-                startActivity(intent);
-            }
+        binding.registrationButton1.setOnClickListener(v -> {
+            Intent intent = registrationActivity.registrationFactory(getApplicationContext());
+            startActivity(intent);
         });
 
         //creating notification channel
@@ -196,68 +182,65 @@ public class MainActivity extends AppCompatActivity {
      * This method instantiates the room database
      */
     private void initializeRooms() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                //populating pokedex
-                poke_repo = new PokemonRepository((Application) getApplicationContext());
-                for (int i = 1; i < 494; i++) {
-                    Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
-                            getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
-                            getResources().getIdentifier("sound" + i, "raw", getPackageName()));
-                    poke_repo.insert(pokemon);
+        executor.execute(() -> {
+            //populating pokedex
+            poke_repo = new PokemonRepository((Application) getApplicationContext());
+            for (int i = 1; i < 494; i++) {
+                Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
+                        getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
+                        getResources().getIdentifier("sound" + i, "raw", getPackageName()));
+                poke_repo.insert(pokemon);
+            }
+
+            //populating prize table
+            prize_repo = new PrizeRepository((Application) getApplicationContext());
+            for (int i = 1; i < 21; i++) {
+                Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
+                prize_repo.insert(prize);
+            }
+
+            //establishing repo, grabbing list of players
+            login_repo = new PlayerRepository((Application) getApplicationContext());
+            allCurrentPlayers = login_repo.getAllPlayers();
+
+            //adding all prizes to admin1 account
+            playerprizerepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
+            if(login_repo.getPlayerById(1) != null) {
+                for(int i = 1; i < 21; i++) {
+                    PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(1, i);
+                    playerprizerepo.insert(obj);
                 }
+            }
 
-                //populating prize table
-                prize_repo = new PrizeRepository((Application) getApplicationContext());
-                for (int i = 1; i < 21; i++) {
-                    Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
-                    prize_repo.insert(prize);
+            //adding 8 prizes to player1 account
+            if(login_repo.getPlayerById(2) != null) {
+                for (int i = 1; i < 9; i++) {
+                    PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(2, i * 2);
+                    playerprizerepo.insert(obj);
                 }
+            }
 
-                //establishing repo, grabbing list of players
-                login_repo = new PlayerRepository((Application) getApplicationContext());
-                allCurrentPlayers = login_repo.getAllPlayers();
-
-                //adding all prizes to admin1 account
-                playerprizerepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
-                if(login_repo.getPlayerById(1) != null) {
-                    for(int i = 1; i < 21; i++) {
-                        PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(1, i);
-                        playerprizerepo.insert(obj);
-                    }
+            //adding prizes to player2 account
+            if(login_repo.getPlayerById(3) != null) {
+                for (int i = 1; i < 16; i+=2) {
+                    PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(3, i);
+                    playerprizerepo.insert(obj);
                 }
+            }
 
-                //adding 8 prizes to player1 account
-                if(login_repo.getPlayerById(2) != null) {
-                    for (int i = 1; i < 9; i++) {
-                        PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(2, i * 2);
-                        playerprizerepo.insert(obj);
-                    }
-                }
+            //populating list in pokemoninfo (temp)
+            for (int i = 1; i < 494; i++) {
+                Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
+                        getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
+                        getResources().getIdentifier("sound" + i, "raw", getPackageName()));
+                PokemonInfo.full_pokemon_list.add(pokemon);
+            }
 
-                //adding prizes to player2 account
-                if(login_repo.getPlayerById(3) != null) {
-                    for (int i = 1; i < 16; i+=2) {
-                        PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(3, i);
-                        playerprizerepo.insert(obj);
-                    }
-                }
+            //populating list in pokemon info for prizes
 
-                //populating list in pokemoninfo (temp)
-                for (int i = 1; i < 494; i++) {
-                    Pokemon pokemon = new Pokemon(i, PokemonInfo.getPokemonName(i),
-                            getResources().getIdentifier("pokemon" + i, "drawable", getPackageName()),
-                            getResources().getIdentifier("sound" + i, "raw", getPackageName()));
-                    PokemonInfo.full_pokemon_list.add(pokemon);
-                }
-
-                //populating list in pokemon info for prizes
-
-                for (int i = 1; i < 21; i++) {
-                    Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
-                    PokemonInfo.full_prize_list.add(prize);
-                }
+            for (int i = 1; i < 21; i++) {
+                Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
+                PokemonInfo.full_prize_list.add(prize);
             }
         });
     }

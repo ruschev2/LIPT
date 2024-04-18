@@ -5,7 +5,6 @@
  */
 
 package com.example.lipt;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +18,9 @@ import java.util.List;
 
 public class PrizeAdapter extends RecyclerView.Adapter<PrizeAdapter.PrizeViewHolder>{
 
-    private List<Prize> prizes;
+    private final List<Prize> prizes;
 
-    private Context context;
+    private final Context context;
 
     public PrizeAdapter(Context context, List<Prize> prizes) {
         this.context = context;

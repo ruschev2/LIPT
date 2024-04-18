@@ -6,7 +6,6 @@
  */
 
 package com.example.lipt;
-
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -18,15 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.lipt.Database.Pokemon;
-
 import java.util.List;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
-    private List<Pokemon> pokemons;
-    private Context context;
+    private final List<Pokemon> pokemons;
+    private final Context context;
 
     public PokemonAdapter(Context context, List<Pokemon> pokemons) {
         this.context = context;
@@ -47,13 +44,10 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         holder.pokemonNameTextView.setText(pokemon.getName());
         holder.pokemonImageView.setImageResource(pokemon.getImageResourceId());
 
-        holder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaPlayer mediaPlayer = MediaPlayer.create(context, pokemon.getSoundResourceId());
-                Log.d(MainActivity.TAG, "Sound ID for Pokemon no. " + pokemon.getPokedexNumber() + ": " + pokemon.getSoundResourceId());
-                mediaPlayer.start();
-            }
+        holder.button.setOnClickListener(v -> {
+            MediaPlayer mediaPlayer = MediaPlayer.create(context, pokemon.getSoundResourceId());
+            Log.d(MainActivity.TAG, "Sound ID for Pokemon no. " + pokemon.getPokedexNumber() + ": " + pokemon.getSoundResourceId());
+            mediaPlayer.start();
         });
 
     }

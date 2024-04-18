@@ -5,18 +5,15 @@
  */
 
 package com.example.lipt.Database;
-
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class PrizeRepository {
 
-    private PrizeDao prizeDao;
-    private LiveData<List<Prize>> allPrizes;
-    private List<Prize> fullPrizeList;
+    private final PrizeDao prizeDao;
+    private final LiveData<List<Prize>> allPrizes;
+    private final List<Prize> fullPrizeList;
 
     public PrizeRepository(Application application) {
         PlayerRoomDatabase db = PlayerRoomDatabase.getDatabase(application);
@@ -26,9 +23,7 @@ public class PrizeRepository {
     }
 
     public void insert(Prize prize) {
-        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
-            prizeDao.insertPrize(prize);
-        });
+        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> prizeDao.insertPrize(prize));
     }
 
     /**

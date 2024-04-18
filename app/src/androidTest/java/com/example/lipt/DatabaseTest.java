@@ -5,7 +5,6 @@
  */
 
 package com.example.lipt;
-
 import static org.junit.Assert.*;
 import android.content.Context;
 import androidx.room.Room;
