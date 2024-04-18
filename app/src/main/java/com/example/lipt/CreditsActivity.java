@@ -31,7 +31,10 @@ public class CreditsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-
+        //setting music
+        mediaPlayer = MediaPlayer.create(CreditsActivity.this, R.raw.credits_music);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         //retrieving and saving currently logged in player ID
         current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
@@ -49,11 +52,21 @@ public class CreditsActivity extends AppCompatActivity {
         binding.exitCreditsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.stop();
                 Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
                 startActivity(intent);
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     //intent factory
