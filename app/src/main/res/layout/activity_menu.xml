@@ -36,7 +36,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/welcome"
         android:textSize="17sp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuTitleImage" />
 
@@ -48,7 +48,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/menu_user_temp"
         android:textSize="17sp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@id/welcomeMenuTextView"
         app:layout_constraintTop_toBottomOf="@+id/menuTitleImage" />
 
@@ -60,7 +60,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/menuTrainerLevelLabel"
         android:textSize="17sp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         app:layout_constraintTop_toBottomOf="@id/welcomeMenuTextView"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -72,7 +72,7 @@
         android:layout_marginStart="4dp"
         android:text="@string/_42"
         android:textSize="17sp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         app:layout_constraintTop_toBottomOf="@id/usernameMenuDisplayText"
         app:layout_constraintStart_toEndOf="@id/trainerLevelMenuLabel"/>
 
