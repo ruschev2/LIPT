@@ -31,8 +31,10 @@ public class CreditsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+
+
         //retrieving and saving currently logged in player ID
-        int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
+        current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
 
         //setting background image
         ImageView creditView = findViewById(R.id.creditsBackgroundImage);

@@ -36,7 +36,7 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
             synchronized (PlayerRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            PlayerRoomDatabase.class, "poke_database")
+                            PlayerRoomDatabase.class, "player_database")
                             .fallbackToDestructiveMigration()
                             .addCallback(addDefaultValues)
                             .build();
