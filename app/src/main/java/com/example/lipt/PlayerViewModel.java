@@ -1,3 +1,9 @@
+/**
+ * Guillermo Zendejas, Luis Hernandez
+ * April 15, 2024
+ * ViewModel used to encapsulate Player repository calls and other data behavior.
+ */
+
 package com.example.lipt;
 
 import android.app.Application;
@@ -65,7 +71,6 @@ public class PlayerViewModel extends AndroidViewModel {
     public LiveData<List<Player>> getAllAdmins() {
         return  allAdmins;
     }
-
 
 
 

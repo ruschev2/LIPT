@@ -1,21 +1,25 @@
+/**
+ * Guillermo Zendejas, Luis Hernandez
+ * April 15, 2024
+ * Adapter for binding list of all users (players) to a RecyclerView.
+ */
+
 package com.example.lipt;
 
-import android.content.Context;
-import android.content.Intent;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.lipt.Database.Player;
-
 import java.util.List;
 
+/**
+ * Adapter for binding list of all users (players) to a RecyclerView.
+ */
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
     private List<Player> allPlayersList;
     private ItemClickListener itemClickListener;
@@ -25,7 +29,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         this.allPlayersList = allPlayersList;
         this.itemClickListener = itemClickListener;
         this.loggedInId= loggedInId;
-
     }
 
     public void setAllPlayersList(List<Player> allPlayers) {
@@ -34,7 +37,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     }
 
     public interface ItemClickListener {
-        void onDeleteClick(Player player);
+        void onDeleteButtonClick(Player player);
         void onInfoButtonClick(Player player);
     }
 
@@ -66,7 +69,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         holder.userDeleteButton.setOnClickListener(view -> {
             if (position != RecyclerView.NO_POSITION) {
                 Player item = allPlayersList.get(position);
-                itemClickListener.onDeleteClick(item);
+                itemClickListener.onDeleteButtonClick(item);
             }
         });
 
@@ -84,6 +87,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         return allPlayersList.size();
     }
 
+    /**
+     * Custom ViewHolder to hold Player views from a RecyclerView item
+     */
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
         private TextView userIconLabelTextView;
         private TextView usernameTextView;
@@ -100,7 +106,5 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             userInfoButton = itemView.findViewById(R.id.user_info_button);
 
         }
-
-
     }
 }

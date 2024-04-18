@@ -7,6 +7,7 @@
 package com.example.lipt;
 
 import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 import android.content.Intent;
 import androidx.test.core.app.ApplicationProvider;
@@ -20,12 +21,14 @@ import java.util.Objects;
 
 @RunWith(AndroidJUnit4.class)
 public class IntentFactoryTest {
-    private static final String CURRENT_USERNAME = "Active User";
-
+    private static final String CURRENT_USERNAME_KEY = "Active User";
     private static final String ADMIN_USER_ID_EXTRA_KEY = "com.example.lipt.ADMIN_ACTIVITY_USER_ID";
-    private static final int CURRENT_USER_ID = 0;
+    private static final String PLAYER_INFO_SELECTED_USER_ID_KEY = "com.example.lipt.PLAYER_INFO_ACTIVITY_SELECTED_USER_ID";
+    private static final String PLAYER_INFO_LOGGED_IN_USER_ID_KEY = "com.example.lipt.PLAYER_INFO_ACTIVITY_LOGGED_IN_USER_ID";
+    private static final int DEFAULT_USER_ID = 0;
     private static final String FINAL_SCORE = "hopefully ten";
     private final int currentId = 1;
+    private final int selectedId = 2;
     private final int finalScore = 10;
     private Context context;
 
@@ -66,7 +69,7 @@ public class IntentFactoryTest {
         Intent intent = MenuActivity.menuFactory(context, currentId);
         Class<?> activityClass = MenuActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME_KEY, DEFAULT_USER_ID);
 
         assertEquals(expectedInt, actualInt);
         assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
@@ -79,7 +82,7 @@ public class IntentFactoryTest {
         Intent intent = GameActivity.gameFactory(context, currentId);
         Class<?> activityClass = GameActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME_KEY, DEFAULT_USER_ID);
 
         assertEquals(expectedInt, actualInt);
         assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
@@ -92,7 +95,7 @@ public class IntentFactoryTest {
         Intent intent = GameResultActivity.gameResultFactory(context, currentId, finalScore);
         Class<?> activityClass = GameResultActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME_KEY, DEFAULT_USER_ID);
         int expectedScore = 10;
         int actualScore = intent.getIntExtra(FINAL_SCORE, 0);
 
@@ -108,7 +111,7 @@ public class IntentFactoryTest {
         Intent intent = PokedexActivity.pokedexFactory(context, currentId);
         Class<?> activityClass = PokedexActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME_KEY, DEFAULT_USER_ID);
 
         assertEquals(expectedInt, actualInt);
         assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
@@ -121,7 +124,7 @@ public class IntentFactoryTest {
         Intent intent = trainerRecordActivity.trainerRecordFactory(context, currentId);
         Class<?> activityClass = trainerRecordActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME_KEY, DEFAULT_USER_ID);
 
         assertEquals(expectedInt, actualInt);
         assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
@@ -134,12 +137,11 @@ public class IntentFactoryTest {
         Intent intent = PrizeActivity.prizeFactory(context, currentId);
         Class<?> activityClass = PrizeActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME_KEY, DEFAULT_USER_ID);
 
         assertEquals(expectedInt, actualInt);
         assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
     }
-
 
 
     //admin activity intent factory method test
@@ -149,11 +151,28 @@ public class IntentFactoryTest {
         Intent intent = AdminActivity.adminActivityIntentFactory(context, currentId);
         Class<?> activityClass = AdminActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(ADMIN_USER_ID_EXTRA_KEY, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(ADMIN_USER_ID_EXTRA_KEY, DEFAULT_USER_ID);
 
         assertEquals(expectedInt, actualInt);
         assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
     }
+
+    //player info activity intent factory method test
+    @Test
+    public void playerInfoActivityIntentFactory() {
+        context = ApplicationProvider.getApplicationContext();
+        Intent intent = PlayerInfoActivity.playerInfoActivityIntentFactory(context, currentId, selectedId);
+        Class<?> activityClass = PlayerInfoActivity.class;
+        int expectedCurrentId = 1;
+        int expectedSelectedId = 2;
+        int actualCurrentId = intent.getIntExtra(PLAYER_INFO_LOGGED_IN_USER_ID_KEY, DEFAULT_USER_ID);
+        int actualSelectedId = intent.getIntExtra(PLAYER_INFO_SELECTED_USER_ID_KEY, DEFAULT_USER_ID);
+
+        assertEquals(expectedCurrentId, actualCurrentId);
+        assertEquals(expectedSelectedId, actualSelectedId);
+        assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
+    }
+
 
     //credits activity intent factory method test
     @Test
@@ -162,7 +181,7 @@ public class IntentFactoryTest {
         Intent intent = CreditsActivity.creditsFactory(context, currentId);
         Class<?> activityClass = CreditsActivity.class;
         int expectedInt = 1;
-        int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
+        int actualInt = intent.getIntExtra(CURRENT_USERNAME_KEY, DEFAULT_USER_ID);
 
         assertEquals(expectedInt, actualInt);
         assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
