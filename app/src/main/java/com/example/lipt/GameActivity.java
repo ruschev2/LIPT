@@ -7,7 +7,6 @@
 package com.example.lipt;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +18,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityGameBinding;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

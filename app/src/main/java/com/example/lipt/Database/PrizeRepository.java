@@ -5,11 +5,8 @@
  */
 
 package com.example.lipt.Database;
-
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class PrizeRepository {

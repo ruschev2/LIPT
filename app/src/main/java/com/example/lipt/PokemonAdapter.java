@@ -6,7 +6,6 @@
  */
 
 package com.example.lipt;
-
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -18,9 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.lipt.Database.Pokemon;
-
 import java.util.List;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {

@@ -27,10 +27,8 @@ public class MenuActivity extends AppCompatActivity {
     ActivityMenuBinding binding;
     private PlayerRepository menu_repo;
     private LiveData<List<Player>> allCurrentPlayers;
-    private PokemonRepository pokerepo;
     private int current_id;
     private LiveData<Player> loggedInPlayer;
-    MediaPlayer mediaPlayer;
     private final int NO_USER_ID = -1;
 
 

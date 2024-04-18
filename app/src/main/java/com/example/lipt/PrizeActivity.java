@@ -23,7 +23,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import com.example.lipt.Database.Player;
-import com.example.lipt.Database.PlayerPrizeCrossRef;
 import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.Database.Prize;

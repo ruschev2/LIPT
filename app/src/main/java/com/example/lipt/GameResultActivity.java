@@ -1,9 +1,7 @@
 package com.example.lipt;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
@@ -13,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerPrizeCrossRef;
 import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
@@ -45,8 +42,7 @@ public class GameResultActivity extends AppCompatActivity {
     private LiveData<List<PlayerPrizeCrossRef>> playerPrizeCrossRefs;
     Executor executor = Executors.newSingleThreadExecutor();
     Executor executor2 = Executors.newSingleThreadExecutor();
-    private int final_score = 0, current_id = 0, drawnPrizeId, drawnPrizeResourceID;
-    private String drawnPrizeName;
+    private int final_score = 0, current_id = 0, drawnPrizeId;
     private boolean prize_awarded = false, prize_list_full = false;
 
     @Override

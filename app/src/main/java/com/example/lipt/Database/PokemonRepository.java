@@ -5,17 +5,13 @@
  */
 
 package com.example.lipt.Database;
-
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class PokemonRepository {
 
     private PokemonDao pokemonDao;
-
     private LiveData<List<Pokemon>> allPokemon;
 
     public PokemonRepository(Application application) {

@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,7 +23,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerPrizeCrossRef;
 import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
@@ -36,7 +34,6 @@ import com.example.lipt.Database.PrizeRepository;
 import com.example.lipt.Utils.PokemonInfo;
 import com.example.lipt.databinding.ActivityMainBinding;
 import com.example.lipt.Utils.InputValidator;
-
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

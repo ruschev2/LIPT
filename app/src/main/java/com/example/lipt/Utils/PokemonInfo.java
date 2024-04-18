@@ -8,7 +8,6 @@ package com.example.lipt.Utils;
 
 import com.example.lipt.Database.Pokemon;
 import com.example.lipt.Database.Prize;
-
 import java.util.ArrayList;
 import java.util.List;
 
