@@ -5,6 +5,7 @@
  */
 
 package com.example.lipt.Database;
+import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -14,6 +15,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.lipt.MainActivity;
+import com.example.lipt.Utils.PokemonInfo;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,14 +58,13 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
             Log.i(MainActivity.TAG, "MAIN DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
                 PlayerDao dao = INSTANCE.playerDao();
-                Player player = new Player("admin1", "password123", true);
+                Player player = new Player(1, "admin1", "password123", true);
                 dao.insertPlayer(player);
-                Player player2 = new Player("player1", "password123", false);
+                Player player2 = new Player(2, "player1", "password123", false);
                 dao.insertPlayer(player2);
             });
         }
     };
-
 
 }
 

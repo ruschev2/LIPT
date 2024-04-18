@@ -120,6 +120,15 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        //instantiating an interface of onClickListener for credits activity
+        binding.creditsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = CreditsActivity.creditsFactory(getApplicationContext(), current_id);
+                startActivity(intent);
+            }
+        });
+
 
         //instantiating an interface of onClickListener for logging out
         binding.exitMenuButton.setOnClickListener(new View.OnClickListener() {

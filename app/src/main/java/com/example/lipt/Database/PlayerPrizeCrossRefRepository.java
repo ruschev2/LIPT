@@ -21,15 +21,28 @@ public class PlayerPrizeCrossRefRepository {
         allPlayerPrizeCrossRefs = playerPrizeCrossRefDao.getAllPlayerPrizeCrossRefs();
     }
 
+    /**
+     * this method returns a livedata wrapped list of all playerprizerefs in the database
+     * @return the livedata wrapped list of playerprizerefs
+     */
     public LiveData<List<PlayerPrizeCrossRef>> getAllPlayerPrizeCrossRefs() {
         return allPlayerPrizeCrossRefs;
     }
 
 
+    /**
+     * this method returns a regular list of all player prize refs for a given player
+     * @param playerId the ID of the player whose list is requested
+     * @return the list of playerprizerefs
+     */
     public List<Integer> getPlayerPrizeIdsForPlayer(int playerId) {
         return playerPrizeCrossRefDao.getPlayerPrizeIdsForPlayer(playerId);
     }
 
+    /**
+     * this method inserts a new player prize reference
+     * @param playerPrizeCrossRef the new player prize reference to be inserted into room table
+     */
     public void insert(PlayerPrizeCrossRef playerPrizeCrossRef) {
         PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
             playerPrizeCrossRefDao.insertPlayerPrizeCrossRef(playerPrizeCrossRef);

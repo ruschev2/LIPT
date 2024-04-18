@@ -5,6 +5,7 @@
  */
 
 package com.example.lipt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -17,6 +18,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import com.example.lipt.Database.Player;
@@ -33,7 +36,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class PrizeActivity extends AppCompatActivity {
+public class PrizeActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
 
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
@@ -41,18 +44,18 @@ public class PrizeActivity extends AppCompatActivity {
     private PlayerRepository player_repo;
     private PrizeRepository prize_repo;
     private PlayerPrizeCrossRefRepository playerprize_repo;
-    private LiveData<List<Player>> allCurrentPlayers;
     private LiveData<List<Prize>> allPrizes;
-    private LiveData<List<PlayerPrizeCrossRef>> playerPrizeRefs;
     private List<Integer> earned_prize_ids = new ArrayList<>();
     private Player current_player;
     private RecyclerView recyclerView;
     private PrizeAdapter adapter;
-    ActivityPrizeBinding binding;
+    private ActivityPrizeBinding binding;
     Executor executor = Executors.newSingleThreadExecutor();
     private CountDownLatch latch = new CountDownLatch(1);
     private List<String> unearnedPrizeNames;
     private boolean allPrizesEarned = false;
+    private GestureDetector gestureDetector;
+    private int scrollEdgeLimit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,20 @@ public class PrizeActivity extends AppCompatActivity {
         //generating recyclerView
         recyclerView = findViewById(R.id.prizeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addOnItemTouchListener(this);
 
+        //configuring scrollbar mechanic
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onScroll(MotionEvent event1, MotionEvent event2, float distX, float distY) {
+                int scrollDist = (int) (distY / recyclerView.getHeight() * recyclerView.computeVerticalScrollRange());
+                recyclerView.scrollBy(0, scrollDist);
+                return true;
+            }
+        });
+        scrollEdgeLimit = getResources().getDimensionPixelSize(R.dimen.scroll_edge_limit);
+
+        //grabbing data first then launching observer call
         try {
             latch.await();
             allPrizes.observe(this, new Observer<List<Prize>>() {
@@ -183,9 +199,39 @@ public class PrizeActivity extends AppCompatActivity {
         return intent;
     }
 
+    //these three overridden methods support our recyclerview scrolling bar function
+    @Override
+    public boolean onInterceptTouchEvent(@NonNull RecyclerView r_v, @NonNull MotionEvent event) {
+        if(isEdgeTouch(event)) {
+            gestureDetector.onTouchEvent(event);
+            return false;
+        }
+        return false;
+    }
+    @Override
+    public void onTouchEvent(@NonNull RecyclerView r_v, @NonNull MotionEvent event) {}
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean blockIntercept) {}
+
+
+    /**
+     * this method determines whether a touch is near the edge of recyclerview where scrollbar mechanic is
+     * @param e_ the touch event by player
+     * @return a boolean indicating whether touch is near edge or not
+     */
+    private boolean isEdgeTouch(MotionEvent e_) {
+        boolean result = false;
+        int size = scrollEdgeLimit;
+        int start = 0;
+        int end = recyclerView.getWidth();
+        int touchX = (int) e_.getX();
+        result = touchX < start + size || touchX > end - size;
+        return result;
+    }
+
+
     /**
      * this method initializes the player and prize repos
-     *
      * @param playerId the ID of the currently logged in player.
      */
     private void grabData(final int playerId) {
@@ -196,7 +242,6 @@ public class PrizeActivity extends AppCompatActivity {
                 playerprize_repo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
                 earned_prize_ids = playerprize_repo.getPlayerPrizeIdsForPlayer(playerId);
                 player_repo = new PlayerRepository((Application) getApplicationContext());
-                allCurrentPlayers = player_repo.getAllPlayers();
                 prize_repo = new PrizeRepository((Application) getApplicationContext());
                 allPrizes = prize_repo.getAllPrizes();
 

@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private LiveData<List<Player>> allCurrentPlayers;
     private PokemonRepository poke_repo;
     private PrizeRepository prize_repo;
-    private LiveData<List<Prize>> allPrizes;
     public static final String TAG = "LGH_DEBUG";
     private PlayerPrizeCrossRefRepository playerprizerepo;
     Executor executor = Executors.newSingleThreadExecutor();
@@ -68,12 +67,10 @@ public class MainActivity extends AppCompatActivity {
         //creating room databases
         initializeRooms();
 
-        //todo checking if user was already logged in
-
+        //checking if user was already logged in
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE);
         loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userId_key), NO_USER_ID);
-
         if (loggedInUserId != NO_USER_ID) {
             goBackToMainMenu(loggedInUserId);
         }
@@ -104,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                                             // Officially logging into game
                                             int validated_ID = player.getUserID();
                                             updateSharedPreference(validated_ID);
-                                            Toast.makeText(MainActivity.this, "LOGIN ID: " + validated_ID, Toast.LENGTH_SHORT).show();
                                             Intent intent = MenuActivity.menuFactory(getApplicationContext(), validated_ID);
                                             startActivity(intent);
                                             //login completion
@@ -218,18 +214,18 @@ public class MainActivity extends AppCompatActivity {
                     Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
                     prize_repo.insert(prize);
                 }
-                allPrizes = prize_repo.getAllPrizes();
-
-                //establishing repo, grabbing list of players
-                login_repo = new PlayerRepository((Application) getApplicationContext());
-                allCurrentPlayers = login_repo.getAllPlayers();
-
                 //adding all prizes to admin1 account
                 playerprizerepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
                 for(int i = 1; i < 21; i++) {
                     PlayerPrizeCrossRef obj = new PlayerPrizeCrossRef(1, i);
                     playerprizerepo.insert(obj);
                 }
+
+                //establishing repo, grabbing list of players
+                login_repo = new PlayerRepository((Application) getApplicationContext());
+                allCurrentPlayers = login_repo.getAllPlayers();
+
+
 
 
                 //populating list in pokemoninfo (temp)
@@ -241,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //populating list in pokemon info for prizes
+
                 for (int i = 1; i < 21; i++) {
                     Prize prize = new Prize(i, PokemonInfo.getPrizeName(i), getResources().getIdentifier("prize" + i, "drawable", getPackageName()));
                     PokemonInfo.full_prize_list.add(prize);

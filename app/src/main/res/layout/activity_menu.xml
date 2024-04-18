@@ -134,6 +134,19 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/creditsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/credits_label"
+        android:textSize="15sp"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/adminButton"
+        app:layout_constraintBottom_toTopOf="@id/exitMenuButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/exitMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
