@@ -1,3 +1,9 @@
+/**
+ * Guillermo Zendejas, Luis Hernandez
+ * April 15, 2024
+ * Adapts a list of all admin users to a RecyclerView.
+ */
+
 package com.example.lipt;
 
 import android.view.LayoutInflater;
@@ -72,6 +78,9 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.AdminViewHol
         return allAdminsList.size();
     }
 
+    /**
+     * Custom ViewHolder for admin layout views.
+     */
     public class AdminViewHolder extends RecyclerView.ViewHolder {
         private TextView statusLabelTextView;
         private TextView adminNameTextView;

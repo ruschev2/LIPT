@@ -1,26 +1,30 @@
+/**
+ * Guillermo Zendejas, Luis Hernandez
+ * April 15, 2024
+ * Admin Activity that will hold two fragments (all users and admin users).
+ */
+
 package com.example.lipt;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.lipt.databinding.ActivityAdminBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+/**
+ * Admin Activity holding AllUsersListFragment and AdminUserListFragment, plus bottom navigation to toggle to each.
+ */
 public class AdminActivity extends AppCompatActivity {
     protected static final String ADMIN_ACTIVITY_USER_ID = "com.example.lipt.ADMIN_ACTIVITY_USER_ID";
     private ActivityAdminBinding binding;
-
     private int loggedInId;
 
     @Override

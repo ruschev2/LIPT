@@ -1,18 +1,20 @@
+/**
+ * Guillermo Zendejas, Luis Hernandez
+ * April 15, 2024
+ * Fragment that shows a list of all users with admin status.
+ */
+
 package com.example.lipt;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.lipt.Database.Player;
-
 import java.util.ArrayList;
 
 
@@ -43,6 +45,10 @@ public class AdminUsersListFragment extends Fragment implements AdminAdapter.Ite
     }
 
 
+    /**
+     * Handles behavior when the Demote button in an admin RecyclerView item is clicked.
+     * @param player Admin who will be demoted.
+     */
     @Override
     public void onDemoteButtonClick(Player player) {
         playerViewModel.demotePlayerFromAdmin(player.getUserID());
