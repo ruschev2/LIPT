@@ -11,8 +11,8 @@ import java.util.List;
 
 public class PlayerRepository {
 
-    private PlayerDao playerDao;
-    private LiveData<List<Player>> allPlayers;
+    private final PlayerDao playerDao;
+    private final LiveData<List<Player>> allPlayers;
     public PlayerRepository(Application application) {
         PlayerRoomDatabase db = PlayerRoomDatabase.getDatabase(application);
         this.playerDao = db.playerDao();
@@ -32,9 +32,7 @@ public class PlayerRepository {
      * @param player the new player which will be deposited into the table
      */
     public void insert(Player player) {
-        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
-            playerDao.insertPlayer(player);
-        });
+        PlayerRoomDatabase.databaseWriteExecutor.execute(() -> playerDao.insertPlayer(player));
     }
 
     /**
@@ -98,16 +96,12 @@ public class PlayerRepository {
      * @param playerId the ID of player who will be removed from the table
      */
     public void deletePlayer(int playerId) {
-        new Thread(() -> {
-            playerDao.deletePlayerById(playerId);
-        }).start();
+        new Thread(() -> playerDao.deletePlayerById(playerId)).start();
     }
-
 
     public LiveData<Player> getPlayerLiveDataById(int playerId) {
         return playerDao.getPlayerLiveDataById(playerId);
     }
-
 
     public void promotePlayerToAdmin(int playerId) {
         PlayerRoomDatabase.databaseWriteExecutor.execute(() -> {
@@ -115,7 +109,6 @@ public class PlayerRepository {
             player.setAdmin(true);
             playerDao.updatePlayer(player);
         });
-
     }
 
     public void demotePlayerFromAdmin(int playerId) {

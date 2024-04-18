@@ -28,7 +28,6 @@ import com.example.lipt.databinding.ActivityPokedexBinding;
 import java.util.List;
 
 public class PokedexActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
-    private ActivityPokedexBinding binding;
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private MediaPlayer mediaPlayer;
@@ -42,7 +41,7 @@ public class PokedexActivity extends AppCompatActivity implements RecyclerView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPokedexBinding.inflate(getLayoutInflater());
+        com.example.lipt.databinding.ActivityPokedexBinding binding = ActivityPokedexBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -80,12 +79,9 @@ public class PokedexActivity extends AppCompatActivity implements RecyclerView.O
         });
 
         //instantiating an interface of onClickListener for return to menu button
-        binding.exitPokedexButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.exitPokedexButton.setOnClickListener(v -> {
+            Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
     }
 
@@ -127,7 +123,7 @@ public class PokedexActivity extends AppCompatActivity implements RecyclerView.O
      * @return a boolean indicating whether touch is near edge or not
      */
     private boolean isEdgeTouch(MotionEvent e_) {
-        boolean result = false;
+        boolean result;
         int size = scrollEdgeLimit;
         int start = 0;
         int end = recyclerView.getWidth();

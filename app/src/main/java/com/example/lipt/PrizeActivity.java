@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +49,7 @@ public class PrizeActivity extends AppCompatActivity implements RecyclerView.OnI
     private PrizeAdapter adapter;
     private ActivityPrizeBinding binding;
     Executor executor = Executors.newSingleThreadExecutor();
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final CountDownLatch latch = new CountDownLatch(1);
     private List<String> unearnedPrizeNames;
     private boolean allPrizesEarned = false;
     private GestureDetector gestureDetector;
@@ -78,7 +77,7 @@ public class PrizeActivity extends AppCompatActivity implements RecyclerView.OnI
         //configuring scrollbar mechanic
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
-            public boolean onScroll(MotionEvent event1, MotionEvent event2, float distX, float distY) {
+            public boolean onScroll(MotionEvent event1, @NonNull MotionEvent event2, float distX, float distY) {
                 int scrollDist = (int) (distY / recyclerView.getHeight() * recyclerView.computeVerticalScrollRange());
                 recyclerView.scrollBy(0, scrollDist);
                 return true;
@@ -113,79 +112,57 @@ public class PrizeActivity extends AppCompatActivity implements RecyclerView.OnI
         }
 
         //instantiating an interface of onClickListener for viewing unearned prizes
-        binding.seeUnearnedPrizesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.seeUnearnedPrizesButton.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PrizeActivity.this);
+            builder.setTitle("List of Unearned Prizes");
+
+            if(allPrizesEarned) {
+                builder.setMessage("Congratulations, you have earned all prizes!");
+            }
+            else {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < unearnedPrizeNames.size(); i++) {
+                    sb.append(unearnedPrizeNames.get(i));
+                    if (i < unearnedPrizeNames.size() - 1) {
+                        sb.append(", ");
+                    }
+                }
+                builder.setMessage(sb.toString());
+            }
+
+            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+        //instantiating an interface of onClickListener for resetting prizes
+        binding.resetPrizesButton.setOnClickListener(v -> {
+            if (earned_prize_ids.isEmpty()) {
+                Toast.makeText(PrizeActivity.this, "No prizes to delete", Toast.LENGTH_SHORT).show();
+            } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(PrizeActivity.this);
-                builder.setTitle("List of Unearned Prizes");
+                builder.setTitle("Warning");
+                builder.setMessage("Are you sure you wish to delete all your earned prizes?");
 
-                if(allPrizesEarned) {
-                    builder.setMessage("Congratulations, you have earned all prizes!");
-                }
-                else {
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < unearnedPrizeNames.size(); i++) {
-                        sb.append(unearnedPrizeNames.get(i));
-                        if (i < unearnedPrizeNames.size() - 1) {
-                            sb.append(", ");
-                        }
-                    }
-                    builder.setMessage(sb.toString());
-                }
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    deleteData(current_id);
+                    Toast.makeText(PrizeActivity.this, "Prizes removed.", Toast.LENGTH_SHORT).show();
+                    Intent intent = PrizeActivity.prizeFactory(getApplicationContext(), current_id);
+                    startActivity(intent);
                 });
+                builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
         });
 
-
-        //instantiating an interface of onClickListener for resetting prizes
-        binding.resetPrizesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (earned_prize_ids.isEmpty()) {
-                    Toast.makeText(PrizeActivity.this, "No prizes to delete", Toast.LENGTH_SHORT).show();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(PrizeActivity.this);
-                    builder.setTitle("Warning");
-                    builder.setMessage("Are you sure you wish to delete all your earned prizes?");
-
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            deleteData(current_id);
-                            Toast.makeText(PrizeActivity.this, "Prizes removed.", Toast.LENGTH_SHORT).show();
-                            Intent intent = PrizeActivity.prizeFactory(getApplicationContext(), current_id);
-                            startActivity(intent);
-                        }
-                    });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-            }
-        });
-
         //instantiating an interface of onClickListener for return home button
-        binding.prizeExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.prizeExitButton.setOnClickListener(v -> {
+            Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
     }
@@ -233,30 +210,27 @@ public class PrizeActivity extends AppCompatActivity implements RecyclerView.OnI
      * @param playerId the ID of the currently logged in player.
      */
     private void grabData(final int playerId) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                //establishing repos, grabbing full lists of players, prizes, and playerprizerefs
-                playerprize_repo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
-                earned_prize_ids = playerprize_repo.getPlayerPrizeIdsForPlayer(playerId);
-                player_repo = new PlayerRepository((Application) getApplicationContext());
-                prize_repo = new PrizeRepository((Application) getApplicationContext());
-                allPrizes = prize_repo.getAllPrizes();
+        executor.execute(() -> {
+            //establishing repos, grabbing full lists of players, prizes, and playerprizerefs
+            playerprize_repo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
+            earned_prize_ids = playerprize_repo.getPlayerPrizeIdsForPlayer(playerId);
+            player_repo = new PlayerRepository((Application) getApplicationContext());
+            prize_repo = new PrizeRepository((Application) getApplicationContext());
+            allPrizes = prize_repo.getAllPrizes();
 
-                //grabbing current player
-                current_player = player_repo.getPlayerById(current_id);
-                Log.d(MainActivity.TAG, "executor prize id: " + current_player.getUserID());
-                latch.countDown();
+            //grabbing current player
+            current_player = player_repo.getPlayerById(current_id);
+            Log.d(MainActivity.TAG, "executor prize id: " + current_player.getUserID());
+            latch.countDown();
 
-                List<Prize> unearnedPrizes = new ArrayList<>();
-                unearnedPrizes = prize_repo.getPrizeList();
-                unearnedPrizes.removeIf(prize -> earned_prize_ids.contains(prize.getPrizeID()));
+            List<Prize> unearnedPrizes;
+            unearnedPrizes = prize_repo.getPrizeList();
+            unearnedPrizes.removeIf(prize -> earned_prize_ids.contains(prize.getPrizeID()));
 
-                allPrizesEarned = unearnedPrizes.isEmpty();
-                unearnedPrizeNames = new ArrayList<>();
-                for(Prize prize : unearnedPrizes) {
-                    unearnedPrizeNames.add(prize.getName());
-                }
+            allPrizesEarned = unearnedPrizes.isEmpty();
+            unearnedPrizeNames = new ArrayList<>();
+            for(Prize prize : unearnedPrizes) {
+                unearnedPrizeNames.add(prize.getName());
             }
         });
     }
@@ -267,17 +241,14 @@ public class PrizeActivity extends AppCompatActivity implements RecyclerView.OnI
      * @param playerId the ID of the currently logged in player
      */
     private void deleteData(final int playerId) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                playerprize_repo.removePlayerPrizes(current_id);
-                earned_prize_ids = new ArrayList<>();
-                unearnedPrizeNames = new ArrayList<>();
-                for(int i = 1; i < 21; i++) {
-                    unearnedPrizeNames.add(PokemonInfo.getPrizeName(i));
-                }
-                allPrizesEarned = false;
+        executor.execute(() -> {
+            playerprize_repo.removePlayerPrizes(playerId);
+            earned_prize_ids = new ArrayList<>();
+            unearnedPrizeNames = new ArrayList<>();
+            for(int i = 1; i < 21; i++) {
+                unearnedPrizeNames.add(PokemonInfo.getPrizeName(i));
             }
+            allPrizesEarned = false;
         });
     }
 

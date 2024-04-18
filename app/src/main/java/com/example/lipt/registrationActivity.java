@@ -73,14 +73,10 @@ public class registrationActivity extends AppCompatActivity {
      * this method grabs the list of current players from the database
      */
     private void initializePlayerRepo() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                //establishing repo, grabbing list of players
-                registration_repo = new PlayerRepository((Application) getApplicationContext());
-                allCurrentPlayers = registration_repo.getAllPlayers();
-            }
-
+        executor.execute(() -> {
+            //establishing repo, grabbing list of players
+            registration_repo = new PlayerRepository((Application) getApplicationContext());
+            allCurrentPlayers = registration_repo.getAllPlayers();
         });
     }
 
@@ -92,14 +88,11 @@ public class registrationActivity extends AppCompatActivity {
      * @param pass    the inputted password
      */
     private void processRegistraton(List<Player> players, String user, String pass) {
-        boolean taken = false;
         for (Player player : players) {
             if (!registrationProcessed) {
                 //checking whether username is in the database
                 if (player.getUsername().equalsIgnoreCase(user)) {
                     Toast.makeText(registrationActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
-                    registrationProcessed = true;
-                    return;
                 }
                 //inputted user and password are valid and available, creating new account and returning to home screen
                 else {
@@ -108,9 +101,9 @@ public class registrationActivity extends AppCompatActivity {
                     Toast.makeText(registrationActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
                     Intent intent = MainActivity.mainFactory(getApplicationContext());
                     startActivity(intent);
-                    registrationProcessed = true;
-                    return;
                 }
+                registrationProcessed = true;
+                return;
             }
         }
     }

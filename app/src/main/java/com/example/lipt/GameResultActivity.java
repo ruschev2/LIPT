@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import com.example.lipt.Database.Player;
@@ -37,13 +36,11 @@ public class GameResultActivity extends AppCompatActivity {
     private PlayerPrizeCrossRefRepository playerPrizeRepo;
     private Player current_player;
     private List<Prize> allPrizes = new ArrayList<>();
-    private List<Integer> earnedPrizeIDs = new ArrayList<>();
-    private List<Integer> unearnedPrizeIDs = new ArrayList<>();
-    private LiveData<List<PlayerPrizeCrossRef>> playerPrizeCrossRefs;
+    private final List<Integer> earnedPrizeIDs = new ArrayList<>();
+    private final List<Integer> unearnedPrizeIDs = new ArrayList<>();
     Executor executor = Executors.newSingleThreadExecutor();
-    Executor executor2 = Executors.newSingleThreadExecutor();
     private int final_score = 0, current_id = 0, drawnPrizeId;
-    private boolean prize_awarded = false, prize_list_full = false;
+    private boolean prize_awarded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +58,7 @@ public class GameResultActivity extends AppCompatActivity {
 
         //grabbing playerprizecrossrefs
         playerPrizeRepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
-        playerPrizeCrossRefs = playerPrizeRepo.getAllPlayerPrizeCrossRefs();
+        LiveData<List<PlayerPrizeCrossRef>> playerPrizeCrossRefs = playerPrizeRepo.getAllPlayerPrizeCrossRefs();
 
         //beginning observer call for rest of activity
         playerPrizeCrossRefs.observe(this, new Observer<List<PlayerPrizeCrossRef>>() {
@@ -114,21 +111,15 @@ public class GameResultActivity extends AppCompatActivity {
         }
 
         //instantiating an interface of onClickListener for playing a new game round
-        binding.restartGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = GameActivity.gameFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.restartGameButton.setOnClickListener(v -> {
+            Intent intent = GameActivity.gameFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
         //instantiating an interface of onClickListener for return to menu button
-        binding.exitGameResultButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.exitGameResultButton.setOnClickListener(v -> {
+            Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
     }
 
@@ -145,42 +136,33 @@ public class GameResultActivity extends AppCompatActivity {
      * @param playerId the ID of the player who is logged into the app.
      */
     private void setData(final int playerId) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                //assigning the current player account to current_player object
-                player_repo = new PlayerRepository((Application) getApplicationContext());
-                current_player = player_repo.getPlayerById(current_id);
-                Log.d(MainActivity.TAG, "player id: " + current_player.getUserID());
+        executor.execute(() -> {
+            //assigning the current player account to current_player object
+            player_repo = new PlayerRepository((Application) getApplicationContext());
+            current_player = player_repo.getPlayerById(playerId);
 
-                //calculating which prizes have not been earned yet, generating list of their IDs
-                for(int i = 1; i < 21; i++) {
-                    unearnedPrizeIDs.add(i);
-                }
-                prize_repo = new PrizeRepository((Application) getApplicationContext());
-                allPrizes = prize_repo.getPrizeList();
-                playerPrizeRepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
-                earnedPrizeIDs.addAll(playerPrizeRepo.getPlayerPrizeIdsForPlayer(current_id));
-                unearnedPrizeIDs.removeAll(earnedPrizeIDs);
+            //calculating which prizes have not been earned yet, generating list of their IDs
+            for(int i = 1; i < 21; i++) {
+                unearnedPrizeIDs.add(i);
+            }
+            prize_repo = new PrizeRepository((Application) getApplicationContext());
+            allPrizes = prize_repo.getPrizeList();
+            playerPrizeRepo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
+            earnedPrizeIDs.addAll(playerPrizeRepo.getPlayerPrizeIdsForPlayer(playerId));
+            unearnedPrizeIDs.removeAll(earnedPrizeIDs);
 
-                //if player can earn a prize and should, process this
-                if(final_score > 6 ) {
-                    if(!unearnedPrizeIDs.isEmpty()) {
-                        //generating randomness, drawing a random prize ID
-                        Random random = new Random();
-                        int randomIndex = random.nextInt(unearnedPrizeIDs.size());
-                        drawnPrizeId = unearnedPrizeIDs.get(randomIndex);
+            //if player can earn a prize and should, process this
+            if(final_score > 6 ) {
+                if(!unearnedPrizeIDs.isEmpty()) {
+                    //generating randomness, drawing a random prize ID
+                    Random random = new Random();
+                    int randomIndex = random.nextInt(unearnedPrizeIDs.size());
+                    drawnPrizeId = unearnedPrizeIDs.get(randomIndex);
 
-                        //rewarding prize into player's account (through playerprizetable)
-                        PlayerPrizeCrossRef reward = new PlayerPrizeCrossRef(current_id, drawnPrizeId);
-                        playerPrizeRepo.insert(reward);
-                        prize_awarded = true;
-                        Log.d(MainActivity.TAG, "earned reward id: " + drawnPrizeId);
-                    }
-                    //if player prize list is full
-                    else {
-                        prize_list_full = true;
-                    }
+                    //rewarding prize into player's account (through playerprizetable)
+                    PlayerPrizeCrossRef reward = new PlayerPrizeCrossRef(playerId, drawnPrizeId);
+                    playerPrizeRepo.insert(reward);
+                    prize_awarded = true;
                 }
             }
         });

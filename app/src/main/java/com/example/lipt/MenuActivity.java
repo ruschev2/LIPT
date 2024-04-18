@@ -12,12 +12,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import com.example.lipt.Database.Player;
 import com.example.lipt.Database.PlayerRepository;
-import com.example.lipt.Database.PokemonRepository;
 import com.example.lipt.databinding.ActivityMenuBinding;
 import java.util.List;
 
@@ -63,39 +61,27 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         //instantiating an interface of onClickListener for pokedex view
-        binding.pokedexButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = PokedexActivity.pokedexFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.pokedexButton.setOnClickListener(v -> {
+            Intent intent = PokedexActivity.pokedexFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
         //instantiating an interface of onClickListener for trainer record view
-        binding.trainerRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = trainerRecordActivity.trainerRecordFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.trainerRecordButton.setOnClickListener(v -> {
+            Intent intent = trainerRecordActivity.trainerRecordFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
         //instantiating an interface of onClickListener for prize collection view
-        binding.prizeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = PrizeActivity.prizeFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.prizeButton.setOnClickListener(v -> {
+            Intent intent = PrizeActivity.prizeFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
         //instantiating an interface of onClickListener for prize collection view
-        binding.newRoundButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = GameActivity.gameFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.newRoundButton.setOnClickListener(v -> {
+            Intent intent = GameActivity.gameFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
         // making player button invisible for non-admin players.
@@ -108,33 +94,24 @@ public class MenuActivity extends AppCompatActivity {
 
 
         //setting onClickListener for accessing admin dashboard activity
-        binding.adminButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
-                Intent intent = AdminActivity.adminActivityIntentFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.adminButton.setOnClickListener(view1 -> {
+            int current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
+            Intent intent = AdminActivity.adminActivityIntentFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
         //instantiating an interface of onClickListener for credits activity
-        binding.creditsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = CreditsActivity.creditsFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.creditsButton.setOnClickListener(v -> {
+            Intent intent = CreditsActivity.creditsFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
 
 
         //instantiating an interface of onClickListener for logging out
-        binding.exitMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateSharedPreference(NO_USER_ID);
-                Intent intent = MainActivity.mainFactory(getApplicationContext());
-                startActivity(intent);
-            }
+        binding.exitMenuButton.setOnClickListener(v -> {
+            updateSharedPreference(NO_USER_ID);
+            Intent intent = MainActivity.mainFactory(getApplicationContext());
+            startActivity(intent);
         });
 
 

@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import com.example.lipt.Database.PlayerPrizeCrossRefRepository;
 import com.example.lipt.Database.PlayerRepository;
 import com.example.lipt.databinding.ActivityTrainerRecordBinding;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -67,7 +67,7 @@ public class trainerRecordActivity extends AppCompatActivity {
                         binding.usernameTextView.setText(current_player.getUsername());
                         binding.trainerLevelTextView.setText(String.valueOf(current_player.getTrainer_level()));
                         binding.roundsPlayedTextView.setText(String.valueOf(current_player.getRounds_played()));
-                        binding.accuracyTextView.setText(String.format("%.2f", current_player.getAccuracy()) + "%");
+                        binding.accuracyTextView.setText(String.format(Locale.ENGLISH,"%.2f", current_player.getAccuracy()) + "%");
                         binding.trainerRecordPrizeTextView.setText(String.valueOf(earnedPrizes.size()) + "/20");
                     } else {
                         binding.usernameTextView.setText(getString(R.string.null_string));
@@ -85,82 +85,57 @@ public class trainerRecordActivity extends AppCompatActivity {
 
 
         //instantiating an interface of onClickListener for resetting trainer level
-        binding.trainerResetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(trainerRecordActivity.this);
-                builder.setTitle("Confirm reset");
-                builder.setMessage("Are you certain you wish to reset your trainer level to zero?");
+        binding.trainerResetButton.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(trainerRecordActivity.this);
+            builder.setTitle("Confirm reset");
+            builder.setMessage("Are you certain you wish to reset your trainer level to zero?");
 
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        resetLevel(current_id);
-                        Toast.makeText(trainerRecordActivity.this, "Level reset!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                resetLevel(current_id);
+                Toast.makeText(trainerRecordActivity.this, "Level reset!", Toast.LENGTH_SHORT).show();
+            });
 
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+            builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         //instantiating an interface of onClickListener for self delete button
-        binding.selfDeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if the player is an admin, cannot self delete.
-                if (isAdmin) {
-                    Toast.makeText(trainerRecordActivity.this, "Admins cannot be deleted!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(trainerRecordActivity.this);
-                    builder.setTitle("Confirm deletion");
-                    builder.setMessage("Are you absolutely certain you wish to delete your account?");
+        binding.selfDeleteButton.setOnClickListener(v -> {
+            //if the player is an admin, cannot self delete.
+            if (isAdmin) {
+                Toast.makeText(trainerRecordActivity.this, "Admins cannot be deleted!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(trainerRecordActivity.this);
+                builder.setTitle("Confirm deletion");
+                builder.setMessage("Are you absolutely certain you wish to delete your account?");
 
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            resetLevel(current_id);
-                            Toast.makeText(trainerRecordActivity.this, "Goodbye, Trainer!", Toast.LENGTH_SHORT).show();
-                            player_repo.deletePlayer(current_id);
-                            updateSharedPreferenceToLoggedOut();
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    resetLevel(current_id);
+                    Toast.makeText(trainerRecordActivity.this, "Goodbye, Trainer!", Toast.LENGTH_SHORT).show();
+                    player_repo.deletePlayer(current_id);
+                    updateSharedPreferenceToLoggedOut();
 
-                            //creating intent to return to login menu
-                            Intent intent = MainActivity.mainFactory(getApplicationContext());
-                            startActivity(intent);
-                        }
-                    });
+                    //creating intent to return to login menu
+                    Intent intent = MainActivity.mainFactory(getApplicationContext());
+                    startActivity(intent);
+                });
 
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
-                }
             }
         });
 
 
         //instantiating an interface of onClickListener for return home button
-        binding.trainerRecordExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
-                startActivity(intent);
-            }
+        binding.trainerRecordExitButton.setOnClickListener(v -> {
+            Intent intent = MenuActivity.menuFactory(getApplicationContext(), current_id);
+            startActivity(intent);
         });
     }
 
@@ -193,19 +168,16 @@ public class trainerRecordActivity extends AppCompatActivity {
      * @param playerId the ID of the player whose earned prize IDs list will be updated
      */
     private void grabEarnedPrizes(final int playerId) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                //establishing repo, grabbing list of players and prize refs
-                player_repo = new PlayerRepository((Application) getApplicationContext());
-                allCurrentPlayers = player_repo.getAllPlayers();
-                playerprize_repo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
-                earnedPrizes = playerprize_repo.getPlayerPrizeIdsForPlayer(playerId);
+        executor.execute(() -> {
+            //establishing repo, grabbing list of players and prize refs
+            player_repo = new PlayerRepository((Application) getApplicationContext());
+            allCurrentPlayers = player_repo.getAllPlayers();
+            playerprize_repo = new PlayerPrizeCrossRefRepository((Application) getApplicationContext());
+            earnedPrizes = playerprize_repo.getPlayerPrizeIdsForPlayer(playerId);
 
-                isAdmin = player_repo.getPlayerById(current_id).isAdmin();
+            isAdmin = player_repo.getPlayerById(current_id).isAdmin();
 
-                latch.countDown();
-            }
+            latch.countDown();
         });
     }
 
@@ -215,12 +187,7 @@ public class trainerRecordActivity extends AppCompatActivity {
      * @param playerId the player ID of the trainer who will be reset to zero
      */
     private void resetLevel(final int playerId) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                player_repo.resetPlayerLevel(playerId);
-            }
-        });
+        executor.execute(() -> player_repo.resetPlayerLevel(playerId));
     }
 
     /**
