@@ -58,11 +58,7 @@ public class GameResultActivity extends AppCompatActivity {
 
         //retrieving and saving currently logged in Player ID
         current_id = getIntent().getIntExtra(CURRENT_USERNAME, 0);
-        Toast.makeText(GameResultActivity.this, "RESULT ID: " + current_id, Toast.LENGTH_SHORT).show();
-        Log.d(MainActivity.TAG, "initial result ID: " + current_id);
-
         final_score = getIntent().getIntExtra(FINAL_SCORE, 0);
-        Toast.makeText(GameResultActivity.this, "SCORE: " + final_score, Toast.LENGTH_SHORT).show();
 
         //fetching player and prize data
         setData(current_id);

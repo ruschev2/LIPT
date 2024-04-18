@@ -59,9 +59,14 @@ public abstract class PlayerRoomDatabase extends RoomDatabase {
             databaseWriteExecutor.execute(() -> {
                 PlayerDao dao = INSTANCE.playerDao();
                 Player player = new Player(1, "admin1", "password123", true);
+                player.setTrainer_level(15);
                 dao.insertPlayer(player);
                 Player player2 = new Player(2, "player1", "password123", false);
+                player2.setTrainer_level(10);
                 dao.insertPlayer(player2);
+                Player player3 = new Player(3, "player2", "password123", false);
+                player3.setTrainer_level(20);
+                dao.insertPlayer(player3);
             });
         }
     };
