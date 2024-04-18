@@ -21,6 +21,8 @@ import java.util.Objects;
 @RunWith(AndroidJUnit4.class)
 public class IntentFactoryTest {
     private static final String CURRENT_USERNAME = "Active User";
+
+    private static final String ADMIN_USER_ID_EXTRA_KEY = "com.example.lipt.ADMIN_ACTIVITY_USER_ID";
     private static final int CURRENT_USER_ID = 0;
     private static final String FINAL_SCORE = "hopefully ten";
     private final int currentId = 1;
@@ -141,10 +143,24 @@ public class IntentFactoryTest {
 
 
     //admin activity intent factory method test
-    public void adminFactory() {
+    @Test
+    public void adminActivityIntentFactory() {
         context = ApplicationProvider.getApplicationContext();
         Intent intent = AdminActivity.adminActivityIntentFactory(context, currentId);
         Class<?> activityClass = AdminActivity.class;
+        int expectedInt = 1;
+        int actualInt = intent.getIntExtra(ADMIN_USER_ID_EXTRA_KEY, CURRENT_USER_ID);
+
+        assertEquals(expectedInt, actualInt);
+        assertEquals(activityClass.getName(), Objects.requireNonNull(intent.getComponent()).getClassName());
+    }
+
+    //credits activity intent factory method test
+    @Test
+    public void creditsFactory() {
+        context = ApplicationProvider.getApplicationContext();
+        Intent intent = CreditsActivity.creditsFactory(context, currentId);
+        Class<?> activityClass = CreditsActivity.class;
         int expectedInt = 1;
         int actualInt = intent.getIntExtra(CURRENT_USERNAME, CURRENT_USER_ID);
 
