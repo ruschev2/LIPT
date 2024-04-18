@@ -14,6 +14,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -37,9 +38,11 @@ public class trainerRecordActivity extends AppCompatActivity {
     private static final String CURRENT_USERNAME = "Active User";
     private static final int CURRENT_USER_ID = 0;
     private int current_id;
+    private static final int NO_USER_ID = -1;
     private boolean isAdmin = false;
     Executor executor = Executors.newSingleThreadExecutor();
     CountDownLatch latch = new CountDownLatch(1);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +134,7 @@ public class trainerRecordActivity extends AppCompatActivity {
                             resetLevel(current_id);
                             Toast.makeText(trainerRecordActivity.this, "Goodbye, Trainer!", Toast.LENGTH_SHORT).show();
                             player_repo.deletePlayer(current_id);
+                            updateSharedPreferenceToLoggedOut();
 
                             //creating intent to return to login menu
                             Intent intent = MainActivity.mainFactory(getApplicationContext());
@@ -220,5 +224,16 @@ public class trainerRecordActivity extends AppCompatActivity {
                 player_repo.resetPlayerLevel(playerId);
             }
         });
+    }
+
+    /**
+     * Updates sharedPreferences user ID value to an int code representing no user logged in.
+     */
+    private void updateSharedPreferenceToLoggedOut() {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
+        sharedPrefEditor.putInt(getString(R.string.preference_userId_key), NO_USER_ID);
+        sharedPrefEditor.apply();
     }
 }
