@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="IntentFactoryTest">
+      <entry key="DatabaseTest">
         <State />
       </entry>
-      <entry key="Tests in 'com.example.lipt'">
+      <entry key="IntentFactoryTest">
         <State />
       </entry>
       <entry key="app">
